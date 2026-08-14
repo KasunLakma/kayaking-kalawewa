@@ -51,27 +51,40 @@ const pillars = [
 
 export default function WildernessDifference() {
   return (
-    <section id="why-kalawewa" className="w-full bg-[#121816] py-24 px-4 sm:px-6 lg:px-12 text-white relative overflow-hidden border-t border-b border-emerald-950">
+    <section id="why-kalawewa" className="w-full bg-[#071410] py-32 px-4 sm:px-6 lg:px-12 text-white relative overflow-hidden">
       {/* Background Decorative Glow */}
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#D4AF37]/5 rounded-full blur-3xl pointer-events-none" />
+
+      {/* Requirement 3: Refined Gold Separator Line & Botanical Iconography at top of section */}
+      <div className="max-w-7xl mx-auto mb-20">
+        <div className="flex items-center justify-center gap-4">
+          <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent" />
+          <div className="w-8 h-8 rounded-full bg-[#071410] border border-[#D4AF37]/40 flex items-center justify-center text-[#D4AF37] shadow-lg">
+            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+          </div>
+          <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent" />
+        </div>
+      </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         
         {/* Header Section */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[#D4AF37] text-xs font-black tracking-widest uppercase shadow-sm">
+        <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[#D4AF37] text-xs font-bold tracking-widest uppercase shadow-sm">
             <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
             </svg>
             THE KALAWEWA DIFFERENCE
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-serif">
+          <h2 className="text-4xl sm:text-6xl font-bold text-white tracking-tight font-serif">
             Unrivaled Expertise, Uncompromised Safety
           </h2>
 
-          <p className="text-sm sm:text-base text-emerald-100/80 font-light max-w-2xl mx-auto leading-relaxed">
-            Modeled after global wilderness travel standards, our operations prioritize eco-preservation, safety guarantees, and authentic local immersion.
+          <p className="text-base text-slate-300 font-light max-w-2xl mx-auto leading-relaxed">
+            Modeled after global luxury wilderness travel standards (Aman, Resplendent Ceylon, Wilderness Safaris), our operations prioritize eco-preservation, safety guarantees, and authentic local immersion.
           </p>
         </div>
 
@@ -80,36 +93,36 @@ export default function WildernessDifference() {
           {pillars.map((pillar) => (
             <div
               key={pillar.id}
-              className="group relative bg-[#0D231C] rounded-2xl p-6 border border-[#D4AF37]/30 hover:border-[#D4AF37] transition-all duration-300 flex flex-col justify-between hover:-translate-y-1.5 hover:shadow-[0_15px_30px_rgba(0,0,0,0.4)]"
+              className="group relative bg-[#0D231C]/70 backdrop-blur-md rounded-3xl p-7 border border-[#D4AF37]/25 hover:border-[#D4AF37] transition-all duration-500 flex flex-col justify-between hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(212,175,55,0.15)]"
             >
               {/* Subtle top gold accent glow on hover */}
-              <div className="absolute top-0 left-6 right-6 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute top-0 left-6 right-6 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               <div>
                 {/* Icon Container */}
-                <div className="flex items-center justify-between mb-5">
-                  <div className="p-3.5 rounded-xl bg-[#121816] border border-[#D4AF37]/30 shadow-inner group-hover:border-[#D4AF37] transition-all duration-300">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="p-3.5 rounded-2xl bg-[#071410] border border-[#D4AF37]/30 shadow-inner group-hover:border-[#D4AF37] transition-all duration-300">
                     {pillar.icon}
                   </div>
-                  <span className="px-2 py-0.5 rounded bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37] text-[10px] font-bold uppercase tracking-wider">
+                  <span className="px-2.5 py-1 rounded-full bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37] text-[10px] font-bold uppercase tracking-widest">
                     {pillar.badge}
                   </span>
                 </div>
 
-                <h3 className="text-lg font-bold text-white mb-3 group-hover:text-[#D4AF37] transition-colors leading-snug font-serif">
+                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#D4AF37] transition-colors leading-snug font-serif">
                   {pillar.title}
                 </h3>
 
-                <p className="text-xs sm:text-sm text-emerald-100/75 leading-relaxed font-light">
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
                   {pillar.description}
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-emerald-900/60 text-[11px] font-bold text-[#D4AF37]/90 uppercase tracking-wider flex items-center gap-1.5">
+              <div className="mt-6 pt-4 border-t border-[#D4AF37]/20 text-[11px] font-bold text-[#D4AF37] uppercase tracking-widest flex items-center gap-1.5">
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
                 </svg>
-                Wilderness Travel Promise
+                Resort Expedition Charter
               </div>
             </div>
           ))}

@@ -11,6 +11,9 @@ export interface Package {
   imageUrl: string;
   badge?: string;
   popular?: boolean;
+  rating: string;
+  naturalistIncluded: boolean;
+  groupType: string;
 }
 
 export const packages: Package[] = [
@@ -30,7 +33,10 @@ export const packages: Package[] = [
       'Beginner-friendly guided paddle session'
     ],
     imageUrl: '/images/sunrise-paddle.jpg',
-    badge: 'Morning Glory'
+    badge: 'Morning Glory',
+    rating: '5.0 ★ Exceptional',
+    naturalistIncluded: true,
+    groupType: 'Small Groups'
   },
   {
     id: 'classic-kalawewa-island-tour',
@@ -49,7 +55,10 @@ export const packages: Package[] = [
     ],
     imageUrl: '/images/island-tour.jpg',
     badge: 'Most Popular',
-    popular: true
+    popular: true,
+    rating: '5.0 ★ Signature',
+    naturalistIncluded: true,
+    groupType: 'Private & Small Groups'
   },
   {
     id: 'sunset-romance-photography',
@@ -67,7 +76,10 @@ export const packages: Package[] = [
       'Serene twilight wildlife views'
     ],
     imageUrl: '/images/sunset-romance.jpg',
-    badge: 'Couples Choice'
+    badge: 'Couples Choice',
+    rating: '4.9 ★ Romantic',
+    naturalistIncluded: true,
+    groupType: 'Private Charter'
   },
   {
     id: 'full-day-exploration-camping',
@@ -85,6 +97,9 @@ export const packages: Package[] = [
       'Dry bag storage & hammock gear'
     ],
     imageUrl: '/images/full-day.jpg',
-    badge: 'Ultimate Expedition'
+    badge: 'Ultimate Expedition',
+    rating: '5.0 ★ Master Class',
+    naturalistIncluded: true,
+    groupType: 'Exclusive Expeditions'
   }
 ];

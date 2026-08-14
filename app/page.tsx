@@ -8,7 +8,7 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#0D231C] text-slate-100 font-sans selection:bg-[#D4AF37] selection:text-[#0D231C]">
+    <div className="min-h-screen bg-[#071410] text-slate-200 font-sans selection:bg-[#D4AF37] selection:text-[#071410] overflow-x-hidden">
       {/* 1. Navigation Header */}
       <Header />
 

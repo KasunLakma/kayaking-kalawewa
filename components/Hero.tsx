@@ -1,207 +1,203 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
 
 export default function Hero() {
-  const [isDay, setIsDay] = useState<boolean>(true);
-  const [mounted, setMounted] = useState<boolean>(false);
-  const [overrideMode, setOverrideMode] = useState<'auto' | 'day' | 'night'>('auto');
-  const [currentHour, setCurrentHour] = useState<number | null>(null);
+  const [isNightMode, setIsNightMode] = useState<boolean>(false);
+  const [selectedStyle, setSelectedStyle] = useState<string>('');
+  const [selectedTime, setSelectedTime] = useState<string>('');
+  const [selectedGuests, setSelectedGuests] = useState<string>('');
 
+  // Auto-detect local time on client side (6 AM - 6 PM = Day, 6 PM - 6 AM = Night)
   useEffect(() => {
-    setMounted(true);
-    const hour = new Date().getHours();
-    setCurrentHour(hour);
-    // Daytime is 6 AM (6) to 6 PM (18)
-    const daytime = hour >= 6 && hour < 18;
-    setIsDay(daytime);
+    const currentHour = new Date().getHours();
+    setIsNightMode(currentHour >= 18 || currentHour < 6);
+  }, []);
 
-    // Set up an interval to update the hour periodically
-    const timer = setInterval(() => {
-      const h = new Date().getHours();
-      setCurrentHour(h);
-      if (overrideMode === 'auto') {
-        setIsDay(h >= 6 && h < 18);
-      }
-    }, 60000);
-
-    return () => clearInterval(timer);
-  }, [overrideMode]);
-
-  const activeIsDay = overrideMode === 'auto' ? isDay : overrideMode === 'day';
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const tripsSection = document.getElementById('featured-trips');
+    if (tripsSection) {
+      tripsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <section className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden bg-slate-950 text-white">
-      {/* Daytime Image Layer */}
-      <div
-        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-          activeIsDay ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
-        }`}
-      >
-        <Image
-          src="/images/hero-day.png"
-          alt="Kayaking Kalawewa Daytime Lake"
-          fill
-          priority
-          className="object-cover object-center scale-105 transition-transform duration-10000 ease-out"
+    <section className="relative w-full min-h-[90vh] flex flex-col justify-between overflow-hidden bg-[#0D231C] text-white">
+      {/* Background Image Layer with Dynamic Time Overlay */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src={
+            isNightMode
+              ? "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?q=80&w=1920&auto=format&fit=crop" // Night time starry lake photo
+              : "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1920&auto=format&fit=crop" // Daytime reservoir photo
+          }
+          alt="Kalawewa Kayaking Expedition"
+          className="w-full h-full object-cover object-center transition-all duration-1000 transform scale-105"
         />
-        {/* Subtle Daytime Gradient Overlay for Readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-black/30" />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-transparent to-slate-950/40" />
+        {/* Wilderness Dark Gradient Overlays */}
+        <div
+          className={`absolute inset-0 transition-colors duration-1000 ${
+            isNightMode
+              ? 'bg-gradient-to-t from-[#0D231C] via-[#0D231C]/80 to-slate-950/70'
+              : 'bg-gradient-to-t from-[#0D231C] via-[#0D231C]/65 to-black/40'
+          }`}
+        />
+        <div className="absolute inset-0 bg-radial-gradient from-transparent via-[#0D231C]/40 to-[#0D231C]" />
       </div>
 
-      {/* Nighttime Image Layer */}
-      <div
-        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-          !activeIsDay ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
-        }`}
-      >
-        <Image
-          src="/images/hero-night.png"
-          alt="Kayaking Kalawewa Nighttime Starry Sky"
-          fill
-          priority
-          className="object-cover object-center scale-105 transition-transform duration-10000 ease-out"
-        />
-        {/* Subtle Nighttime Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-indigo-950/40" />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-transparent to-slate-950/50" />
+      {/* Top Banner: Day/Night Mode Manual Toggle Indicator */}
+      <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-8 flex justify-end">
+        <button
+          onClick={() => setIsNightMode(!isNightMode)}
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-[#D4AF37]/50 text-[11px] font-bold uppercase tracking-wider text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0D231C] transition-all duration-300 shadow-md cursor-pointer"
+          title="Toggle Day/Night Mode Preview"
+        >
+          <span>{isNightMode ? '🌙 Night Expedition Mode' : '☀️ Sunlit Expedition Mode'}</span>
+          <span className="underline font-mono text-[10px] opacity-80">(Switch)</span>
+        </button>
       </div>
 
-      {/* Controls & Time Indicator Bar (Top Right Glassmorphism Pill) */}
-      <div className="absolute top-6 right-6 z-30 flex items-center gap-3 bg-slate-900/70 backdrop-blur-md border border-white/10 px-4 py-2 rounded-full shadow-2xl text-xs sm:text-sm">
-        <div className="flex items-center gap-2">
-          <span className="relative flex h-2.5 w-2.5">
-            <span
-              className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
-                activeIsDay ? 'bg-amber-400' : 'bg-indigo-400'
-              }`}
-            />
-            <span
-              className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
-                activeIsDay ? 'bg-amber-500' : 'bg-indigo-500'
-              }`}
-            />
-          </span>
-          <span className="font-medium text-slate-200">
-            {mounted ? (
-              <>
-                {activeIsDay ? '☀️ Daytime' : '🌙 Nighttime'} Mode
-                {currentHour !== null && (
-                  <span className="text-slate-400 text-xs ml-1">
-                    ({currentHour.toString().padStart(2, '0')}:00)
-                  </span>
-                )}
-              </>
+      {/* Main Hero Content Area */}
+      <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 my-auto py-12">
+        <div className="max-w-3xl space-y-6">
+          
+          {/* Over-title / Eyebrow */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-md bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[#D4AF37] text-xs font-extrabold tracking-widest uppercase shadow-sm">
+            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+            EXPEDITIONS ON ANCIENT RESERVOIRS • SRI LANKA
+          </div>
+
+          {/* Structured Main H1 Heading */}
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1] font-serif">
+            {isNightMode ? (
+              <span>
+                Night Expeditions & <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-amber-200 to-yellow-400">
+                  Starry Kalawewa
+                </span>
+              </span>
             ) : (
-              'Loading...'
+              <span>
+                Explore Kalawewa Lake <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-amber-200 to-yellow-400">
+                  on Water
+                </span>
+              </span>
             )}
-          </span>
-        </div>
+          </h1>
 
-        <div className="h-4 w-[1px] bg-white/20" />
+          {/* Subtitle / Description */}
+          <p className="text-base sm:text-xl text-emerald-100/90 font-light leading-relaxed max-w-2xl">
+            Award-winning guided kayaking tours through historic waterways, rich wildlife sanctuaries, and serene sunsets on King Dhatusena&apos;s ancient 5th-century reservoir.
+          </p>
 
-        {/* Toggle controls */}
-        <div className="flex items-center gap-1 bg-black/40 p-1 rounded-full border border-white/5">
-          <button
-            onClick={() => setOverrideMode('auto')}
-            title="Auto (Based on 6 AM - 6 PM local time)"
-            className={`px-2 py-0.5 rounded-full text-xs font-semibold transition-all ${
-              overrideMode === 'auto'
-                ? 'bg-amber-500/90 text-slate-950 shadow-sm'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            Auto
-          </button>
-          <button
-            onClick={() => setOverrideMode('day')}
-            title="Force Daytime Preview"
-            className={`px-2 py-0.5 rounded-full text-xs font-semibold transition-all ${
-              overrideMode === 'day'
-                ? 'bg-amber-500/90 text-slate-950 shadow-sm'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            Day
-          </button>
-          <button
-            onClick={() => setOverrideMode('night')}
-            title="Force Nighttime Preview"
-            className={`px-2 py-0.5 rounded-full text-xs font-semibold transition-all ${
-              overrideMode === 'night'
-                ? 'bg-indigo-500/90 text-white shadow-sm'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            Night
-          </button>
+          {/* Trust Badges under text */}
+          <div className="pt-2 flex flex-wrap gap-4 text-xs font-semibold text-emerald-200/80">
+            <span className="flex items-center gap-1.5">
+              <svg className="w-4 h-4 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+              </svg>
+              Wilderness Travel Approved
+            </span>
+            <span className="flex items-center gap-1.5">
+              <svg className="w-4 h-4 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+              </svg>
+              Certified Rescue Naturalists
+            </span>
+            <span className="flex items-center gap-1.5">
+              <svg className="w-4 h-4 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+              </svg>
+              Zero-Plastic Eco-Tours
+            </span>
+          </div>
+
         </div>
       </div>
 
-      {/* Main Content Hero Card */}
-      <div className="relative z-20 max-w-5xl px-6 sm:px-12 py-20 text-center flex flex-col items-center justify-center">
-        {/* Location Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-amber-300 text-xs sm:text-sm font-semibold tracking-wider uppercase mb-6 shadow-xl animate-fade-in">
-          <svg className="w-4 h-4 fill-current text-amber-400" viewBox="0 0 24 24">
-            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-          </svg>
-          Kayaking Kalawewa • Sri Lanka
-        </div>
-
-        {/* Dynamic Heading based on Day/Night */}
-        <div className="relative overflow-hidden min-h-[140px] sm:min-h-[180px] flex items-center justify-center w-full">
-          <h1
-            className={`text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r ${
-              activeIsDay
-                ? 'from-amber-200 via-amber-400 to-yellow-500 drop-shadow-[0_4px_12px_rgba(251,191,36,0.3)]'
-                : 'from-blue-200 via-indigo-300 to-amber-200 drop-shadow-[0_4px_12px_rgba(129,140,248,0.3)]'
-            } transition-all duration-700 ease-in-out leading-tight sm:leading-none`}
-          >
-            {activeIsDay ? 'EXPLORE KALAWEWA LAKE ON WATER' : 'NIGHT EXPEDITIONS & STARRY KALAWEWA'}
-          </h1>
-        </div>
-
-        {/* Subtitle */}
-        <p className="mt-4 text-lg sm:text-xl md:text-2xl text-slate-200 max-w-3xl font-light leading-relaxed drop-shadow-md">
-          {activeIsDay
-            ? 'Paddle through golden waters, serene ancient reservoir flora, and breathtaking Sri Lankan wildlife.'
-            : 'Experience the magic of bioluminescent waters under a sparkling canopy of nocturnal constellations.'}
-        </p>
-
-        {/* CTA Gold Button */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center gap-4">
-          <button className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-slate-950 transition-all duration-300 ease-out bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 rounded-full shadow-[0_0_25px_rgba(251,191,36,0.5)] hover:shadow-[0_0_35px_rgba(251,191,36,0.8)] hover:scale-105 active:scale-95 cursor-pointer">
-            <span className="flex items-center gap-3 text-base sm:text-lg tracking-wide uppercase font-extrabold">
-              {activeIsDay ? 'BOOK YOUR ADVENTURE' : 'RESERVE NIGHT SLOT'}
-              <svg
-                className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+      {/* Anchored Quick Search / Filter Bar */}
+      <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mb-10 pb-8">
+        <form
+          onSubmit={handleSearch}
+          className="bg-[#121816]/95 backdrop-blur-xl border border-[#D4AF37]/40 rounded-2xl p-4 sm:p-6 shadow-2xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end"
+        >
+          {/* Dropdown 1: Select Trip Style */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[11px] font-extrabold uppercase tracking-widest text-[#D4AF37] flex items-center gap-1">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
               </svg>
-            </span>
-          </button>
-        </div>
+              Select Trip Style
+            </label>
+            <select
+              value={selectedStyle}
+              onChange={(e) => setSelectedStyle(e.target.value)}
+              className="w-full bg-[#081712] border border-emerald-800/70 rounded-xl px-3.5 py-3 text-xs font-medium text-white focus:outline-none focus:border-[#D4AF37] transition-colors"
+            >
+              <option value="">All Trip Styles</option>
+              <option value="sunrise">Sunrise Mist Paddle</option>
+              <option value="island">Classic Island Tour</option>
+              <option value="sunset">Sunset Romance</option>
+              <option value="camping">Full-Day Wilderness Camping</option>
+            </select>
+          </div>
 
-        {/* Quick Features / Stats Bar */}
-        <div className="mt-16 grid grid-cols-3 gap-6 max-w-2xl w-full border-t border-white/15 pt-8 text-slate-300">
-          <div className="flex flex-col items-center">
-            <span className="text-2xl sm:text-3xl font-extrabold text-amber-400">14 km²</span>
-            <span className="text-xs sm:text-sm font-medium text-slate-400">Reservoir Span</span>
+          {/* Dropdown 2: Select Time Slot */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[11px] font-extrabold uppercase tracking-widest text-[#D4AF37] flex items-center gap-1">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Select Time Slot
+            </label>
+            <select
+              value={selectedTime}
+              onChange={(e) => setSelectedTime(e.target.value)}
+              className="w-full bg-[#081712] border border-emerald-800/70 rounded-xl px-3.5 py-3 text-xs font-medium text-white focus:outline-none focus:border-[#D4AF37] transition-colors"
+            >
+              <option value="">Any Time Slot</option>
+              <option value="morning">Morning (6:00 AM - 9:00 AM)</option>
+              <option value="afternoon">Afternoon (2:00 PM - 5:00 PM)</option>
+              <option value="night">Night Expedition (6:00 PM - 9:00 PM)</option>
+            </select>
           </div>
-          <div className="flex flex-col items-center">
-            <span className="text-2xl sm:text-3xl font-extrabold text-amber-400">100%</span>
-            <span className="text-xs sm:text-sm font-medium text-slate-400">Guided Safety</span>
+
+          {/* Dropdown 3: Guests Count */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[11px] font-extrabold uppercase tracking-widest text-[#D4AF37] flex items-center gap-1">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              Guests Count
+            </label>
+            <select
+              value={selectedGuests}
+              onChange={(e) => setSelectedGuests(e.target.value)}
+              className="w-full bg-[#081712] border border-emerald-800/70 rounded-xl px-3.5 py-3 text-xs font-medium text-white focus:outline-none focus:border-[#D4AF37] transition-colors"
+            >
+              <option value="">1 - 2 Paddlers</option>
+              <option value="small">Small Group (3 - 5 Guests)</option>
+              <option value="large">Private Expedition (6+ Guests)</option>
+            </select>
           </div>
-          <div className="flex flex-col items-center">
-            <span className="text-2xl sm:text-3xl font-extrabold text-amber-400">4.9 ★</span>
-            <span className="text-xs sm:text-sm font-medium text-slate-400">Adventurer Rating</span>
+
+          {/* CTA Action Button */}
+          <div>
+            <button
+              type="submit"
+              className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#D4AF37] via-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-[#0D231C] text-xs font-black uppercase tracking-widest transition-all duration-200 shadow-md hover:shadow-lg hover:shadow-[#D4AF37]/30 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>FIND ADVENTURE</span>
+              <svg className="w-4 h-4 stroke-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
           </div>
-        </div>
+        </form>
       </div>
     </section>
   );

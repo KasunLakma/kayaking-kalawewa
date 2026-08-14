@@ -7,12 +7,23 @@ export default function Hero() {
   const [selectedStyle, setSelectedStyle] = useState<string>('');
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [selectedGuests, setSelectedGuests] = useState<string>('');
+  const [imgSrc, setImgSrc] = useState<string>('/images/hero-day.jpg');
 
   // Auto-detect local time on client side (6 AM - 6 PM = Day, 6 PM - 6 AM = Night)
   useEffect(() => {
     const currentHour = new Date().getHours();
-    setIsNightMode(currentHour >= 18 || currentHour < 6);
+    const isNight = currentHour >= 18 || currentHour < 6;
+    setIsNightMode(isNight);
   }, []);
+
+  // Update image source when mode changes
+  useEffect(() => {
+    if (isNightMode) {
+      setImgSrc('/images/hero-night-moon.jpg');
+    } else {
+      setImgSrc('/images/hero-day.jpg');
+    }
+  }, [isNightMode]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,20 +38,25 @@ export default function Hero() {
       {/* Background Image Layer with Dynamic Time Overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src={
-            isNightMode
-              ? "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?q=80&w=1920&auto=format&fit=crop" // Night time starry lake photo
-              : "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1920&auto=format&fit=crop" // Daytime reservoir photo
-          }
-          alt="Kalawewa Kayaking Expedition"
+          src={imgSrc}
+          onError={() => {
+            // Fallback URL if local image fails to load
+            setImgSrc(
+              isNightMode
+                ? "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80"
+                : "/images/hero-day.jpg"
+            );
+          }}
+          alt="Kalawewa Lake Kayaking Expedition"
           className="w-full h-full object-cover object-center transition-all duration-1000 transform scale-105"
         />
-        {/* Wilderness Dark Gradient Overlays */}
+        
+        {/* Wilderness Dark Vignette Overlays designed for golden amber contrast */}
         <div
           className={`absolute inset-0 transition-colors duration-1000 ${
             isNightMode
-              ? 'bg-gradient-to-t from-[#0D231C] via-[#0D231C]/80 to-slate-950/70'
-              : 'bg-gradient-to-t from-[#0D231C] via-[#0D231C]/65 to-black/40'
+              ? 'bg-gradient-to-t from-[#0D231C] via-[#0D231C]/65 to-black/50'
+              : 'bg-gradient-to-t from-[#0D231C] via-[#0D231C]/60 to-black/40'
           }`}
         />
         <div className="absolute inset-0 bg-radial-gradient from-transparent via-[#0D231C]/40 to-[#0D231C]" />
@@ -50,10 +66,10 @@ export default function Hero() {
       <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-8 flex justify-end">
         <button
           onClick={() => setIsNightMode(!isNightMode)}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-[#D4AF37]/50 text-[11px] font-bold uppercase tracking-wider text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0D231C] transition-all duration-300 shadow-md cursor-pointer"
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-[#D4AF37]/60 text-[11px] font-bold uppercase tracking-wider text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0D231C] transition-all duration-300 shadow-xl cursor-pointer"
           title="Toggle Day/Night Mode Preview"
         >
-          <span>{isNightMode ? '🌙 Night Expedition Mode' : '☀️ Sunlit Expedition Mode'}</span>
+          <span>{isNightMode ? '🌙 Night/Twilight Mode' : '☀️ Sunlit Expedition Mode'}</span>
           <span className="underline font-mono text-[10px] opacity-80">(Switch)</span>
         </button>
       </div>
@@ -71,7 +87,7 @@ export default function Hero() {
           </div>
 
           {/* Structured Main H1 Heading */}
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1] font-serif">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1] font-serif drop-shadow-lg">
             {isNightMode ? (
               <span>
                 Night Expeditions & <br />
@@ -90,25 +106,25 @@ export default function Hero() {
           </h1>
 
           {/* Subtitle / Description */}
-          <p className="text-base sm:text-xl text-emerald-100/90 font-light leading-relaxed max-w-2xl">
+          <p className="text-base sm:text-xl text-emerald-100/90 font-light leading-relaxed max-w-2xl drop-shadow-md">
             Award-winning guided kayaking tours through historic waterways, rich wildlife sanctuaries, and serene sunsets on King Dhatusena&apos;s ancient 5th-century reservoir.
           </p>
 
           {/* Trust Badges under text */}
-          <div className="pt-2 flex flex-wrap gap-4 text-xs font-semibold text-emerald-200/80">
-            <span className="flex items-center gap-1.5">
+          <div className="pt-2 flex flex-wrap gap-4 text-xs font-semibold text-emerald-200/90">
+            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-black/40 backdrop-blur-sm border border-emerald-800/40">
               <svg className="w-4 h-4 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
               </svg>
               Wilderness Travel Approved
             </span>
-            <span className="flex items-center gap-1.5">
+            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-black/40 backdrop-blur-sm border border-emerald-800/40">
               <svg className="w-4 h-4 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
               </svg>
               Certified Rescue Naturalists
             </span>
-            <span className="flex items-center gap-1.5">
+            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-black/40 backdrop-blur-sm border border-emerald-800/40">
               <svg className="w-4 h-4 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
               </svg>

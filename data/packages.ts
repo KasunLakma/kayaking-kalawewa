@@ -29,7 +29,7 @@ export const packages: Package[] = [
       'Complimentary fresh Sri Lankan herbal tea',
       'Beginner-friendly guided paddle session'
     ],
-    imageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1200&auto=format&fit=crop',
+    imageUrl: '/images/sunrise-paddle.jpg',
     badge: 'Morning Glory'
   },
   {
@@ -47,7 +47,7 @@ export const packages: Package[] = [
       'Fresh king coconut refreshment break on shore',
       'Premium single & double kayak gear included'
     ],
-    imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop',
+    imageUrl: '/images/island-tour.jpg',
     badge: 'Most Popular',
     popular: true
   },
@@ -66,7 +66,7 @@ export const packages: Package[] = [
       'Chilled fruit platter & fresh tropical juice',
       'Serene twilight wildlife views'
     ],
-    imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop',
+    imageUrl: '/images/sunset-romance.jpg',
     badge: 'Couples Choice'
   },
   {
@@ -82,9 +82,9 @@ export const packages: Package[] = [
       'Comprehensive lake navigation & hidden cove access',
       'Authentic Sri Lankan island campfire lunch',
       'Safety escort boat & expert wilderness guide',
-      'Dry bag storage, snorkeling & hammock gear'
+      'Dry bag storage & hammock gear'
     ],
-    imageUrl: 'https://images.unsplash.com/photo-1510312305653-8ed496efae75?q=80&w=1200&auto=format&fit=crop',
+    imageUrl: '/images/full-day.jpg',
     badge: 'Ultimate Expedition'
   }
 ];

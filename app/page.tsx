@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import AboutSection from "@/components/AboutSection";
 import DestinationsSlider from "@/components/DestinationsSlider";
 import CustomJourneys from "@/components/CustomJourneys";
+import ExperiencePortals from "@/components/ExperiencePortals";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -23,6 +24,9 @@ export default function Home() {
 
         {/* 5. Bespoke Custom Expeditions Section */}
         <CustomJourneys />
+
+        {/* 6. Signature Star Beds Circular Experience Portals */}
+        <ExperiencePortals />
       </main>
 
       {/* 6. Wilderness Travel Footer */}

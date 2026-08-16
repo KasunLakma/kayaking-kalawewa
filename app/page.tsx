@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import AboutSection from "@/components/AboutSection";
 import DestinationsSlider from "@/components/DestinationsSlider";
+import CustomJourneys from "@/components/CustomJourneys";
 import FeaturedTrips from "@/components/FeaturedTrips";
 import WildernessDifference from "@/components/WildernessDifference";
 import SafetySection from "@/components/SafetySection";
@@ -23,6 +24,9 @@ export default function Home() {
 
         {/* Interactive Wilderness Destinations Slider */}
         <DestinationsSlider />
+
+        {/* Bespoke Custom Expeditions Section */}
+        <CustomJourneys />
 
         {/* 3. Featured Expeditions Section */}
         <FeaturedTrips />

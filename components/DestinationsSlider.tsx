@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface ExpeditionSlide {
   id: string;
@@ -81,28 +81,28 @@ const tabs = [
 ];
 
 export default function DestinationsSlider() {
-  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
-  const sliderRef = useRef<HTMLDivElement>(null);
 
-  // Auto-play interval timer (4500ms), paused on hover
+  // 1. INFINITE LOOP AUTO-PLAY LOGIC (3500ms cycle time, paused on hover)
   useEffect(() => {
     if (isHovered) return;
 
     const timer = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % expeditions.length);
-    }, 4500);
+      setCurrentIndex((prev) => (prev + 1) % expeditions.length);
+    }, 3500);
 
     return () => clearInterval(timer);
   }, [isHovered]);
 
+  // 4. NEXT / PREV BUTTON HANDLERS
   const handlePrev = () => {
-    setActiveIndex((prev) => (prev === 0 ? expeditions.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev - 1 + expeditions.length) % expeditions.length);
   };
 
   const handleNext = () => {
-    setActiveIndex((prev) => (prev === expeditions.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev + 1) % expeditions.length);
   };
 
   const handleImageError = (id: string) => {
@@ -118,15 +118,15 @@ export default function DestinationsSlider() {
           WILDERNESS DESTINATIONS
         </span>
 
-        {/* Centered horizontal tab list at the top with subtle glass/capsule backing */}
+        {/* 3. SYNCHRONIZED TOP CATEGORY TABS */}
         <div className="w-full flex justify-center overflow-x-auto no-scrollbar py-2">
           <div className="bg-black/5 rounded-full px-6 py-2.5 inline-flex gap-6 sm:gap-8 max-w-full items-center shadow-inner border border-black/5 shrink-0">
             {tabs.map((tab, idx) => {
-              const isActive = activeIndex === idx;
+              const isActive = currentIndex === idx;
               return (
                 <button
                   key={tab}
-                  onClick={() => setActiveIndex(idx)}
+                  onClick={() => setCurrentIndex(idx)}
                   className={`tracking-[0.2em] text-xs font-semibold uppercase transition-all duration-500 whitespace-nowrap cursor-pointer relative py-1 ${
                     isActive
                       ? 'text-[#0E1B17]'
@@ -144,15 +144,14 @@ export default function DestinationsSlider() {
         </div>
       </div>
 
-      {/* Full Interactive Expedition Slider Container with Pause-on-Hover */}
+      {/* 2. INFINITE LOOP STAGE CONTAINER */}
       <div
-        className="relative w-full overflow-hidden"
-        ref={sliderRef}
+        className="relative w-full h-[400px] sm:h-[460px] md:h-[500px] flex justify-center items-center overflow-hidden"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         
-        {/* Navigation Arrow Controls (Left & Right) */}
+        {/* Navigation Arrow Controls */}
         <button
           onClick={handlePrev}
           aria-label="Previous Slide"
@@ -173,77 +172,88 @@ export default function DestinationsSlider() {
           </svg>
         </button>
 
-        {/* Dynamic Centered Slides Flex Track */}
-        <div
-          className="flex transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] items-center"
-          style={{
-            transform: `translateX(calc(50vw - ${(activeIndex * 76) + 38}vw))`,
-          }}
-        >
-          {expeditions.map((item, idx) => {
-            const isActive = idx === activeIndex;
-            const isFailed = imgErrors[item.id];
-            const currentImgSrc = isFailed ? item.fallbackUrl : item.imageUrl;
+        {/* Dynamic Cyclic Slides Track */}
+        {expeditions.map((item, idx) => {
+          // Calculate cyclic distance relative to currentIndex
+          let diff = idx - currentIndex;
+          const total = expeditions.length;
+          if (diff > Math.floor(total / 2)) diff -= total;
+          if (diff < -Math.floor(total / 2)) diff += total;
 
-            return (
-              <div
-                key={item.id}
-                onClick={() => setActiveIndex(idx)}
-                className={`w-[76vw] md:w-[70vw] lg:w-[64vw] shrink-0 px-3 sm:px-4 transition-all duration-700 cursor-pointer ${
-                  isActive
-                    ? 'scale-100 opacity-100 z-20'
-                    : 'scale-[0.92] opacity-50 hover:opacity-75 z-10 filter blur-[0.5px]'
-                }`}
-              >
-                {/* Wide landscape card (aspect ratio 16:9 or 21:9) */}
-                <div className="relative aspect-[16/10] sm:aspect-[16/9] md:aspect-[21/9] rounded-sm overflow-hidden shadow-2xl group border border-black/10">
-                  <img
-                    src={currentImgSrc}
-                    onError={() => handleImageError(item.id)}
-                    alt={item.fullTitle}
-                    className="w-full h-full object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-105"
-                  />
+          const isFailed = imgErrors[item.id];
+          const currentImgSrc = isFailed ? item.fallbackUrl : item.imageUrl;
 
-                  {/* Gradient Overlay for Cinematic Depth */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0E1B17]/90 via-[#0E1B17]/35 to-black/30" />
+          // Determine slide positioning & visibility classes based on cyclic diff
+          let stateClasses = '';
+          if (diff === 0) {
+            // Active Center Slide
+            stateClasses = 'z-20 opacity-100 scale-100 translate-x-0 pointer-events-auto shadow-2xl';
+          } else if (diff === 1) {
+            // Next Slide (Right offset, partially visible)
+            stateClasses = 'z-10 opacity-50 scale-90 translate-x-[70%] sm:translate-x-[72%] md:translate-x-[75%] pointer-events-none filter blur-[0.5px]';
+          } else if (diff === -1) {
+            // Previous Slide (Left offset, partially visible)
+            stateClasses = 'z-10 opacity-50 scale-90 -translate-x-[70%] sm:-translate-x-[72%] md:-translate-x-[75%] pointer-events-none filter blur-[0.5px]';
+          } else if (diff > 1) {
+            // Far Right Slide (Offscreen)
+            stateClasses = 'z-0 opacity-0 scale-75 translate-x-[150%] pointer-events-none';
+          } else {
+            // Far Left Slide (Offscreen)
+            stateClasses = 'z-0 opacity-0 scale-75 -translate-x-[150%] pointer-events-none';
+          }
 
-                  {/* Central Overlay: Elegant Serif Title with wide tracking & single horizontal line */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 sm:p-6 text-center z-10">
-                    <span className="tracking-[0.3em] text-[10px] sm:text-xs font-semibold text-gray-300 uppercase mb-2 block drop-shadow">
-                      KALAW EWA EXPEDITION
+          return (
+            <div
+              key={item.id}
+              onClick={() => setCurrentIndex(idx)}
+              className={`absolute transition-all duration-700 ease-in-out w-[88vw] sm:w-[650px] md:w-[780px] h-[360px] sm:h-[400px] md:h-[460px] rounded-sm overflow-hidden border border-black/10 cursor-pointer ${stateClasses}`}
+            >
+              {/* High-Resolution Landscape Image */}
+              <img
+                src={currentImgSrc}
+                onError={() => handleImageError(item.id)}
+                alt={item.fullTitle}
+                className="w-full h-full object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-105"
+              />
+
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0E1B17]/90 via-[#0E1B17]/35 to-black/30" />
+
+              {/* Central Overlay: Elegant Serif Title with wide tracking */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-4 sm:p-6 text-center z-10">
+                <span className="tracking-[0.3em] text-[10px] sm:text-xs font-semibold text-gray-300 uppercase mb-2 block drop-shadow">
+                  KALAW EWA EXPEDITION
+                </span>
+                <h3 className="font-serif text-xl sm:text-3xl md:text-4xl lg:text-5xl font-normal tracking-[0.15em] sm:tracking-[0.25em] md:tracking-[0.3em] text-white uppercase drop-shadow-lg leading-none whitespace-nowrap max-w-full px-2">
+                  {item.displayTitle}
+                </h3>
+              </div>
+
+              {/* Bottom details */}
+              <div className="absolute bottom-0 inset-x-0 p-4 sm:p-6 md:p-8 flex flex-col sm:flex-row sm:items-end justify-between gap-3 z-20 bg-gradient-to-t from-[#0E1B17] via-[#0E1B17]/70 to-transparent">
+                <div>
+                  <span className="text-[10px] sm:text-xs font-medium tracking-[0.2em] text-[#C8B8A6] uppercase block">
+                    {item.duration} • {item.category}
+                  </span>
+                  <div className="flex items-baseline gap-2">
+                    <span className="font-serif text-lg sm:text-2xl text-white font-normal">
+                      {item.price}
                     </span>
-                    <h3 className="font-serif text-xl sm:text-3xl md:text-4xl lg:text-5xl font-normal tracking-[0.15em] sm:tracking-[0.25em] md:tracking-[0.3em] text-white uppercase drop-shadow-lg leading-none whitespace-nowrap max-w-full px-2">
-                      {item.displayTitle}
-                    </h3>
-                  </div>
-
-                  {/* Subtle bottom details */}
-                  <div className="absolute bottom-0 inset-x-0 p-4 sm:p-6 md:p-8 flex flex-col sm:flex-row sm:items-end justify-between gap-3 z-20 bg-gradient-to-t from-[#0E1B17] via-[#0E1B17]/70 to-transparent">
-                    <div>
-                      <span className="text-[10px] sm:text-xs font-medium tracking-[0.2em] text-[#C8B8A6] uppercase block">
-                        {item.duration} • {item.category}
-                      </span>
-                      <div className="flex items-baseline gap-2">
-                        <span className="font-serif text-lg sm:text-2xl text-white font-normal">
-                          {item.price}
-                        </span>
-                        <span className="text-[10px] sm:text-xs text-gray-300 font-light">/ person</span>
-                      </div>
-                    </div>
-
-                    <a
-                      href="#featured-trips"
-                      className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-medium uppercase tracking-[0.25em] text-white hover:text-[#C8B8A6] bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-white/20 transition-all duration-300 group/btn self-start sm:self-auto"
-                    >
-                      <span>EXPLORE EXPEDITION</span>
-                      <span className="transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
-                    </a>
+                    <span className="text-[10px] sm:text-xs text-gray-300 font-light">/ person</span>
                   </div>
                 </div>
+
+                <a
+                  href="#featured-trips"
+                  className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-medium uppercase tracking-[0.25em] text-white hover:text-[#C8B8A6] bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-white/20 transition-all duration-300 group/btn self-start sm:self-auto"
+                >
+                  <span>EXPLORE EXPEDITION</span>
+                  <span className="transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
+                </a>
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
 
       </div>
 
@@ -252,10 +262,10 @@ export default function DestinationsSlider() {
         {expeditions.map((_, idx) => (
           <button
             key={idx}
-            onClick={() => setActiveIndex(idx)}
+            onClick={() => setCurrentIndex(idx)}
             aria-label={`Go to slide ${idx + 1}`}
             className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
-              activeIndex === idx
+              currentIndex === idx
                 ? 'w-8 bg-[#0E1B17]'
                 : 'w-2 bg-[#0E1B17]/30 hover:bg-[#0E1B17]/60'
             }`}

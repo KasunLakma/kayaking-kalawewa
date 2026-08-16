@@ -15,30 +15,30 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full bg-[#040d0a] text-slate-300 border-t border-[#D4AF37]/20 pt-20 pb-12 px-4 sm:px-6 lg:px-12 relative overflow-hidden">
+    <footer className="w-full bg-[#0B1914] text-[#F4F1EA] border-t border-white/10 pt-20 pb-12 px-6 lg:px-12 relative overflow-hidden">
       {/* Subtle Background Glow */}
-      <div className="absolute top-0 left-1/3 w-96 h-96 bg-[#D4AF37]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/3 w-96 h-96 bg-[#C8A97E]/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10 space-y-20">
         
-        {/* Requirement 4 & Glassmorphism Newsletter Signup Banner */}
-        <div className="bg-[#071410]/90 backdrop-blur-xl rounded-3xl p-8 sm:p-12 border border-[#D4AF37]/40 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8">
+        {/* Newsletter Signup Gazette Banner */}
+        <div className="bg-[#13241E] rounded-none p-8 sm:p-12 border border-[#C8A97E]/30 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8">
           <div className="max-w-xl space-y-3 text-center lg:text-left">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#D4AF37] block">
+            <span className="text-[10px] font-medium uppercase tracking-[0.25em] text-[#C8A97E] block">
               EXPEDITION GAZETTE
             </span>
-            <h3 className="text-3xl sm:text-4xl font-bold text-white font-serif">
+            <h3 className="text-3xl sm:text-4xl font-normal text-[#F4F1EA] font-serif">
               Join Our Private Expedition List
             </h3>
-            <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#F4F1EA]/80 font-light leading-relaxed">
               Receive seasonal wildlife reports, reservoir water level updates, and exclusive early-bird resort privileges for Kalawewa kayaking tours.
             </p>
           </div>
 
           <form onSubmit={handleSubscribe} className="w-full lg:w-auto flex flex-col sm:flex-row gap-3">
             {subscribed ? (
-              <div className="px-8 py-3.5 bg-[#071410] border border-[#D4AF37] rounded-full text-xs font-bold text-[#D4AF37] text-center shadow-lg">
-                ✓ Thank you for joining our luxury expedition gazette!
+              <div className="px-8 py-3.5 bg-[#0B1914] border border-[#C8A97E] text-xs font-medium text-[#C8A97E] text-center tracking-[0.15em] uppercase">
+                ✓ Thank you for joining our expedition gazette
               </div>
             ) : (
               <>
@@ -46,13 +46,13 @@ export default function Footer() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your corporate or personal email..."
+                  placeholder="Enter your email address..."
                   required
-                  className="px-6 py-3.5 rounded-full bg-[#040d0a] border border-[#D4AF37]/30 text-white placeholder-slate-400 text-xs font-medium focus:outline-none focus:border-[#D4AF37] min-w-[300px] shadow-inner"
+                  className="px-6 py-3.5 rounded-none bg-[#0B1914] border border-[#C8A97E]/30 text-[#F4F1EA] placeholder-slate-400 text-xs font-light focus:outline-none focus:border-[#C8A97E] min-w-[280px]"
                 />
                 <button
                   type="submit"
-                  className="px-8 py-3.5 rounded-full bg-gradient-to-r from-[#D4AF37] via-amber-300 to-[#D4AF37] hover:from-amber-300 hover:to-[#D4AF37] text-[#071410] text-xs font-bold uppercase tracking-widest transition-all shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.4)] cursor-pointer whitespace-nowrap border border-[#D4AF37]/50"
+                  className="px-8 py-3.5 rounded-none bg-[#C8A97E] hover:bg-[#b5966c] text-[#0B1914] text-xs font-medium uppercase tracking-[0.2em] transition-all cursor-pointer whitespace-nowrap"
                 >
                   JOIN GAZETTE
                 </button>
@@ -66,41 +66,34 @@ export default function Footer() {
           
           {/* Brand Col */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#D4AF37] via-amber-400 to-amber-600 flex items-center justify-center text-[#071410] font-bold shadow-md border border-[#D4AF37]/40">
-                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                  <path d="M12 2L2 19h20L12 2zm0 3.8L18.5 17H5.5L12 5.8zM11 9h2v4h-2V9zm0 6h2v2h-2v-2z" />
-                </svg>
-              </div>
-              <div>
-                <span className="text-base font-bold tracking-tight text-white uppercase font-serif block leading-none">
-                  KAYAKING KALAWEWA
-                </span>
-                <span className="text-[9px] font-bold text-[#D4AF37] tracking-[0.2em] uppercase">
-                  LUXURY ECO-RESORT & EXPEDITIONS
-                </span>
-              </div>
+            <div className="flex flex-col group">
+              <span className="font-serif text-2xl font-light tracking-[0.25em] text-[#F4F1EA]">
+                KALAWEWA
+              </span>
+              <span className="text-[9px] font-medium tracking-[0.3em] text-[#C8A97E] uppercase mt-1">
+                EXPEDITIONS &amp; WILDERNESS
+              </span>
             </div>
 
-            <p className="text-slate-300 font-light leading-relaxed max-w-sm">
+            <p className="text-[#F4F1EA]/75 font-light leading-relaxed max-w-sm pt-2">
               Sri Lanka&apos;s premier eco-friendly kayaking tour operator on Kalawewa Reservoir. Dedicated to sustainable wilderness adventure, historic 5th-century irrigation heritage, and safety excellence.
             </p>
 
             <div className="pt-2 flex items-center gap-4 text-slate-300">
               {/* Facebook */}
-              <a href="#" className="hover:text-[#D4AF37] transition-colors p-2.5 rounded-full bg-[#071410] border border-[#D4AF37]/25" aria-label="Facebook">
+              <a href="#" className="hover:text-[#C8A97E] transition-colors p-2.5 bg-[#13241E] border border-white/10" aria-label="Facebook">
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                 </svg>
               </a>
               {/* Instagram */}
-              <a href="#" className="hover:text-[#D4AF37] transition-colors p-2.5 rounded-full bg-[#071410] border border-[#D4AF37]/25" aria-label="Instagram">
+              <a href="#" className="hover:text-[#C8A97E] transition-colors p-2.5 bg-[#13241E] border border-white/10" aria-label="Instagram">
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
                 </svg>
               </a>
               {/* TikTok */}
-              <a href="#" className="hover:text-[#D4AF37] transition-colors p-2.5 rounded-full bg-[#071410] border border-[#D4AF37]/25" aria-label="TikTok">
+              <a href="#" className="hover:text-[#C8A97E] transition-colors p-2.5 bg-[#13241E] border border-white/10" aria-label="TikTok">
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                   <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.97v7.58c.02 2.26-.64 4.54-2.03 6.34-1.39 1.8-3.43 3.03-5.69 3.44-2.26.41-4.63.02-6.64-1.1-2.01-1.12-3.48-2.98-4.14-5.2-1.33-4.48 1.41-9.2 5.92-10.21.68-.15 1.38-.2 2.08-.16v4.19c-.43-.05-.88.01-1.29.15-1.07.36-1.9 1.25-2.18 2.34-.28 1.09-.01 2.26.72 3.09.73.83 1.83 1.25 2.93 1.11 1.1-.14 2.06-.82 2.52-1.82.26-.57.37-1.2.35-1.83V.02z" />
                 </svg>
@@ -110,40 +103,40 @@ export default function Footer() {
 
           {/* Col 2: Quick Links */}
           <div className="space-y-3">
-            <h4 className="font-bold uppercase text-[#D4AF37] tracking-widest text-[11px]">
+            <h4 className="font-medium uppercase text-[#C8A97E] tracking-[0.2em] text-[11px]">
               Expedition Links
             </h4>
-            <ul className="space-y-2.5 text-slate-300 font-light">
-              <li><a href="#featured-trips" className="hover:text-[#D4AF37] transition-colors">Sunrise Mist Paddle</a></li>
-              <li><a href="#featured-trips" className="hover:text-[#D4AF37] transition-colors">Classic Island Tour</a></li>
-              <li><a href="#featured-trips" className="hover:text-[#D4AF37] transition-colors">Sunset Romance</a></li>
-              <li><a href="#featured-trips" className="hover:text-[#D4AF37] transition-colors">Full-Day Wilderness</a></li>
-              <li><a href="#safety" className="hover:text-[#D4AF37] transition-colors">Safety Charter</a></li>
+            <ul className="space-y-2.5 text-[#F4F1EA]/75 font-light">
+              <li><a href="#featured-trips" className="hover:text-[#C8A97E] transition-colors">Sunrise Mist Paddle</a></li>
+              <li><a href="#featured-trips" className="hover:text-[#C8A97E] transition-colors">Classic Island Tour</a></li>
+              <li><a href="#featured-trips" className="hover:text-[#C8A97E] transition-colors">Sunset Romance</a></li>
+              <li><a href="#featured-trips" className="hover:text-[#C8A97E] transition-colors">Full-Day Wilderness</a></li>
+              <li><a href="#safety" className="hover:text-[#C8A97E] transition-colors">Safety Charter</a></li>
             </ul>
           </div>
 
           {/* Col 3: Why Kalawewa */}
           <div className="space-y-3">
-            <h4 className="font-bold uppercase text-[#D4AF37] tracking-widest text-[11px]">
-              Heritage & Safety
+            <h4 className="font-medium uppercase text-[#C8A97E] tracking-[0.2em] text-[11px]">
+              Heritage &amp; Safety
             </h4>
-            <ul className="space-y-2.5 text-slate-300 font-light">
-              <li><a href="#why-kalawewa" className="hover:text-[#D4AF37] transition-colors">5th Century Reservoir</a></li>
-              <li><a href="#why-kalawewa" className="hover:text-[#D4AF37] transition-colors">Asian Elephant Sanctuary</a></li>
-              <li><a href="#why-kalawewa" className="hover:text-[#D4AF37] transition-colors">Zero-Plastic Standard</a></li>
-              <li><a href="#why-kalawewa" className="hover:text-[#D4AF37] transition-colors">Rescue Ready Guides</a></li>
-              <li><a href="#testimonials" className="hover:text-[#D4AF37] transition-colors">Adventurer Reviews</a></li>
+            <ul className="space-y-2.5 text-[#F4F1EA]/75 font-light">
+              <li><a href="#why-kalawewa" className="hover:text-[#C8A97E] transition-colors">5th Century Reservoir</a></li>
+              <li><a href="#why-kalawewa" className="hover:text-[#C8A97E] transition-colors">Asian Elephant Sanctuary</a></li>
+              <li><a href="#why-kalawewa" className="hover:text-[#C8A97E] transition-colors">Zero-Plastic Standard</a></li>
+              <li><a href="#why-kalawewa" className="hover:text-[#C8A97E] transition-colors">Rescue Ready Guides</a></li>
+              <li><a href="#testimonials" className="hover:text-[#C8A97E] transition-colors">Adventurer Reviews</a></li>
             </ul>
           </div>
 
           {/* Col 4: Booking Policies */}
           <div className="space-y-3">
-            <h4 className="font-bold uppercase text-[#D4AF37] tracking-widest text-[11px]">
+            <h4 className="font-medium uppercase text-[#C8A97E] tracking-[0.2em] text-[11px]">
               Resort Privileges
             </h4>
-            <ul className="space-y-2.5 text-slate-300 font-light">
-              <li><span className="text-white font-medium">Cash On-Site (COD)</span> Accepted</li>
-              <li><span className="text-[#D4AF37] font-semibold">Instant Confirmation</span></li>
+            <ul className="space-y-2.5 text-[#F4F1EA]/75 font-light">
+              <li><span className="text-[#F4F1EA] font-medium">Cash On-Site (COD)</span> Accepted</li>
+              <li><span className="text-[#C8A97E] font-medium">Instant Confirmation</span></li>
               <li><span>Free Cancellation (24h prior)</span></li>
               <li><span>Group Booking Discounts</span></li>
               <li><span>Custom Private Charters</span></li>
@@ -153,12 +146,12 @@ export default function Footer() {
         </div>
 
         {/* Bottom Legal & Copyright Bar */}
-        <div className="pt-8 border-t border-[#D4AF37]/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400 font-light">
-          <p>© {new Date().getFullYear()} Kayaking Kalawewa Luxury Eco-Resort & Expeditions. Inspired by Aman & Wilderness Safaris standards.</p>
+        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400 font-light">
+          <p>© {new Date().getFullYear()} Kayaking Kalawewa Luxury Eco-Resort &amp; Expeditions. Wilderness Destinations aesthetic.</p>
           <div className="flex items-center gap-6">
-            <a href="#" className="hover:text-[#D4AF37] transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-[#D4AF37] transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-[#D4AF37] transition-colors">Resort Safety Charter</a>
+            <a href="#" className="hover:text-[#C8A97E] transition-colors">Terms of Service</a>
+            <a href="#" className="hover:text-[#C8A97E] transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-[#C8A97E] transition-colors">Resort Safety Charter</a>
           </div>
         </div>
 

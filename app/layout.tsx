@@ -27,7 +27,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${cormorantGaramond.variable} ${plusJakartaSans.variable} h-full antialiased scroll-smooth`}
     >
-      <body className="min-h-full flex flex-col font-sans bg-[#071410] text-slate-300 selection:bg-[#D4AF37] selection:text-[#071410]">
+      <body className="min-h-full flex flex-col font-sans bg-[#0B1914] text-[#F4F1EA] selection:bg-[#C8A97E] selection:text-[#0B1914]">
         {children}
       </body>
     </html>

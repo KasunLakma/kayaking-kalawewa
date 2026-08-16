@@ -22,8 +22,8 @@ const expeditions: ExpeditionSlide[] = [
     fullTitle: 'Golden Mist Dawn Kayak Charter',
     duration: '2 Hours',
     price: 'LKR 3,500',
-    imageUrl: '/images/sunrise-paddle.jpg',
-    fallbackUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1600&q=80',
+    fallbackUrl: '/images/sunrise-paddle.jpg',
     description: 'Paddle through morning lake mist, lotus sanctuaries, and roosting waterbird colonies as dawn breaks over King Dhatusena’s reservoir.',
   },
   {
@@ -33,8 +33,8 @@ const expeditions: ExpeditionSlide[] = [
     fullTitle: 'Twilight Lake Photography & Sunset Cruise',
     duration: '2.5 Hours',
     price: 'LKR 6,500',
-    imageUrl: '/images/sunset-romance.jpg',
-    fallbackUrl: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80',
+    fallbackUrl: '/images/sunset-romance.jpg',
     description: 'Glide into crimson horizon views as distant mountain silhouettes reflect on tranquil waters. Includes fresh tropical juice.',
   },
   {
@@ -44,8 +44,8 @@ const expeditions: ExpeditionSlide[] = [
     fullTitle: '5th Century Kalawewa Island Tour',
     duration: '3 Hours',
     price: 'LKR 5,000',
-    imageUrl: '/images/island-tour.jpg',
-    fallbackUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80',
+    fallbackUrl: '/images/island-tour.jpg',
     description: 'Island hopping across ancient submerged coves guided by native naturalists detailing 5th-century hydraulic engineering.',
   },
   {
@@ -55,8 +55,8 @@ const expeditions: ExpeditionSlide[] = [
     fullTitle: 'Wild Asian Elephant Wetland Safari',
     duration: '4 Hours',
     price: 'LKR 8,500',
-    imageUrl: '/images/full-day.jpg',
-    fallbackUrl: 'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=1600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=1600&q=80',
+    fallbackUrl: '/images/full-day.jpg',
     description: 'Silent non-motorized paddling along quiet elephant drinking trails and flooded forest channels with safety escort.',
   },
   {
@@ -66,8 +66,8 @@ const expeditions: ExpeditionSlide[] = [
     fullTitle: 'Starlight & Bioluminescent Waters Charter',
     duration: '2 Hours',
     price: 'LKR 7,000',
-    imageUrl: '/images/hero-night-moon.jpg',
-    fallbackUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=1600&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=1600&q=80',
+    fallbackUrl: '/images/hero-night-moon.jpg',
     description: 'An ethereal nocturnal journey under clear tropical stars with specialized night-vision scopes and low-impact navigation.',
   },
 ];
@@ -82,8 +82,20 @@ const tabs = [
 
 export default function DestinationsSlider() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
   const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
   const sliderRef = useRef<HTMLDivElement>(null);
+
+  // Auto-play interval timer (4500ms), paused on hover
+  useEffect(() => {
+    if (isHovered) return;
+
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % expeditions.length);
+    }, 4500);
+
+    return () => clearInterval(timer);
+  }, [isHovered]);
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev === 0 ? expeditions.length - 1 : prev - 1));
@@ -115,7 +127,7 @@ export default function DestinationsSlider() {
                 <button
                   key={tab}
                   onClick={() => setActiveIndex(idx)}
-                  className={`tracking-[0.2em] text-xs font-semibold uppercase transition-all duration-300 whitespace-nowrap cursor-pointer relative py-1 ${
+                  className={`tracking-[0.2em] text-xs font-semibold uppercase transition-all duration-500 whitespace-nowrap cursor-pointer relative py-1 ${
                     isActive
                       ? 'text-[#0E1B17]'
                       : 'text-[#0E1B17]/50 hover:text-[#0E1B17]/80'
@@ -123,7 +135,7 @@ export default function DestinationsSlider() {
                 >
                   {tab}
                   {isActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#0E1B17] rounded-full transition-all duration-300" />
+                    <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#0E1B17] rounded-full transition-all duration-500" />
                   )}
                 </button>
               );
@@ -132,8 +144,13 @@ export default function DestinationsSlider() {
         </div>
       </div>
 
-      {/* Full Interactive Expedition Slider Container */}
-      <div className="relative w-full overflow-hidden" ref={sliderRef}>
+      {/* Full Interactive Expedition Slider Container with Pause-on-Hover */}
+      <div
+        className="relative w-full overflow-hidden"
+        ref={sliderRef}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         
         {/* Navigation Arrow Controls (Left & Right) */}
         <button
@@ -190,12 +207,12 @@ export default function DestinationsSlider() {
                   {/* Gradient Overlay for Cinematic Depth */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0E1B17]/90 via-[#0E1B17]/35 to-black/30" />
 
-                  {/* Central Overlay: Elegant Serif Title with wide tracking */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-10">
+                  {/* Central Overlay: Elegant Serif Title with wide tracking & single horizontal line */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 sm:p-6 text-center z-10">
                     <span className="tracking-[0.3em] text-[10px] sm:text-xs font-semibold text-gray-300 uppercase mb-2 block drop-shadow">
                       KALAW EWA EXPEDITION
                     </span>
-                    <h3 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-normal tracking-[0.25em] sm:tracking-[0.35em] text-white uppercase drop-shadow-lg leading-tight">
+                    <h3 className="font-serif text-xl sm:text-3xl md:text-4xl lg:text-5xl font-normal tracking-[0.15em] sm:tracking-[0.25em] md:tracking-[0.3em] text-white uppercase drop-shadow-lg leading-none whitespace-nowrap max-w-full px-2">
                       {item.displayTitle}
                     </h3>
                   </div>

@@ -44,19 +44,16 @@ const testimonials: Testimonial[] = [
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="w-full bg-[#13241E] py-28 sm:py-36 px-6 lg:px-12 text-[#F4F1EA] relative overflow-hidden">
-      {/* Subtle Glow */}
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#C8A97E]/5 rounded-full blur-3xl pointer-events-none" />
-
+    <section id="testimonials" className="w-full bg-[#08120E] py-28 sm:py-36 px-6 lg:px-12 text-[#F4F1EA] relative overflow-hidden border-t border-white/10">
       <div className="max-w-7xl mx-auto relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-20 space-y-3">
-          <span className="tracking-[0.3em] text-xs font-medium text-[#C8A97E] uppercase block">
+          <span className="tracking-[0.35em] text-xs font-medium text-[#C8A97E] uppercase block">
             GUEST REVIEWS &amp; STORIES
           </span>
 
-          <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-normal text-[#F4F1EA] tracking-tight">
+          <h2 className="font-serif text-4xl sm:text-6xl font-normal text-[#F4F1EA] tracking-tight">
             What Our Adventurers Say
           </h2>
 
@@ -65,18 +62,13 @@ export default function Testimonials() {
           </p>
         </div>
 
-        {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Minimalist Editorial Testimonials Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
           {testimonials.map((t) => (
             <div
               key={t.id}
-              className="bg-[#0B1914]/80 backdrop-blur-md rounded-none p-8 sm:p-10 border border-white/10 hover:border-[#C8A97E]/60 transition-all duration-500 flex flex-col justify-between relative group"
+              className="flex flex-col justify-between space-y-8 relative"
             >
-              {/* Quote Mark Decoration */}
-              <div className="text-[#C8A97E]/15 font-serif text-8xl absolute top-2 right-6 pointer-events-none select-none">
-                “
-              </div>
-
               <div>
                 {/* Rating Stars */}
                 <div className="flex items-center gap-1 mb-6 text-[#C8A97E]">
@@ -87,13 +79,11 @@ export default function Testimonials() {
                   ))}
                 </div>
 
-                {/* Tour Tag Badge */}
-                <div className="inline-block px-3 py-1 bg-[#13241E] border border-[#C8A97E]/30 text-[#C8A97E] text-[10px] font-medium uppercase tracking-[0.2em] mb-6">
+                <div className="text-[10px] font-medium uppercase tracking-[0.25em] text-[#C8A97E] mb-4">
                   {t.tourTag}
                 </div>
 
-                {/* Quote Body */}
-                <p className="text-xs sm:text-sm text-[#F4F1EA]/85 leading-relaxed font-light italic mb-8">
+                <p className="text-sm sm:text-base text-[#F4F1EA]/85 leading-relaxed font-light italic">
                   &ldquo;{t.quote}&rdquo;
                 </p>
               </div>

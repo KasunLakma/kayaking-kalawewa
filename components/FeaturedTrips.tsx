@@ -6,95 +6,115 @@ import { packages, Package } from '@/data/packages';
 
 export default function FeaturedTrips() {
   return (
-    <section id="featured-trips" className="w-full bg-[#0B1914] py-28 sm:py-36 px-6 lg:px-12 text-[#F4F1EA] relative overflow-hidden">
-      {/* Decorative subtle ambient background */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#C8A97E]/5 rounded-full blur-3xl pointer-events-none" />
+    <section id="featured-trips" className="w-full bg-[#0B1914] py-28 sm:py-36 text-[#F4F1EA] relative overflow-hidden">
+      {/* Section Header */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 mb-20 sm:mb-28 text-center">
+        <span className="tracking-[0.35em] text-xs font-medium text-[#C8A97E] uppercase block mb-4">
+          CURATED EXPEDITIONS
+        </span>
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        
-        {/* Editorial Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <span className="tracking-[0.3em] text-xs font-medium text-[#C8A97E] uppercase block">
-            CURATED EXPEDITIONS
-          </span>
+        <h2 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal text-[#F4F1EA] tracking-tight leading-tight max-w-4xl mx-auto">
+          Signature Journeys on Kalawewa Waters
+        </h2>
 
-          <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-normal text-[#F4F1EA] tracking-tight">
-            Handcrafted Itineraries on Kalawewa Waters
-          </h2>
+        <p className="text-base sm:text-lg text-[#F4F1EA]/75 font-light max-w-2xl mx-auto leading-relaxed pt-4">
+          Privately guided eco-kayaking photo stories on King Dhatusena&apos;s 5th-century reservoir. Every expedition is escorted by indigenous naturalists.
+        </p>
+      </div>
 
-          <p className="text-base text-[#F4F1EA]/80 font-light max-w-2xl mx-auto leading-relaxed pt-2">
-            Privately guided eco-kayaking journeys designed for wildlife enthusiasts, photographers, and luxury adventurers. Every expedition includes certified naturalists &amp; private escort.
-          </p>
-        </div>
+      {/* Large Alternating 50/50 Split-Screen Photo Stories */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 space-y-28 sm:space-y-36">
+        {packages.map((pkg: Package, index: number) => {
+          const isEven = index % 2 === 0;
+          const storyNumber = `0${index + 1}`;
 
-        {/* 4:5 Portrait Luxury Wilderness Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-          {packages.map((pkg: Package) => (
-            <a
+          return (
+            <div
               key={pkg.id}
-              href="#why-kalawewa"
-              className="group relative aspect-[4/5] rounded-none overflow-hidden border border-white/10 hover:border-[#C8A97E]/60 transition-all duration-500 bg-[#13241E] flex flex-col justify-between p-6 sm:p-7 text-[#F4F1EA] cursor-pointer shadow-2xl"
+              className={`flex flex-col ${
+                isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'
+              } items-center gap-12 lg:gap-20`}
             >
-              {/* Full-bleed Portrait Image with hover zoom */}
-              <Image
-                src={pkg.imageUrl}
-                alt={pkg.title}
-                fill
-                className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-              />
+              {/* Giant High-Resolution Lake/Kayak Photography (50% width, h-[500px] to h-[600px]) */}
+              <div className="w-full lg:w-1/2 relative h-[450px] sm:h-[550px] lg:h-[600px] overflow-hidden group">
+                <Image
+                  src={pkg.imageUrl}
+                  alt={pkg.title}
+                  fill
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-out"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
 
-              {/* Dark Gradient Text Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0B1914] via-[#0B1914]/60 to-black/30 z-10 pointer-events-none" />
+                {/* Subtle Edge Vignette */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1914]/80 via-transparent to-transparent pointer-events-none" />
 
-              {/* Top Overlay Header Badges */}
-              <div className="relative z-20 flex items-center justify-between w-full">
-                <span className="px-2.5 py-1 bg-[#0B1914]/80 backdrop-blur-md border border-[#C8A97E]/40 text-[9px] font-medium tracking-[0.2em] uppercase text-[#C8A97E]">
-                  🌿 NATURALIST GUIDED
-                </span>
-
-                {pkg.badge && (
-                  <span className="px-2.5 py-1 bg-[#C8A97E] text-[#0B1914] text-[9px] font-semibold tracking-[0.2em] uppercase shadow-md">
-                    {pkg.badge}
+                {/* Floating Minimal Badge */}
+                <div className="absolute top-6 left-6 z-10">
+                  <span className="px-3.5 py-1.5 bg-[#0B1914]/80 backdrop-blur-md border border-[#C8A97E]/40 text-[10px] font-medium tracking-[0.25em] uppercase text-[#C8A97E]">
+                    {pkg.groupType}
                   </span>
-                )}
+                </div>
               </div>
 
-              {/* Bottom Gradient Text Overlay Details */}
-              <div className="relative z-20 mt-auto space-y-3 pt-6">
-                <div className="text-[10px] font-medium uppercase tracking-[0.25em] text-[#C8A97E]">
-                  {pkg.duration} • {pkg.groupType}
+              {/* Minimalist Luxury Text with Expansive Whitespace (50% width) */}
+              <div className="w-full lg:w-1/2 flex flex-col justify-center space-y-6 lg:px-4">
+                <div className="flex items-center gap-3">
+                  <span className="font-serif text-xl sm:text-2xl text-[#C8A97E]">
+                    {storyNumber}
+                  </span>
+                  <span className="h-[1px] w-12 bg-[#C8A97E]/40" />
+                  <span className="text-[10px] font-medium uppercase tracking-[0.25em] text-[#C8A97E]">
+                    {pkg.badge || 'SIGNATURE EXPEDITION'}
+                  </span>
                 </div>
 
-                <h3 className="font-serif text-2xl sm:text-3xl font-normal text-[#F4F1EA] group-hover:text-[#C8A97E] transition-colors leading-snug">
+                <h3 className="font-serif text-3xl sm:text-5xl font-normal text-[#F4F1EA] leading-tight">
                   {pkg.title}
                 </h3>
 
-                <p className="text-xs text-[#F4F1EA]/75 font-light line-clamp-2 leading-relaxed">
+                <p className="text-sm sm:text-base text-[#F4F1EA]/80 font-light leading-relaxed max-w-xl">
                   {pkg.description}
                 </p>
 
-                {/* Price Displayed in Refined Gold Serif Typography */}
-                <div className="pt-4 border-t border-white/15 flex items-end justify-between">
+                {/* Key Expedition Inclusions */}
+                <div className="pt-4 border-t border-white/10 space-y-3">
+                  <div className="text-[10px] font-medium uppercase tracking-[0.25em] text-[#C8A97E]">
+                    EXPEDITION HIGHLIGHTS
+                  </div>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#F4F1EA]/75 font-light">
+                    {pkg.highlights.map((h, i) => (
+                      <li key={i} className="flex items-center gap-2">
+                        <span className="text-[#C8A97E]">•</span>
+                        <span>{h}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Price & Action Link */}
+                <div className="pt-6 flex items-center justify-between">
                   <div>
-                    <span className="text-[9px] text-slate-400 font-medium tracking-[0.2em] uppercase block">
-                      FROM
+                    <span className="text-[10px] text-slate-400 font-medium tracking-[0.2em] uppercase block">
+                      STARTING RATE
                     </span>
-                    <span className="font-serif text-2xl font-normal text-[#C8A97E]">
+                    <span className="font-serif text-2xl sm:text-3xl font-normal text-[#C8A97E]">
                       {pkg.price}
                     </span>{' '}
                     <span className="text-xs text-slate-400 font-light">{pkg.unit}</span>
                   </div>
 
-                  <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#F4F1EA] group-hover:text-[#C8A97E] flex items-center gap-1 transition-colors pb-1">
-                    EXPLORE →
-                  </span>
+                  <a
+                    href="#why-kalawewa"
+                    className="text-xs font-medium uppercase tracking-[0.25em] text-[#C8A97E] hover:text-[#F4F1EA] transition-colors flex items-center gap-2 group/link cursor-pointer"
+                  >
+                    <span>DISCOVER THIS EXPEDITION</span>
+                    <span className="transition-transform duration-300 group-hover/link:translate-x-1">→</span>
+                  </a>
                 </div>
               </div>
-            </a>
-          ))}
-        </div>
-
+            </div>
+          );
+        })}
       </div>
     </section>
   );

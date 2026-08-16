@@ -2,114 +2,103 @@
 
 import React from 'react';
 
-const pillars = [
+const heritagePillars = [
   {
-    id: 'naturalists',
-    title: 'Expert Local Naturalists & Guides',
-    description: 'Every expedition is led by indigenous Kalawewa naturalists who possess deep knowledge of reservoir channels, bird habitats, and elephant corridors.',
-    badge: 'Certified Naturalists',
-    icon: (
-      <svg className="w-7 h-7 text-[#C8A97E]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-      </svg>
-    ),
+    number: '01',
+    title: 'Indigenous Naturalists & Wilderness Escort',
+    description: 'Every expedition is guided by native Kalawewa naturalists possessing deep knowledge of reservoir channels, bird habitats, and wild Asian elephant corridors.',
   },
   {
-    id: 'safety-gear',
-    title: 'Certified Safety Gear & Floatation Aids',
-    description: 'We provide ISO-certified life jackets, ergonomic composite paddles, waterproof dry bags, and backrest support seats tailored for all age groups.',
-    badge: '100% Safety Verified',
-    icon: (
-      <svg className="w-7 h-7 text-[#C8A97E]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-      </svg>
-    ),
+    number: '02',
+    title: 'ISO-Certified Safety & Floatation Standards',
+    description: 'Standardized life jackets, composite paddles, waterproof gear, and swift-water rescue trained personnel accompany all water charter launches.',
   },
   {
-    id: 'sustainable-eco',
-    title: 'Sustainable & Leave-No-Trace Eco Tourism',
-    description: 'Zero-plastic pledge and non-motorized paddling protect the pristine water quality of King Dhatusena’s reservoir and its wildlife.',
-    badge: 'Zero-Plastic Standard',
-    icon: (
-      <svg className="w-7 h-7 text-[#C8A97E]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-      </svg>
-    ),
+    number: '03',
+    title: 'Zero-Plastic & Leave-No-Trace Conservation',
+    description: 'Our non-motorized silent paddling charter preserves the pristine aquatic ecology of King Dhatusena’s reservoir and its migratory bird colonies.',
   },
   {
-    id: 'weather-monitoring',
-    title: 'Real-time Weather & Water Level Monitoring',
-    description: 'Pre-departure water level evaluations and wind forecast checks ensure every kayak launch takes place in optimal, safe conditions.',
-    badge: 'Daily Hydrology Checks',
-    icon: (
-      <svg className="w-7 h-7 text-[#C8A97E]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 001-9.9 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z" />
-      </svg>
-    ),
+    number: '04',
+    title: 'Real-Time Hydrology & Weather Monitoring',
+    description: 'Pre-departure water level evaluations and wind forecast checks ensure every kayak launch takes place in optimal, tranquil conditions.',
   },
 ];
 
 export default function WildernessDifference() {
   return (
-    <section id="why-kalawewa" className="w-full bg-[#13241E] py-28 sm:py-36 px-6 lg:px-12 text-[#F4F1EA] relative overflow-hidden">
-      {/* Background Decorative Ambient Glow */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#C8A97E]/5 rounded-full blur-3xl pointer-events-none" />
+    <section id="why-kalawewa" className="w-full bg-[#08120E] text-[#F4F1EA] relative overflow-hidden">
+      
+      {/* 100vw Edge-to-Edge Full-Bleed Panoramic Visual Banner */}
+      <div className="relative w-full min-h-[650px] lg:h-[750px] flex items-center justify-center overflow-hidden py-24 px-6">
+        {/* Background Panoramic Lake Sunset Photography */}
+        <img
+          src="/images/hero-night-moon.jpg"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src =
+              "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80";
+          }}
+          alt="Kalawewa Lake Sunset Elephant Sanctuary"
+          className="absolute inset-0 w-full h-full object-cover object-center animate-slow-zoom"
+        />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        
-        {/* Header Section */}
-        <div className="text-center max-w-3xl mx-auto mb-20 space-y-3">
-          <span className="tracking-[0.3em] text-xs font-medium text-[#C8A97E] uppercase block">
-            THE KALAWEWA DIFFERENCE
+        {/* Dark Vignette Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#08120E] via-[#08120E]/60 to-[#08120E]/80" />
+
+        {/* Centered Luxury Editorial Typography */}
+        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6 px-4">
+          <span className="tracking-[0.35em] text-xs md:text-sm font-medium text-[#C8A97E] uppercase block">
+            KING DHATUSENA&apos;S 5TH CENTURY WATERS
           </span>
 
-          <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-normal text-[#F4F1EA] tracking-tight">
-            Unrivaled Expertise, Uncompromised Safety
+          <h2 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal text-[#F4F1EA] leading-[1.15] tracking-tight">
+            A Sanctuary Where Wild Asian Elephants Meet Ancient Hydraulic Grandeur.
           </h2>
 
-          <p className="text-base text-[#F4F1EA]/80 font-light max-w-2xl mx-auto leading-relaxed pt-2">
-            Modeled after global luxury wilderness travel standards (Wilderness Destinations &amp; Resplendent Ceylon), our operations prioritize eco-preservation, safety guarantees, and authentic local immersion.
+          <p className="text-base sm:text-lg text-[#F4F1EA]/85 font-light max-w-2xl mx-auto leading-relaxed pt-2">
+            Constructed in the 5th Century AD, Kalawewa Reservoir stands as an ancient engineering triumph. Today, it remains Sri Lanka&apos;s premier undisturbed wetland for wild elephant herds, endemic waterbirds, and tranquil lotus coves.
           </p>
+
+          <div className="pt-6">
+            <a
+              href="#safety"
+              className="inline-block px-8 py-4 border border-[#C8A97E] text-[#F4F1EA] hover:bg-[#C8A97E] hover:text-[#0B1914] text-xs font-medium uppercase tracking-[0.25em] transition-all duration-300 bg-transparent"
+            >
+              EXPLORE THE HERITAGE
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Minimalist Editorial Story Columns (No dark boxed grids) */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-28 sm:py-36 border-t border-white/10">
+        <div className="mb-20 text-center max-w-3xl mx-auto">
+          <span className="tracking-[0.35em] text-xs font-medium text-[#C8A97E] uppercase block mb-3">
+            HERITAGE &amp; CONSERVATION PILLARS
+          </span>
+          <h3 className="font-serif text-3xl sm:text-5xl font-normal text-[#F4F1EA]">
+            The Kalawewa Wilderness Charter
+          </h3>
         </div>
 
-        {/* 4-Column Feature Blocks */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-          {pillars.map((pillar) => (
-            <div
-              key={pillar.id}
-              className="group relative bg-[#0B1914]/80 backdrop-blur-md rounded-none p-8 border border-white/10 hover:border-[#C8A97E]/60 transition-all duration-500 flex flex-col justify-between"
-            >
-              <div>
-                {/* Icon & Badge */}
-                <div className="flex items-center justify-between mb-8">
-                  <div className="p-3 rounded-none bg-[#13241E] border border-[#C8A97E]/30 group-hover:border-[#C8A97E] transition-colors">
-                    {pillar.icon}
-                  </div>
-                  <span className="px-2.5 py-1 bg-[#13241E] border border-[#C8A97E]/30 text-[#C8A97E] text-[10px] font-medium uppercase tracking-[0.2em]">
-                    {pillar.badge}
-                  </span>
-                </div>
-
-                <h3 className="font-serif text-2xl font-normal text-[#F4F1EA] mb-3 group-hover:text-[#C8A97E] transition-colors leading-snug">
-                  {pillar.title}
-                </h3>
-
-                <p className="text-xs text-[#F4F1EA]/75 leading-relaxed font-light">
-                  {pillar.description}
-                </p>
-              </div>
-
-              <div className="mt-8 pt-4 border-t border-white/10 text-[10px] font-medium text-[#C8A97E] uppercase tracking-[0.2em] flex items-center gap-1.5">
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Resort Charter Standard
-              </div>
+        {/* Minimalist 4-Column Narrative Blocks with Pure Whitespace */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-16">
+          {heritagePillars.map((pillar) => (
+            <div key={pillar.number} className="flex flex-col space-y-4">
+              <span className="font-serif text-3xl text-[#C8A97E] font-normal">
+                {pillar.number}
+              </span>
+              <h4 className="font-serif text-2xl font-normal text-[#F4F1EA] leading-snug">
+                {pillar.title}
+              </h4>
+              <p className="text-xs sm:text-sm text-[#F4F1EA]/75 font-light leading-relaxed">
+                {pillar.description}
+              </p>
             </div>
           ))}
         </div>
-
       </div>
+
     </section>
   );
 }

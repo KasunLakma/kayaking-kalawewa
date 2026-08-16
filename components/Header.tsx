@@ -78,32 +78,25 @@ export default function Header() {
           <div className="max-w-7xl mx-auto w-full my-auto py-12">
             <nav className="flex flex-col space-y-6 sm:space-y-8 text-center sm:text-left">
               <a
-                href="#featured-trips"
+                href="#about"
                 onClick={() => setMenuDrawerOpen(false)}
                 className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
               >
-                01. Signature Expeditions
+                01. We Are Kalawewa
               </a>
               <a
-                href="#why-kalawewa"
+                href="#custom-journeys"
                 onClick={() => setMenuDrawerOpen(false)}
                 className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
               >
-                02. Heritage &amp; Wildlife
+                02. Bespoke Expeditions
               </a>
               <a
-                href="#safety"
+                href="#impact"
                 onClick={() => setMenuDrawerOpen(false)}
                 className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
               >
-                03. Safety &amp; Eco Charter
-              </a>
-              <a
-                href="#testimonials"
-                onClick={() => setMenuDrawerOpen(false)}
-                className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
-              >
-                04. Guest Reviews
+                03. Heritage &amp; Conservation
               </a>
             </nav>
           </div>

@@ -3,162 +3,157 @@
 import React, { useState } from 'react';
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [infoModalOpen, setInfoModalOpen] = useState(false);
+  const [menuDrawerOpen, setMenuDrawerOpen] = useState(false);
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
 
   return (
     <>
-      {/* Ultra-clean transparent/blur glass navigation pinned to top */}
-      <header className="fixed top-0 inset-x-0 z-50 bg-[#0B1914]/80 backdrop-blur-md border-b border-white/5 px-6 sm:px-10 lg:px-16 py-4.5 transition-all duration-300">
+      {/* Top Header Pinned to Top */}
+      <header className="fixed top-0 inset-x-0 z-50 bg-[#0B1914]/70 backdrop-blur-md border-b border-white/10 px-6 sm:px-10 lg:px-16 py-4.5 transition-all duration-300">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           
-          {/* Monogram / Minimalist Serif Logo */}
-          <a href="#" className="flex flex-col group">
-            <span className="font-serif text-xl sm:text-2xl font-light tracking-[0.25em] text-[#F4F1EA] group-hover:text-[#C8A97E] transition-colors leading-none">
-              KALAWEWA
-            </span>
-            <span className="text-[9px] font-medium tracking-[0.3em] text-[#C8A97E] uppercase mt-1">
-              EXPEDITIONS &amp; WILDERNESS
+          {/* Left: Rounded Hamburger Menu button ("☰ MENU") */}
+          <button
+            onClick={() => setMenuDrawerOpen(!menuDrawerOpen)}
+            className="px-4 py-2 rounded-full border border-white/30 hover:border-white text-white text-xs font-medium uppercase tracking-[0.2em] transition-all flex items-center gap-2.5 cursor-pointer bg-black/20 backdrop-blur-sm"
+            aria-label="Toggle Menu"
+          >
+            <span className="text-sm">☰</span>
+            <span>MENU</span>
+          </button>
+
+          {/* Center: Minimalist Logo with organic wave icon and clean uppercase serif text */}
+          <a href="#" className="flex flex-col items-center group">
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-[#C8A97E] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" />
+              </svg>
+              <span className="font-serif text-xl sm:text-2xl font-light tracking-[0.3em] text-[#F4F1EA] group-hover:text-[#C8A97E] transition-colors leading-none uppercase">
+                KALAWEWA
+              </span>
+            </div>
+            <span className="text-[9px] font-medium tracking-[0.35em] text-[#C8A97E] uppercase mt-1">
+              EXPEDITIONS
             </span>
           </a>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8 lg:gap-10 text-[11px] font-medium uppercase tracking-[0.2em] text-slate-200">
-            <a href="#featured-trips" className="hover:text-[#C8A97E] transition-colors py-1">
-              Expeditions
-            </a>
-            <a href="#why-kalawewa" className="hover:text-[#C8A97E] transition-colors py-1">
-              Trip Styles
-            </a>
-            <a href="#safety" className="hover:text-[#C8A97E] transition-colors py-1">
-              Safety &amp; Heritage
-            </a>
-            <a href="#testimonials" className="hover:text-[#C8A97E] transition-colors py-1">
-              Reviews
-            </a>
-          </nav>
-
-          {/* Right Action CTA */}
-          <div className="hidden md:flex items-center gap-5">
+          {/* Right: Minimal Search icon + solid luxury amber button */}
+          <div className="flex items-center gap-4 sm:gap-5">
             <button
-              onClick={() => setInfoModalOpen(true)}
-              className="text-[11px] font-medium text-slate-300 hover:text-[#C8A97E] uppercase tracking-[0.2em] transition-colors cursor-pointer"
-              title="Request Private Catalog"
+              onClick={() => setSearchModalOpen(true)}
+              className="p-2 text-white/80 hover:text-[#C8A97E] transition-colors cursor-pointer"
+              aria-label="Search Expeditions"
+              title="Search Expeditions"
             >
-              Catalog
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
             </button>
+
             <a
               href="#featured-trips"
-              className="px-5 py-2.5 rounded-none border border-[#C8A97E]/50 hover:border-[#C8A97E] text-[#F4F1EA] hover:text-[#C8A97E] text-[11px] font-medium uppercase tracking-[0.2em] transition-all duration-300 bg-transparent hover:bg-[#C8A97E]/10"
+              className="px-5 sm:px-6 py-2.5 bg-[#D97706] hover:bg-[#B45309] text-white text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-300 shadow-md cursor-pointer rounded-none"
             >
-              PLAN YOUR JOURNEY
+              ENQUIRE NOW
             </a>
           </div>
-
-          {/* Mobile Hamburger Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-[#F4F1EA] hover:text-[#C8A97E] transition-colors focus:outline-none"
-            aria-label="Toggle Menu"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {mobileMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
         </div>
+      </header>
 
-        {/* Mobile Dropdown Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pt-4 pb-6 border-t border-white/10 bg-[#0B1914] px-4 space-y-4">
-            <nav className="flex flex-col space-y-3 text-[11px] font-medium uppercase tracking-[0.2em] text-slate-200">
+      {/* Fullscreen Overlay Menu Drawer */}
+      {menuDrawerOpen && (
+        <div className="fixed inset-0 z-50 bg-[#0B1914]/95 backdrop-blur-2xl flex flex-col justify-between p-8 sm:p-16 text-[#F4F1EA]">
+          <div className="flex items-center justify-between max-w-7xl mx-auto w-full">
+            <div className="text-xs font-mono text-[#C8A97E] tracking-widest">
+              8.0264° N, 80.5284° E • KALWEWA
+            </div>
+            <button
+              onClick={() => setMenuDrawerOpen(false)}
+              className="px-4 py-2 rounded-full border border-white/30 text-xs font-medium uppercase tracking-[0.2em] hover:border-[#C8A97E] text-[#C8A97E] transition-colors"
+            >
+              CLOSE ✕
+            </button>
+          </div>
+
+          <div className="max-w-7xl mx-auto w-full my-auto py-12">
+            <nav className="flex flex-col space-y-6 sm:space-y-8 text-center sm:text-left">
               <a
                 href="#featured-trips"
-                onClick={() => setMobileMenuOpen(false)}
-                className="hover:text-[#C8A97E] py-2 border-b border-white/5"
+                onClick={() => setMenuDrawerOpen(false)}
+                className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
               >
-                Expeditions
+                01. Signature Expeditions
               </a>
               <a
                 href="#why-kalawewa"
-                onClick={() => setMobileMenuOpen(false)}
-                className="hover:text-[#C8A97E] py-2 border-b border-white/5"
+                onClick={() => setMenuDrawerOpen(false)}
+                className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
               >
-                Trip Styles
+                02. Heritage &amp; Wildlife
               </a>
               <a
                 href="#safety"
-                onClick={() => setMobileMenuOpen(false)}
-                className="hover:text-[#C8A97E] py-2 border-b border-white/5"
+                onClick={() => setMenuDrawerOpen(false)}
+                className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
               >
-                Safety &amp; Heritage
+                03. Safety &amp; Eco Charter
               </a>
               <a
                 href="#testimonials"
-                onClick={() => setMobileMenuOpen(false)}
-                className="hover:text-[#C8A97E] py-2 border-b border-white/5"
+                onClick={() => setMenuDrawerOpen(false)}
+                className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
               >
-                Reviews
+                04. Guest Reviews
               </a>
             </nav>
-            <div className="pt-2 flex flex-col gap-3">
-              <a
-                href="#featured-trips"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center py-3 border border-[#C8A97E] text-[#C8A97E] text-[11px] font-medium uppercase tracking-[0.2em]"
-              >
-                PLAN YOUR JOURNEY
-              </a>
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  setInfoModalOpen(true);
-                }}
-                className="w-full text-center py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-slate-300 hover:text-[#C8A97E]"
-              >
-                Request Catalog
-              </button>
+          </div>
+
+          <div className="max-w-7xl mx-auto w-full flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 font-light border-t border-white/10 pt-6">
+            <span>© Kayaking Kalawewa Luxury Eco-Resort &amp; Expeditions</span>
+            <div className="flex items-center gap-6 mt-4 sm:mt-0">
+              <span className="text-[#C8A97E]">WhatsApp: +94 77 123 4567</span>
+              <span>expeditions@kalawewakayak.lk</span>
             </div>
           </div>
-        )}
-      </header>
+        </div>
+      )}
 
-      {/* Quick Info Modal */}
-      {infoModalOpen && (
+      {/* Quick Search Modal */}
+      {searchModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-          <div className="bg-[#0B1914] border border-[#C8A97E]/40 p-6 sm:p-10 max-w-md w-full shadow-2xl relative text-[#F4F1EA]">
+          <div className="bg-[#0B1914] border border-[#C8A97E]/40 p-8 max-w-lg w-full shadow-2xl relative text-[#F4F1EA]">
             <button
-              onClick={() => setInfoModalOpen(false)}
+              onClick={() => setSearchModalOpen(false)}
               className="absolute top-4 right-4 text-[#C8A97E] hover:text-white transition-colors"
             >
               ✕
             </button>
             <div className="text-[10px] font-medium uppercase tracking-[0.25em] text-[#C8A97E] mb-2">
-              KALAWEWA LUXURY CATALOG
+              SEARCH KALAWEWA EXPEDITIONS
             </div>
-            <h3 className="text-2xl font-normal text-[#F4F1EA] mb-4 font-serif">Request Trip Details &amp; Itinerary</h3>
-            <p className="text-xs text-[#F4F1EA]/80 leading-relaxed mb-6 font-light">
-              Have questions regarding seasonal elephant gatherings, water level forecasts, or private charter bookings? Speak directly with our lead naturalist in Kalawewa.
-            </p>
-            <div className="space-y-3 text-xs text-slate-200 mb-6">
-              <div className="p-3.5 bg-[#13241E] border border-[#C8A97E]/20 flex items-center justify-between">
-                <span>Phone / WhatsApp:</span>
-                <span className="font-semibold text-[#C8A97E]">+94 77 123 4567</span>
-              </div>
-              <div className="p-3.5 bg-[#13241E] border border-[#C8A97E]/20 flex items-center justify-between">
-                <span>Email Support:</span>
-                <span className="font-semibold text-[#C8A97E]">expeditions@kalawewakayak.lk</span>
+            <h3 className="text-2xl font-normal text-[#F4F1EA] mb-6 font-serif">Find Your Wilderness Journey</h3>
+            <div className="space-y-4">
+              <input
+                type="text"
+                placeholder="Search by keyword (e.g. Sunrise, Elephant, Island)..."
+                className="w-full px-5 py-3.5 bg-[#13241E] border border-white/15 text-xs text-[#F4F1EA] placeholder-slate-400 focus:outline-none focus:border-[#C8A97E]"
+              />
+              <div className="pt-2 flex justify-end gap-3">
+                <button
+                  onClick={() => setSearchModalOpen(false)}
+                  className="px-6 py-2.5 border border-white/20 text-xs font-medium uppercase tracking-widest text-slate-300 hover:text-white"
+                >
+                  Cancel
+                </button>
+                <a
+                  href="#featured-trips"
+                  onClick={() => setSearchModalOpen(false)}
+                  className="px-6 py-2.5 bg-[#C8A97E] text-[#0B1914] text-xs font-semibold uppercase tracking-widest hover:bg-[#b5966c]"
+                >
+                  Search
+                </a>
               </div>
             </div>
-            <button
-              onClick={() => setInfoModalOpen(false)}
-              className="w-full py-3 bg-[#C8A97E] text-[#0B1914] font-medium text-xs uppercase tracking-[0.2em] hover:bg-[#b5966c] transition-colors"
-            >
-              Close Window
-            </button>
           </div>
         </div>
       )}

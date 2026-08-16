@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import AboutSection from "@/components/AboutSection";
 import FeaturedTrips from "@/components/FeaturedTrips";
 import WildernessDifference from "@/components/WildernessDifference";
 import SafetySection from "@/components/SafetySection";
@@ -15,6 +16,9 @@ export default function Home() {
       <main className="w-full">
         {/* 2. Wilderness-style Dynamic Hero Section */}
         <Hero />
+
+        {/* Editorial Split About Section */}
+        <AboutSection />
 
         {/* 3. Featured Expeditions Section */}
         <FeaturedTrips />

@@ -3,10 +3,6 @@ import Hero from "@/components/Hero";
 import AboutSection from "@/components/AboutSection";
 import DestinationsSlider from "@/components/DestinationsSlider";
 import CustomJourneys from "@/components/CustomJourneys";
-import FeaturedTrips from "@/components/FeaturedTrips";
-import WildernessDifference from "@/components/WildernessDifference";
-import SafetySection from "@/components/SafetySection";
-import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -19,29 +15,17 @@ export default function Home() {
         {/* 2. Wilderness-style Dynamic Hero Section */}
         <Hero />
 
-        {/* Editorial Split About Section */}
+        {/* 3. Editorial Split About Section */}
         <AboutSection />
 
-        {/* Interactive Wilderness Destinations Slider */}
+        {/* 4. Interactive Wilderness Destinations Slider */}
         <DestinationsSlider />
 
-        {/* Bespoke Custom Expeditions Section */}
+        {/* 5. Bespoke Custom Expeditions Section */}
         <CustomJourneys />
-
-        {/* 3. Featured Expeditions Section */}
-        <FeaturedTrips />
-
-        {/* 4. The Kalawewa Difference (Safety & Heritage Pillars) */}
-        <WildernessDifference />
-
-        {/* 5. Comprehensive Safety Assurance & Eco Guidelines */}
-        <SafetySection />
-
-        {/* 6. Guest Stories & Testimonials */}
-        <Testimonials />
       </main>
 
-      {/* 7. Full Wilderness Travel Footer */}
+      {/* 6. Wilderness Travel Footer */}
       <Footer />
     </div>
   );

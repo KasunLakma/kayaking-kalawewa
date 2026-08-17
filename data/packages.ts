@@ -1,5 +1,7 @@
 export interface Package {
   id: string;
+  category: string;
+  displayTitle: string;
   title: string;
   price: string;
   priceAmount: number;
@@ -18,88 +20,99 @@ export interface Package {
 
 export const packages: Package[] = [
   {
-    id: 'sunrise-paddle-expedition',
-    title: 'Sunrise Paddle Expedition',
-    price: 'LKR 3,500',
-    priceAmount: 3500,
+    id: 'sunrise-expedition',
+    category: 'SUNRISE EXPEDITION',
+    displayTitle: 'S U N R I S E  E X P E D I T I O N',
+    title: 'Sunrise Expedition',
+    price: 'LKR 4,500',
+    priceAmount: 4500,
     unit: '/ person',
     duration: '2 Hours',
     difficulty: 'Easy',
-    description: 'Experience the magical morning tranquility of Kalawewa Reservoir. Paddle softly through golden morning mist, lotus blossoms, and spot rare water birds at dawn.',
+    description: 'Experience early morning mist and blooming lotus lagoons on King Dhatusena’s historic 5th-century reservoir. Includes single or double kayak, international-grade life jacket & certified guide.',
     highlights: [
-      'Early morning golden hour lake mist',
-      'Endemic waterfowl & migratory bird watching',
-      'Complimentary fresh Sri Lankan herbal tea',
-      'Beginner-friendly guided paddle session'
+      'Early morning mist & lotus lagoons',
+      'Endemic waterfowl & morning wildlife',
+      'Single/double kayak gear & safety vests',
+      'Certified local naturalist escort'
     ],
     imageUrl: '/images/sunrise-paddle.jpg',
     badge: 'Morning Glory',
+    popular: true,
     rating: '5.0 ★ Exceptional',
     naturalistIncluded: true,
     groupType: 'Small Groups'
   },
   {
-    id: 'classic-kalawewa-island-tour',
-    title: 'Classic Kalawewa Island Tour',
-    price: 'LKR 5,000',
-    priceAmount: 5000,
-    unit: '/ person',
-    duration: '3 Hours',
-    difficulty: 'Moderate',
-    description: 'Our flagship reservoir tour. Explore secluded island shores, navigate rich aquatic flora, and discover King Dhatusena’s historic 5th-century engineering marvel.',
-    highlights: [
-      'Guided island hopping across Kalawewa Lake',
-      'Historical narration of ancient reservoir heritage',
-      'Fresh king coconut refreshment break on shore',
-      'Premium single & double kayak gear included'
-    ],
-    imageUrl: '/images/island-tour.jpg',
-    badge: 'Most Popular',
-    popular: true,
-    rating: '5.0 ★ Signature',
-    naturalistIncluded: true,
-    groupType: 'Private & Small Groups'
-  },
-  {
-    id: 'sunset-romance-photography',
-    title: 'Sunset Romance & Photography',
-    price: 'LKR 6,500',
-    priceAmount: 6500,
+    id: 'sunset-romance',
+    category: 'SUNSET ROMANCE & COUPLES',
+    displayTitle: 'S U N S E T  R O M A N C E',
+    title: 'Sunset Romance & Couples',
+    price: 'LKR 7,500',
+    priceAmount: 7500,
     unit: '/ couple',
-    duration: '2.5 Hours',
+    duration: '2 Hours',
     difficulty: 'Easy',
-    description: 'Glide smoothly as the sun sets behind distant mountain ranges, casting vibrant amber hues across calm waters. Ideal for couples and photography enthusiasts.',
+    description: 'Golden hour tranquility and scenic vistas over calm waters. Glide past ancient reservoir banks with romantic twilight photo stops and cushioned tandem kayaks.',
     highlights: [
-      'Private tandem kayak setup with cushion seats',
-      'Professional photo-op guidance & spots',
-      'Chilled fruit platter & fresh tropical juice',
-      'Serene twilight wildlife views'
+      'Golden hour tranquility & scenic vistas',
+      'Private cushioned tandem kayak setup',
+      'Chilled tropical juice & fruit platter',
+      'Twilight lake photography guidance'
     ],
     imageUrl: '/images/sunset-romance.jpg',
     badge: 'Couples Choice',
+    popular: true,
     rating: '4.9 ★ Romantic',
     naturalistIncluded: true,
-    groupType: 'Private Charter'
+    groupType: 'Couples & Private'
   },
   {
-    id: 'full-day-exploration-camping',
-    title: 'Full-Day Lake Exploration & Camping',
-    price: 'LKR 12,000',
-    priceAmount: 12000,
+    id: 'full-lake-exploration',
+    category: 'FULL LAKE EXPLORATION',
+    displayTitle: 'F U L L  L A K E  E X P L O R A T I O N',
+    title: 'Full Lake Exploration',
+    price: 'LKR 14,000',
+    priceAmount: 14000,
     unit: '/ person',
-    duration: '6 Hours',
+    duration: 'Full Day Expedition',
     difficulty: 'Challenging',
-    description: 'An immersive full-day wilderness expedition traversing remote reservoir coves. Includes an island campfire lunch, swimming break, and wildlife tracking.',
+    description: 'Full day island exploration, historic wetlands, and endemic waterfowl observation across remote coves of Kalawewa. Includes traditional island refreshment stop and safety escort.',
     highlights: [
-      'Comprehensive lake navigation & hidden cove access',
-      'Authentic Sri Lankan island campfire lunch',
-      'Safety escort boat & expert wilderness guide',
-      'Dry bag storage & hammock gear'
+      'Comprehensive island exploration & hidden coves',
+      'Historic 5th-century wetland & canal paths',
+      'Traditional island herbal tea & lunch refresh',
+      'Dry bag storage & full gear suite'
+    ],
+    imageUrl: '/images/island-tour.jpg',
+    badge: 'Full Day Masterclass',
+    popular: false,
+    rating: '5.0 ★ Ultimate',
+    naturalistIncluded: true,
+    groupType: 'Full Day Charter'
+  },
+  {
+    id: 'wildlife-corridor-trail',
+    category: 'WILDLIFE CORRIDOR TRAIL',
+    displayTitle: 'W I L D L I F E  C O R R I D O R',
+    title: 'Wildlife Corridor Trail',
+    price: 'LKR 8,500',
+    priceAmount: 8500,
+    unit: '/ person',
+    duration: '3 Hours',
+    difficulty: 'Moderate',
+    description: 'Shoreline paddling near wild Asian elephant corridors and ancient canal paths. Maintain respectful distance under expert safety guidance as wildlife visits the water bank.',
+    highlights: [
+      'Shoreline paddling near elephant corridors',
+      'Ancient 5th-century feeder canal trails',
+      'Certified safety instructors & real-time monitoring',
+      'High-grade binoculars & wildlife tracking'
     ],
     imageUrl: '/images/full-day.jpg',
-    badge: 'Ultimate Expedition',
-    rating: '5.0 ★ Master Class',
+    badge: 'Wildlife Focus',
+    popular: true,
+    rating: '5.0 ★ Signature',
     naturalistIncluded: true,
-    groupType: 'Exclusive Expeditions'
+    groupType: 'Guided Wildlife Trail'
   }
 ];

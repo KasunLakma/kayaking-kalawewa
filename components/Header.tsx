@@ -1,10 +1,24 @@
 'use client';
 
 import React, { useState } from 'react';
+import BookingModal from './BookingModal';
 
-export default function Header() {
+interface HeaderProps {
+  onOpenBooking?: () => void;
+}
+
+export default function Header({ onOpenBooking }: HeaderProps) {
   const [menuDrawerOpen, setMenuDrawerOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const [localBookingOpen, setLocalBookingOpen] = useState(false);
+
+  const handleBookingClick = () => {
+    if (onOpenBooking) {
+      onOpenBooking();
+    } else {
+      setLocalBookingOpen(true);
+    }
+  };
 
   return (
     <>
@@ -33,7 +47,7 @@ export default function Header() {
               </span>
             </div>
             <span className="text-[9px] font-medium tracking-[0.35em] text-[#C8A97E] uppercase mt-1">
-              EXPEDITIONS
+              ADVENTURES &amp; EXPEDITIONS
             </span>
           </a>
 
@@ -50,12 +64,12 @@ export default function Header() {
               </svg>
             </button>
 
-            <a
-              href="#featured-trips"
+            <button
+              onClick={handleBookingClick}
               className="px-5 sm:px-6 py-2.5 bg-[#D97706] hover:bg-[#B45309] text-white text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-300 shadow-md cursor-pointer rounded-none"
             >
-              ENQUIRE NOW
-            </a>
+              BOOK NOW
+            </button>
           </div>
         </div>
       </header>
@@ -150,6 +164,12 @@ export default function Header() {
           </div>
         </div>
       )}
+
+      {/* Fallback Local Booking Modal */}
+      <BookingModal
+        isOpen={localBookingOpen}
+        onClose={() => setLocalBookingOpen(false)}
+      />
     </>
   );
 }

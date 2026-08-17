@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import BookingModal from './BookingModal';
 
 interface ExpeditionSlide {
   id: string;
@@ -9,6 +10,7 @@ interface ExpeditionSlide {
   fullTitle: string;
   duration: string;
   price: string;
+  unit: string;
   imageUrl: string;
   fallbackUrl: string;
   description: string;
@@ -18,85 +20,81 @@ const expeditions: ExpeditionSlide[] = [
   {
     id: 'sunrise-expedition',
     category: 'SUNRISE EXPEDITION',
-    displayTitle: 'S U N R I S E  P A D D L E',
-    fullTitle: 'Golden Mist Dawn Kayak Charter',
+    displayTitle: 'S U N R I S E  E X P E D I T I O N',
+    fullTitle: 'Early Morning Mist & Lotus Lagoons Kayak',
     duration: '2 Hours',
-    price: 'LKR 3,500',
+    price: 'LKR 4,500',
+    unit: '/ person',
     imageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1600&q=80',
     fallbackUrl: '/images/sunrise-paddle.jpg',
-    description: 'Paddle through morning lake mist, lotus sanctuaries, and roosting waterbird colonies as dawn breaks over King Dhatusena’s reservoir.',
+    description: 'Early morning mist & lotus lagoons on King Dhatusena’s ancient 5th-century reservoir. Includes single/double kayak, life jacket & certified guide.',
   },
   {
     id: 'sunset-romance',
-    category: 'SUNSET ROMANCE',
+    category: 'SUNSET ROMANCE & COUPLES',
     displayTitle: 'S U N S E T  R O M A N C E',
-    fullTitle: 'Twilight Lake Photography & Sunset Cruise',
-    duration: '2.5 Hours',
-    price: 'LKR 6,500',
+    fullTitle: 'Golden Hour Tranquility & Scenic Vistas',
+    duration: '2 Hours',
+    price: 'LKR 7,500',
+    unit: '/ couple',
     imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80',
     fallbackUrl: '/images/sunset-romance.jpg',
-    description: 'Glide into crimson horizon views as distant mountain silhouettes reflect on tranquil waters. Includes fresh tropical juice.',
+    description: 'Golden hour tranquility & scenic vistas over calm waters. Private cushioned tandem kayak with chilled fruit refresh and sunset photo stops.',
   },
   {
-    id: 'island-heritage',
-    category: 'ISLAND HERITAGE',
-    displayTitle: 'I S L A N D  H E R I T A G E',
-    fullTitle: '5th Century Kalawewa Island Tour',
-    duration: '3 Hours',
-    price: 'LKR 5,000',
+    id: 'full-lake-exploration',
+    category: 'FULL LAKE EXPLORATION',
+    displayTitle: 'F U L L  L A K E  E X P L O R A T I O N',
+    fullTitle: 'Full Day Island Exploration & Wetlands',
+    duration: 'Full Day Expedition',
+    price: 'LKR 14,000',
+    unit: '/ person',
     imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80',
     fallbackUrl: '/images/island-tour.jpg',
-    description: 'Island hopping across ancient submerged coves guided by native naturalists detailing 5th-century hydraulic engineering.',
+    description: 'Island exploration, historic wetlands & endemic waterfowl on King Dhatusena’s reservoir with traditional island refreshment stop.',
   },
   {
-    id: 'wildlife-corridor',
-    category: 'WILDLIFE CORRIDOR',
+    id: 'wildlife-corridor-trail',
+    category: 'WILDLIFE CORRIDOR TRAIL',
     displayTitle: 'W I L D L I F E  C O R R I D O R',
-    fullTitle: 'Wild Asian Elephant Wetland Safari',
-    duration: '4 Hours',
+    fullTitle: 'Wild Elephant Corridor & Ancient Canals',
+    duration: '3 Hours',
     price: 'LKR 8,500',
+    unit: '/ person',
     imageUrl: 'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=1600&q=80',
     fallbackUrl: '/images/full-day.jpg',
-    description: 'Silent non-motorized paddling along quiet elephant drinking trails and flooded forest channels with safety escort.',
-  },
-  {
-    id: 'night-expedition',
-    category: 'NIGHT EXPEDITION',
-    displayTitle: 'N I G H T  E X P E D I T I O N',
-    fullTitle: 'Starlight & Bioluminescent Waters Charter',
-    duration: '2 Hours',
-    price: 'LKR 7,000',
-    imageUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=1600&q=80',
-    fallbackUrl: '/images/hero-night-moon.jpg',
-    description: 'An ethereal nocturnal journey under clear tropical stars with specialized night-vision scopes and low-impact navigation.',
+    description: 'Shoreline paddling near wild Asian elephant corridors & ancient canal paths accompanied by certified safety instructors and real-time monitoring.',
   },
 ];
 
 const tabs = [
   'SUNRISE EXPEDITION',
-  'SUNSET ROMANCE',
-  'ISLAND HERITAGE',
-  'WILDLIFE CORRIDOR',
-  'NIGHT EXPEDITION',
+  'SUNSET ROMANCE & COUPLES',
+  'FULL LAKE EXPLORATION',
+  'WILDLIFE CORRIDOR TRAIL',
 ];
 
-export default function DestinationsSlider() {
+interface DestinationsSliderProps {
+  onSelectPackage?: (packageId: string) => void;
+}
+
+export default function DestinationsSlider({ onSelectPackage }: DestinationsSliderProps) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
+  const [bookingPackageId, setBookingPackageId] = useState<string | null>(null);
 
   // 1. INFINITE LOOP AUTO-PLAY LOGIC (3500ms cycle time, paused on hover)
   useEffect(() => {
-    if (isHovered) return;
+    if (isHovered || bookingPackageId) return;
 
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % expeditions.length);
     }, 3500);
 
     return () => clearInterval(timer);
-  }, [isHovered]);
+  }, [isHovered, bookingPackageId]);
 
-  // 4. NEXT / PREV BUTTON HANDLERS
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev - 1 + expeditions.length) % expeditions.length);
   };
@@ -109,13 +107,21 @@ export default function DestinationsSlider() {
     setImgErrors((prev) => ({ ...prev, [id]: true }));
   };
 
+  const handleBookClick = (pkgId: string) => {
+    if (onSelectPackage) {
+      onSelectPackage(pkgId);
+    } else {
+      setBookingPackageId(pkgId);
+    }
+  };
+
   return (
     <section className="w-full bg-[#C8B8A6] text-[#0E1B17] py-24 md:py-32 relative overflow-hidden">
       
       {/* Category Pills Header */}
       <div className="max-w-7xl mx-auto px-6 mb-12 sm:mb-16 text-center">
         <span className="tracking-[0.35em] text-xs font-semibold text-[#0E1B17]/70 uppercase block mb-6">
-          WILDERNESS DESTINATIONS
+          KALAWEWA PACKAGES &amp; EXPEDITIONS
         </span>
 
         {/* 3. SYNCHRONIZED TOP CATEGORY TABS */}
@@ -174,7 +180,6 @@ export default function DestinationsSlider() {
 
         {/* Dynamic Cyclic Slides Track */}
         {expeditions.map((item, idx) => {
-          // Calculate cyclic distance relative to currentIndex
           let diff = idx - currentIndex;
           const total = expeditions.length;
           if (diff > Math.floor(total / 2)) diff -= total;
@@ -183,22 +188,16 @@ export default function DestinationsSlider() {
           const isFailed = imgErrors[item.id];
           const currentImgSrc = isFailed ? item.fallbackUrl : item.imageUrl;
 
-          // Determine slide positioning & visibility classes based on cyclic diff
           let stateClasses = '';
           if (diff === 0) {
-            // Active Center Slide
             stateClasses = 'z-20 opacity-100 scale-100 translate-x-0 pointer-events-auto shadow-2xl';
           } else if (diff === 1) {
-            // Next Slide (Right offset, partially visible)
             stateClasses = 'z-10 opacity-50 scale-90 translate-x-[70%] sm:translate-x-[72%] md:translate-x-[75%] pointer-events-none filter blur-[0.5px]';
           } else if (diff === -1) {
-            // Previous Slide (Left offset, partially visible)
             stateClasses = 'z-10 opacity-50 scale-90 -translate-x-[70%] sm:-translate-x-[72%] md:-translate-x-[75%] pointer-events-none filter blur-[0.5px]';
           } else if (diff > 1) {
-            // Far Right Slide (Offscreen)
             stateClasses = 'z-0 opacity-0 scale-75 translate-x-[150%] pointer-events-none';
           } else {
-            // Far Left Slide (Offscreen)
             stateClasses = 'z-0 opacity-0 scale-75 -translate-x-[150%] pointer-events-none';
           }
 
@@ -208,7 +207,6 @@ export default function DestinationsSlider() {
               onClick={() => setCurrentIndex(idx)}
               className={`absolute transition-all duration-700 ease-in-out w-[88vw] sm:w-[650px] md:w-[780px] h-[360px] sm:h-[400px] md:h-[460px] rounded-sm overflow-hidden border border-black/10 cursor-pointer ${stateClasses}`}
             >
-              {/* High-Resolution Landscape Image */}
               <img
                 src={currentImgSrc}
                 onError={() => handleImageError(item.id)}
@@ -216,20 +214,17 @@ export default function DestinationsSlider() {
                 className="w-full h-full object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-105"
               />
 
-              {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#0E1B17]/90 via-[#0E1B17]/35 to-black/30" />
 
-              {/* Central Overlay: Elegant Serif Title with wide tracking */}
               <div className="absolute inset-0 flex flex-col items-center justify-center p-4 sm:p-6 text-center z-10">
                 <span className="tracking-[0.3em] text-[10px] sm:text-xs font-semibold text-gray-300 uppercase mb-2 block drop-shadow">
-                  KALAW EWA EXPEDITION
+                  KALAWEWA ADVENTURES &amp; EXPEDITIONS
                 </span>
                 <h3 className="font-serif text-xl sm:text-3xl md:text-4xl lg:text-5xl font-normal tracking-[0.15em] sm:tracking-[0.25em] md:tracking-[0.3em] text-white uppercase drop-shadow-lg leading-none whitespace-nowrap max-w-full px-2">
                   {item.displayTitle}
                 </h3>
               </div>
 
-              {/* Bottom details */}
               <div className="absolute bottom-0 inset-x-0 p-4 sm:p-6 md:p-8 flex flex-col sm:flex-row sm:items-end justify-between gap-3 z-20 bg-gradient-to-t from-[#0E1B17] via-[#0E1B17]/70 to-transparent">
                 <div>
                   <span className="text-[10px] sm:text-xs font-medium tracking-[0.2em] text-[#C8B8A6] uppercase block">
@@ -239,17 +234,21 @@ export default function DestinationsSlider() {
                     <span className="font-serif text-lg sm:text-2xl text-white font-normal">
                       {item.price}
                     </span>
-                    <span className="text-[10px] sm:text-xs text-gray-300 font-light">/ person</span>
+                    <span className="text-[10px] sm:text-xs text-gray-300 font-light">{item.unit}</span>
                   </div>
                 </div>
 
-                <a
-                  href="#featured-trips"
-                  className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-medium uppercase tracking-[0.25em] text-white hover:text-[#C8B8A6] bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border border-white/20 transition-all duration-300 group/btn self-start sm:self-auto"
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleBookClick(item.id);
+                  }}
+                  className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-medium uppercase tracking-[0.25em] text-[#0E1B17] bg-[#C8A97E] hover:bg-[#b5966c] px-5 sm:px-6 py-2 sm:py-2.5 rounded-none shadow-md transition-all duration-300 group/btn self-start sm:self-auto cursor-pointer font-bold"
                 >
-                  <span>EXPLORE EXPEDITION</span>
+                  <span>BOOK PACKAGE</span>
                   <span className="transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
-                </a>
+                </button>
               </div>
             </div>
           );
@@ -272,6 +271,15 @@ export default function DestinationsSlider() {
           />
         ))}
       </div>
+
+      {/* Fallback Booking Modal */}
+      {bookingPackageId && (
+        <BookingModal
+          isOpen={true}
+          selectedPackageId={bookingPackageId}
+          onClose={() => setBookingPackageId(null)}
+        />
+      )}
 
     </section>
   );

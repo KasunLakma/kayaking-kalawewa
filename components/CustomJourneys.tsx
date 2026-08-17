@@ -75,7 +75,7 @@ export default function CustomJourneys() {
             isTextVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           }`}
         >
-          OUR BESPOKE EXPEDITIONS
+          SAFETY &amp; BESPOKE EXPEDITIONS
         </span>
 
         {/* 2. Large Serif Title (Animates second, delay-150) */}
@@ -84,7 +84,7 @@ export default function CustomJourneys() {
             isTextVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           }`}
         >
-          Tailor-made journeys for every explorer
+          Tailor-made eco-adventures with uncompromised safety
         </h2>
 
         {/* 3. Story Paragraph (Animates third, delay-300) */}
@@ -93,7 +93,7 @@ export default function CustomJourneys() {
             isTextVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           }`}
         >
-          We invite you on a private expedition across King Dhatusena&apos;s historic reservoir. From tranquil sunrise paddles among misty lotus lagoons to sunset wildlife encounters along elephant corridors, every journey is handcrafted to your rhythm.
+          Every expedition is equipped with international-grade life jackets, certified safety instructors, and real-time lake condition monitoring. From solo paddlers to family expeditions, we guarantee seamless adventure.
         </p>
 
         {/* 4. Interactive CTA Button (Animates last, delay-450) */}

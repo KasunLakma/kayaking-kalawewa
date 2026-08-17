@@ -16,7 +16,7 @@ export default function AboutSection() {
           <div className="lg:col-span-7 flex flex-col justify-center">
             {/* Category Overline */}
             <span className="tracking-[0.3em] text-xs font-semibold text-gray-300 uppercase mb-6 block">
-              WE ARE KALAWEWA
+              WE ARE KALAWEWA ADVENTURES
             </span>
 
             {/* Big Editorial Serif H2 */}
@@ -27,10 +27,10 @@ export default function AboutSection() {
             {/* Two Narrative Paragraphs */}
             <div className="text-sm md:text-base text-gray-300 font-light leading-relaxed space-y-6 max-w-lg">
               <p>
-                As premier custodians of ancient freshwater expeditions, we guide you through one of the most historic and bio-diverse wetlands on Earth—built in the 5th century by King Dhatusena.
+                As premier custodians of ancient freshwater kayaking expeditions, we guide you across King Dhatusena’s historic 5th-century reservoir. Every charter is escorted by certified local instructors equipped with international-grade life jackets, safety gear, and strict eco-tourism guidelines to protect pristine wetland ecosystems.
               </p>
               <p>
-                Our journeys traverse quiet elephant corridors, flooded forest trails, and remote lotus sanctuaries. With certified indigenous naturalists, we offer intimate wildlife encounters and tranquil paddling that will leave you profoundly connected to nature.
+                To elevate your experience, we have transitioned from scattered social messaging across Messenger and WhatsApp to an official automated booking experience. Reserve your slot seamlessly online with Pay on Arrival (COD) options and real-time confirmation.
               </p>
             </div>
           </div>
@@ -61,7 +61,7 @@ export default function AboutSection() {
                 style={{ writingMode: 'vertical-rl' }}
                 className="hidden sm:block [writing-mode:vertical-rl] tracking-widest text-[10px] text-gray-400 uppercase select-none opacity-70 hover:opacity-100 transition-opacity shrink-0"
               >
-                #WEAREKALAWEWA
+                #KALAWEWAADVENTURES
               </div>
 
             </div>

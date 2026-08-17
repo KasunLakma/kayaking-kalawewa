@@ -59,14 +59,18 @@ export default function Hero() {
       {/* Central Immersive Title Hierarchy */}
       <div className="relative z-10 max-w-5xl mx-auto w-full px-6 my-auto text-center flex flex-col items-center justify-center">
         {/* Overline */}
-        <span className="tracking-[0.35em] text-xs font-semibold text-gray-300 uppercase mb-4 block">
-          WELCOME TO
+        <span className="tracking-[0.35em] text-xs font-semibold text-[#C8A97E] uppercase mb-4 block">
+          KALAWEWA ADVENTURES &amp; EXPEDITIONS
         </span>
 
         {/* Main Title: K A L A W E W A */}
         <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-normal tracking-[0.25em] text-white leading-none drop-shadow-lg uppercase">
           KALAWEWA
         </h1>
+
+        <p className="text-xs sm:text-sm font-light tracking-[0.25em] text-slate-300 uppercase mt-4 max-w-xl">
+          Eco-Adventure Kayaking &amp; Wetland Expeditions at Kalawewa Lake
+        </p>
       </div>
 
       {/* Wilderness Bottom HUD & Controls */}

@@ -1,10 +1,25 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { packages, Package } from '@/data/packages';
+import BookingModal from './BookingModal';
 
-export default function FeaturedTrips() {
+interface FeaturedTripsProps {
+  onSelectPackage?: (pkgId: string) => void;
+}
+
+export default function FeaturedTrips({ onSelectPackage }: FeaturedTripsProps) {
+  const [activeBookingId, setActiveBookingId] = useState<string | null>(null);
+
+  const handleBook = (id: string) => {
+    if (onSelectPackage) {
+      onSelectPackage(id);
+    } else {
+      setActiveBookingId(id);
+    }
+  };
+
   return (
     <section id="featured-trips" className="w-full bg-[#0B1914] py-28 sm:py-36 text-[#F4F1EA] relative overflow-hidden">
       {/* Section Header */}
@@ -35,7 +50,7 @@ export default function FeaturedTrips() {
                 isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'
               } items-center gap-12 lg:gap-20`}
             >
-              {/* Giant High-Resolution Lake/Kayak Photography (50% width, h-[500px] to h-[600px]) */}
+              {/* Giant High-Resolution Lake/Kayak Photography */}
               <div className="w-full lg:w-1/2 relative h-[450px] sm:h-[550px] lg:h-[600px] overflow-hidden group">
                 <Image
                   src={pkg.imageUrl}
@@ -45,10 +60,8 @@ export default function FeaturedTrips() {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
 
-                {/* Subtle Edge Vignette */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B1914]/80 via-transparent to-transparent pointer-events-none" />
 
-                {/* Floating Minimal Badge */}
                 <div className="absolute top-6 left-6 z-10">
                   <span className="px-3.5 py-1.5 bg-[#0B1914]/80 backdrop-blur-md border border-[#C8A97E]/40 text-[10px] font-medium tracking-[0.25em] uppercase text-[#C8A97E]">
                     {pkg.groupType}
@@ -56,7 +69,7 @@ export default function FeaturedTrips() {
                 </div>
               </div>
 
-              {/* Minimalist Luxury Text with Expansive Whitespace (50% width) */}
+              {/* Text column */}
               <div className="w-full lg:w-1/2 flex flex-col justify-center space-y-6 lg:px-4">
                 <div className="flex items-center gap-3">
                   <span className="font-serif text-xl sm:text-2xl text-[#C8A97E]">
@@ -76,7 +89,6 @@ export default function FeaturedTrips() {
                   {pkg.description}
                 </p>
 
-                {/* Key Expedition Inclusions */}
                 <div className="pt-4 border-t border-white/10 space-y-3">
                   <div className="text-[10px] font-medium uppercase tracking-[0.25em] text-[#C8A97E]">
                     EXPEDITION HIGHLIGHTS
@@ -91,7 +103,6 @@ export default function FeaturedTrips() {
                   </ul>
                 </div>
 
-                {/* Price & Action Link */}
                 <div className="pt-6 flex items-center justify-between">
                   <div>
                     <span className="text-[10px] text-slate-400 font-medium tracking-[0.2em] uppercase block">
@@ -103,19 +114,28 @@ export default function FeaturedTrips() {
                     <span className="text-xs text-slate-400 font-light">{pkg.unit}</span>
                   </div>
 
-                  <a
-                    href="#why-kalawewa"
-                    className="text-xs font-medium uppercase tracking-[0.25em] text-[#C8A97E] hover:text-[#F4F1EA] transition-colors flex items-center gap-2 group/link cursor-pointer"
+                  <button
+                    type="button"
+                    onClick={() => handleBook(pkg.id)}
+                    className="text-xs font-bold uppercase tracking-[0.25em] text-[#0B1914] bg-[#C8A97E] hover:bg-[#b5966c] px-5 py-2.5 transition-colors flex items-center gap-2 group/link cursor-pointer shadow-md"
                   >
-                    <span>DISCOVER THIS EXPEDITION</span>
+                    <span>BOOK THIS EXPEDITION</span>
                     <span className="transition-transform duration-300 group-hover/link:translate-x-1">→</span>
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
           );
         })}
       </div>
+
+      {activeBookingId && (
+        <BookingModal
+          isOpen={true}
+          selectedPackageId={activeBookingId}
+          onClose={() => setActiveBookingId(null)}
+        />
+      )}
     </section>
   );
 }

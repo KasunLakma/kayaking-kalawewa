@@ -3,13 +3,27 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { packages, Package } from '@/data/packages';
+import BookingModal from './BookingModal';
 
-export default function PackageGrid() {
+interface PackageGridProps {
+  onSelectPackage?: (pkgId: string) => void;
+}
+
+export default function PackageGrid({ onSelectPackage }: PackageGridProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [activeBookingId, setActiveBookingId] = useState<string | null>(null);
 
   const filteredPackages = selectedCategory === 'all' 
     ? packages 
     : packages.filter(pkg => pkg.difficulty.toLowerCase() === selectedCategory.toLowerCase());
+
+  const handleBook = (id: string) => {
+    if (onSelectPackage) {
+      onSelectPackage(id);
+    } else {
+      setActiveBookingId(id);
+    }
+  };
 
   return (
     <section id="packages" className="w-full bg-[#0B1914] py-28 sm:py-36 px-6 lg:px-12 text-[#F4F1EA] relative overflow-hidden">
@@ -28,7 +42,7 @@ export default function PackageGrid() {
           </h2>
           
           <p className="text-base text-[#F4F1EA]/80 font-light leading-relaxed pt-2">
-            Discover the ancient beauty of Kalawewa Reservoir. From dawn mist paddles to island wilderness camping, select your ideal water tour led by certified eco-guides.
+            Discover the ancient beauty of Kalawewa Reservoir. Select your ideal water tour led by certified eco-guides with instant online reservation.
           </p>
 
           {/* Filter Buttons */}
@@ -156,9 +170,10 @@ export default function PackageGrid() {
                 </div>
 
                 <div className="pt-3 border-t border-white/10">
-                  <a
-                    href="#safety"
-                    className="w-full py-3 text-xs font-medium uppercase tracking-[0.2em] text-[#0B1914] bg-[#C8A97E] hover:bg-[#b5966c] transition-all duration-300 flex items-center justify-center gap-2 group/btn cursor-pointer"
+                  <button
+                    type="button"
+                    onClick={() => handleBook(pkg.id)}
+                    className="w-full py-3 text-xs font-medium uppercase tracking-[0.2em] text-[#0B1914] bg-[#C8A97E] hover:bg-[#b5966c] transition-all duration-300 flex items-center justify-center gap-2 group/btn cursor-pointer font-bold"
                   >
                     <span>Reserve Expedition</span>
                     <svg
@@ -169,13 +184,21 @@ export default function PackageGrid() {
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      {activeBookingId && (
+        <BookingModal
+          isOpen={true}
+          selectedPackageId={activeBookingId}
+          onClose={() => setActiveBookingId(null)}
+        />
+      )}
     </section>
   );
 }

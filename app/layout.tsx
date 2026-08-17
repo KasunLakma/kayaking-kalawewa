@@ -17,8 +17,14 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Kayaking Kalawewa | 5-Star Luxury Eco-Resort Expeditions",
-  description: "Experience 5-star luxury kayaking expeditions on King Dhatusena's ancient 5th-century reservoir in Kalawewa, Sri Lanka. Guided by certified local naturalists.",
+  title: "Kayaking Kalawewa Adventures & Expeditions | Eco Tours Sri Lanka",
+  description: "Book eco-adventure kayaking tours, sunrise/sunset paddling, and wildlife expeditions on the ancient 5th-century Kalawewa reservoir.",
+  keywords: [
+    "Kayaking in Kalawewa",
+    "Kalawewa Adventure Tours",
+    "Water sports Anuradhapura Sri Lanka",
+    "Kayaking Kalawewa Adventures & Expeditions",
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

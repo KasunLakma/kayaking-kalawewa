@@ -25,7 +25,7 @@ const expeditions: ExpeditionSlide[] = [
     duration: '2 Hours',
     price: 'LKR 4,500',
     unit: '/ person',
-    imageUrl: '/images/sunrise-paddle.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1508873696983-2df5293cb395?auto=format&fit=crop&w=1600&q=80',
     fallbackUrl: '/images/sunrise-paddle.jpg',
     description: 'Early morning mist & lotus lagoons on King Dhatusena’s ancient 5th-century reservoir. Includes single/double kayak, life jacket & certified guide.',
   },
@@ -37,7 +37,7 @@ const expeditions: ExpeditionSlide[] = [
     duration: '2 Hours',
     price: 'LKR 7,500',
     unit: '/ couple',
-    imageUrl: '/images/sunset-romance.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80',
     fallbackUrl: '/images/sunset-romance.jpg',
     description: 'Golden hour tranquility & scenic vistas over calm waters. Private cushioned tandem kayak with chilled fruit refresh and sunset photo stops.',
   },
@@ -49,7 +49,7 @@ const expeditions: ExpeditionSlide[] = [
     duration: 'Full Day Expedition',
     price: 'LKR 14,000',
     unit: '/ person',
-    imageUrl: '/images/island-heritage.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80',
     fallbackUrl: '/images/island-heritage.jpg',
     description: 'Island exploration, historic wetlands & endemic waterfowl on King Dhatusena’s reservoir with traditional island refreshment stop.',
   },
@@ -61,7 +61,7 @@ const expeditions: ExpeditionSlide[] = [
     duration: '3 Hours',
     price: 'LKR 8,500',
     unit: '/ person',
-    imageUrl: '/images/wildlife-elephant.jpg',
+    imageUrl: 'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=1600&q=80',
     fallbackUrl: '/images/wildlife-elephant.jpg',
     description: 'Shoreline paddling near wild Asian elephant corridors & ancient canal paths accompanied by certified safety instructors and real-time monitoring.',
   },
@@ -220,14 +220,14 @@ export default function DestinationsSlider({ onSelectPackage }: DestinationsSlid
                 <span className="tracking-[0.3em] text-[10px] sm:text-xs font-semibold text-gray-300 uppercase mb-2 block drop-shadow">
                   KALAWEWA ADVENTURES &amp; EXPEDITIONS
                 </span>
-                <h3 className="font-serif text-xl sm:text-3xl md:text-4xl lg:text-5xl font-normal tracking-[0.15em] sm:tracking-[0.25em] md:tracking-[0.3em] text-white uppercase drop-shadow-lg leading-none whitespace-nowrap max-w-full px-2">
+                <h3 className="font-serif text-lg sm:text-2xl md:text-3xl lg:text-4xl font-normal tracking-[0.12em] sm:tracking-[0.2em] text-white uppercase drop-shadow-lg leading-tight whitespace-nowrap max-w-full px-2 overflow-hidden text-ellipsis">
                   {item.displayTitle}
                 </h3>
               </div>
 
               <div className="absolute bottom-0 inset-x-0 p-4 sm:p-6 md:p-8 flex flex-col sm:flex-row sm:items-end justify-between gap-3 z-20 bg-gradient-to-t from-[#0E1B17] via-[#0E1B17]/70 to-transparent">
-                <div>
-                  <span className="text-[10px] sm:text-xs font-medium tracking-[0.2em] text-[#C8B8A6] uppercase block">
+                <div className="min-w-0 pr-2">
+                  <span className="text-[10px] sm:text-xs font-medium tracking-[0.15em] sm:tracking-[0.2em] text-[#C8B8A6] uppercase block whitespace-nowrap overflow-hidden text-ellipsis">
                     {item.duration} • {item.category}
                   </span>
                   <div className="flex items-baseline gap-2">

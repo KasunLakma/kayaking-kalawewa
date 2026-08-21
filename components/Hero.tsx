@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 export default function Hero() {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isNightMode, setIsNightMode] = useState<boolean>(false);
-  const [imgSrc, setImgSrc] = useState<string>('/images/kalawewa-hero.jpg');
 
   // Auto-detect local time on client side (6 AM - 6 PM = Day, 6 PM - 6 AM = Night)
   useEffect(() => {
@@ -14,43 +14,26 @@ export default function Hero() {
     setIsNightMode(isNight);
   }, []);
 
-  // Update image source when mode changes
-  useEffect(() => {
-    if (isNightMode) {
-      setImgSrc('/images/hero-night-moon.jpg');
-    } else {
-      setImgSrc('/images/kalawewa-hero.jpg');
-    }
-  }, [isNightMode]);
+  const bgImageSrc = isNightMode ? '/images/hero-night-moon.jpg' : '/images/kalawewa-hero.jpeg';
 
   return (
     <section className="relative w-full h-screen min-h-[700px] flex flex-col justify-between overflow-hidden bg-[#0B1914] text-white">
       
       {/* Fullscreen 100vh Edge-to-Edge Cinematic Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <img
-          src={imgSrc}
-          onError={() => {
-            setImgSrc(
-              isNightMode
-                ? "/images/hero-night-moon.jpg"
-                : "/images/kalawewa-hero.jpg"
-            );
-          }}
-          alt="Kalawewa Ancient Lake Kayaking Expedition"
-          className={`w-full h-full object-cover object-center transition-all duration-1000 ${
+        <Image
+          src="/images/kalawewa-hero.jpeg"
+          alt="Kayaking Kalawewa Sunset"
+          fill
+          priority
+          quality={95}
+          className={`object-cover object-center -z-10 transition-all duration-1000 ${
             isPlaying ? 'animate-slow-zoom' : 'scale-105'
           }`}
         />
         
-        {/* Soft Vignette Overlay */}
-        <div
-          className={`absolute inset-0 transition-colors duration-1000 ${
-            isNightMode
-              ? 'bg-gradient-to-b from-[#0B1914]/85 via-black/40 to-[#0B1914]/90'
-              : 'bg-gradient-to-b from-[#0B1914]/70 via-black/30 to-[#0B1914]/85'
-          }`}
-        />
+        {/* Dark Gradient Overlay */}
+        <div className="absolute inset-0 bg-black/40 bg-gradient-to-t from-black/80 via-black/20 to-black/40 z-0 pointer-events-none" />
       </div>
 
       {/* Top Spacer for Header */}
@@ -63,13 +46,13 @@ export default function Hero() {
           KALAWEWA ADVENTURES &amp; EXPEDITIONS
         </span>
 
-        {/* Main Title: K A L A W E W A */}
-        <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-normal tracking-[0.25em] text-white leading-none drop-shadow-lg uppercase">
-          KALAWEWA
+        {/* Main Title */}
+        <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-[0.08em] sm:tracking-[0.15em] text-white leading-tight drop-shadow-lg uppercase">
+          Experience the Untamed Beauty of Kalawewa
         </h1>
 
-        <p className="text-xs sm:text-sm font-light tracking-[0.25em] text-slate-300 uppercase mt-4 max-w-xl">
-          Eco-Adventure Kayaking &amp; Wetland Expeditions at Kalawewa Lake
+        <p className="text-xs sm:text-sm font-light tracking-[0.2em] text-slate-200 uppercase mt-6 max-w-2xl leading-relaxed">
+          Guided kayak expeditions through Sri Lanka&apos;s ancient reservoir — where wilderness meets wonder.
         </p>
       </div>
 

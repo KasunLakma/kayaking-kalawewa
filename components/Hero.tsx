@@ -1,20 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 
 export default function Hero() {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
-  const [isNightMode, setIsNightMode] = useState<boolean>(false);
-
-  // Auto-detect local time on client side (6 AM - 6 PM = Day, 6 PM - 6 AM = Night)
-  useEffect(() => {
-    const currentHour = new Date().getHours();
-    const isNight = currentHour >= 18 || currentHour < 6;
-    setIsNightMode(isNight);
-  }, []);
-
-  const bgImageSrc = isNightMode ? '/images/hero-night-moon.jpg' : '/images/kalawewa-hero.jpeg';
 
   return (
     <section className="relative w-full h-screen min-h-[700px] flex flex-col justify-between overflow-hidden bg-[#0B1914] text-white">
@@ -26,14 +16,14 @@ export default function Hero() {
           alt="Kayaking Kalawewa Sunset"
           fill
           priority
-          quality={95}
+          unoptimized
           className={`object-cover object-center -z-10 transition-all duration-1000 ${
             isPlaying ? 'animate-slow-zoom' : 'scale-105'
           }`}
         />
         
         {/* Dark Gradient Overlay */}
-        <div className="absolute inset-0 bg-black/40 bg-gradient-to-t from-black/80 via-black/20 to-black/40 z-0 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/40 bg-gradient-to-t from-black/80 via-black/20 to-black/40 pointer-events-none" />
       </div>
 
       {/* Top Spacer for Header */}

@@ -20,7 +20,7 @@ const experiences: Experience[] = [
     description: 'Drift through early morning mist and blooming lotus bays as the 5th-century reservoir awakens to dawn calls of endemic waterbirds.',
     location: 'Kalawewa Lotus Lagoons, Sri Lanka',
     imageUrl: '/images/sunrise-paddle.jpg',
-    fallbackUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80',
+    fallbackUrl: '/images/sunrise-paddle.jpg',
   },
   {
     id: 'sunset-golden-hour',
@@ -29,7 +29,7 @@ const experiences: Experience[] = [
     description: 'Tranquil evening paddles with reflection photography as amber sunset hues cast golden light across quiet reservoir waters.',
     location: 'Kalawewa Western Coves, Sri Lanka',
     imageUrl: '/images/sunset-romance.jpg',
-    fallbackUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+    fallbackUrl: '/images/sunset-romance.jpg',
   },
   {
     id: 'wild-elephant-corridor',
@@ -37,8 +37,8 @@ const experiences: Experience[] = [
     title: 'Wild Elephant Corridor',
     description: 'Safe distance observation of wildlife along lake banks and elephant drinking trails under guided safety supervision.',
     location: 'Elephant Sanctuary Corridor, Kalawewa',
-    imageUrl: '/images/full-day.jpg',
-    fallbackUrl: 'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/wildlife-elephant.jpg',
+    fallbackUrl: '/images/wildlife-elephant.jpg',
   },
   {
     id: 'island-camp-refreshment',
@@ -46,8 +46,8 @@ const experiences: Experience[] = [
     title: 'Island Camp Refreshment',
     description: 'Traditional herbal tea stop on secluded rocky islets, stepping ashore to enjoy fresh island teas and king coconuts.',
     location: 'King Dhatusena Islets, Sri Lanka',
-    imageUrl: '/images/island-tour.jpg',
-    fallbackUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80',
+    imageUrl: '/images/island-heritage.jpg',
+    fallbackUrl: '/images/island-heritage.jpg',
   },
 ];
 

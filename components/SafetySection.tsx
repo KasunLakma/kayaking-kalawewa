@@ -10,15 +10,15 @@ const photoPanels = [
     title: '01. Indigenous Naturalists',
     description: 'Trained local guides accompany every expedition, equipped with swift-water rescue and wilderness first-aid certification.',
     image: '/images/sunrise-paddle.jpg',
-    fallbackImg: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80',
+    fallbackImg: '/images/sunrise-paddle.jpg',
   },
   {
     number: '02',
     category: 'EQUIPMENT & GEAR',
     title: '02. ISO-Grade Safety',
     description: 'ISO-certified buoyancy aids, ergonomic composite paddles, and waterproof dry bags sanitized and fitted prior to launch.',
-    image: '/images/island-tour.jpg',
-    fallbackImg: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80',
+    image: '/images/island-heritage.jpg',
+    fallbackImg: '/images/island-heritage.jpg',
   },
   {
     number: '03',
@@ -26,7 +26,7 @@ const photoPanels = [
     title: '03. Zero-Plastic Pledge',
     description: 'Non-motorized silent paddling and strict leave-no-trace protocols protect Kalawewa reservoir and its migratory bird sanctuary.',
     image: '/images/sunset-romance.jpg',
-    fallbackImg: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
+    fallbackImg: '/images/sunset-romance.jpg',
   },
 ];
 

@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 export default function Hero() {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isNightMode, setIsNightMode] = useState<boolean>(false);
-  const [imgSrc, setImgSrc] = useState<string>('/images/hero-day.jpg');
+  const [imgSrc, setImgSrc] = useState<string>('/images/kalawewa-hero.jpg');
 
   // Auto-detect local time on client side (6 AM - 6 PM = Day, 6 PM - 6 AM = Night)
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function Hero() {
     if (isNightMode) {
       setImgSrc('/images/hero-night-moon.jpg');
     } else {
-      setImgSrc('/images/hero-day.jpg');
+      setImgSrc('/images/kalawewa-hero.jpg');
     }
   }, [isNightMode]);
 
@@ -33,8 +33,8 @@ export default function Hero() {
           onError={() => {
             setImgSrc(
               isNightMode
-                ? "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80"
-                : "/images/hero-day.jpg"
+                ? "/images/hero-night-moon.jpg"
+                : "/images/kalawewa-hero.jpg"
             );
           }}
           alt="Kalawewa Ancient Lake Kayaking Expedition"

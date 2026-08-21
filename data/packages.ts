@@ -84,7 +84,7 @@ export const packages: Package[] = [
       'Traditional island herbal tea & lunch refresh',
       'Dry bag storage & full gear suite'
     ],
-    imageUrl: '/images/island-tour.jpg',
+    imageUrl: '/images/island-heritage.jpg',
     badge: 'Full Day Masterclass',
     popular: false,
     rating: '5.0 ★ Ultimate',
@@ -108,7 +108,7 @@ export const packages: Package[] = [
       'Certified safety instructors & real-time monitoring',
       'High-grade binoculars & wildlife tracking'
     ],
-    imageUrl: '/images/full-day.jpg',
+    imageUrl: '/images/wildlife-elephant.jpg',
     badge: 'Wildlife Focus',
     popular: true,
     rating: '5.0 ★ Signature',

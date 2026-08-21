@@ -33,10 +33,10 @@ export default function WildernessDifference() {
       <div className="relative w-full min-h-[650px] lg:h-[750px] flex items-center justify-center overflow-hidden py-24 px-6">
         {/* Background Panoramic Lake Sunset Photography */}
         <img
-          src="/images/hero-night-moon.jpg"
+          src="/images/kalawewa-hero.jpg"
           onError={(e) => {
             (e.target as HTMLImageElement).src =
-              "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80";
+              "/images/kalawewa-hero.jpg";
           }}
           alt="Kalawewa Lake Sunset Elephant Sanctuary"
           className="absolute inset-0 w-full h-full object-cover object-center animate-slow-zoom"

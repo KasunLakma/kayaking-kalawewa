@@ -6,7 +6,7 @@ export default function CustomJourneys() {
   const [isImageVisible, setIsImageVisible] = useState<boolean>(false);
   const [isTextVisible, setIsTextVisible] = useState<boolean>(false);
   const [imgSrc, setImgSrc] = useState<string>(
-    'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=1920&q=80'
+    '/images/wildlife-elephant.jpg'
   );
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -47,7 +47,7 @@ export default function CustomJourneys() {
           src={imgSrc}
           onError={() => {
             setImgSrc(
-              'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=1920&q=80'
+              '/images/wildlife-elephant.jpg'
             );
           }}
           alt="Bespoke Kalawewa Kayaking Expedition"

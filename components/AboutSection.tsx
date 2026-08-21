@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 export default function AboutSection() {
   const [imgSrc, setImgSrc] = useState<string>(
-    'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=1200&q=80'
+    '/images/kalawewa-about.jpg'
   );
 
   return (
@@ -45,7 +45,7 @@ export default function AboutSection() {
                   src={imgSrc}
                   onError={() => {
                     setImgSrc(
-                      'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=1200&q=80'
+                      '/images/kalawewa-about.jpg'
                     );
                   }}
                   alt="Sri Lanka Untamed Wildlife & Waters of Kalawewa"

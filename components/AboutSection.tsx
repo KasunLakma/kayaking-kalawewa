@@ -1,12 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
+import Image from 'next/image';
 
 export default function AboutSection() {
-  const [imgSrc, setImgSrc] = useState<string>(
-    '/images/kalawewa-about.jpg'
-  );
-
   return (
     <section id="about" className="w-full bg-[#142D28] text-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto py-28 md:py-36 px-8 md:px-16">
@@ -41,19 +38,17 @@ export default function AboutSection() {
               
               {/* Large portrait image container (aspect ratio 3:4, rounded-sm overflow-hidden shadow-2xl relative) */}
               <div className="relative w-full aspect-[3/4] rounded-sm overflow-hidden shadow-2xl group border border-white/10">
-                <img
-                  src={imgSrc}
-                  onError={() => {
-                    setImgSrc(
-                      '/images/kalawewa-about.jpg'
-                    );
-                  }}
-                  alt="Sri Lanka Untamed Wildlife & Waters of Kalawewa"
-                  className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                <Image
+                  src="/kalawewa-about1.jpeg"
+                  alt="Wild Elephant Kalawewa"
+                  fill
+                  priority
+                  unoptimized
+                  className="object-cover object-center rounded-sm transition-transform duration-700 ease-out group-hover:scale-105"
                 />
                 
                 {/* Subtle Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#142D28]/60 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#142D28]/60 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none z-10" />
               </div>
 
               {/* Micro Detail: Subtle vertical rotated text next to the image */}

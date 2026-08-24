@@ -105,9 +105,9 @@ export default function BookingEngine({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           bookingId: resultDoc.bookingId,
-          customerName: fullName,
-          customerEmail: email,
-          customerPhone: phone,
+          fullName: fullName,
+          email: email,
+          phone: phone,
           packageName: currentPkg.title,
           selectedDate,
           timeSlot,

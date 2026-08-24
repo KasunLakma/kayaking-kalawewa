@@ -2,16 +2,57 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import BookingModal from './BookingModal';
 
 interface HeaderProps {
   onOpenBooking?: () => void;
 }
 
+const PREVIEW_ITEMS = [
+  {
+    num: '01',
+    label: 'Sanctuary Home',
+    href: '/',
+    image: '/images/kalawewa-hero.jpeg',
+    caption: 'Ancient 5th-Century Waters & Untamed Wilderness',
+  },
+  {
+    num: '02',
+    label: 'Expeditions & Packages',
+    href: '/packages',
+    image: '/images/sunrise-paddle.jpg',
+    caption: 'Curated Eco-Kayaking Tours & Guided Expeditions',
+  },
+  {
+    num: '03',
+    label: 'About Kalawewa',
+    href: '/#about',
+    image: '/images/kalawewa-about1.jpeg.jpg',
+    caption: 'Hydraulic Heritage of King Dhatusena',
+  },
+  {
+    num: '04',
+    label: 'Heritage & Safety',
+    href: '/#impact',
+    image: '/images/wildlife-elephant.jpg',
+    caption: 'Elephant Corridor & Wetland Protection',
+  },
+  {
+    num: '05',
+    label: 'Reserve Slot',
+    href: '/booking',
+    image: '/images/sunset-romance.jpg',
+    caption: 'Instant Slot Confirmation with Pay-on-Arrival',
+    isBookingTrigger: true,
+  },
+];
+
 export default function Header({ onOpenBooking }: HeaderProps) {
   const [menuDrawerOpen, setMenuDrawerOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [localBookingOpen, setLocalBookingOpen] = useState(false);
+  const [activePreviewIndex, setActivePreviewIndex] = useState<number>(0);
 
   const handleBookingClick = () => {
     if (onOpenBooking) {
@@ -82,75 +123,147 @@ export default function Header({ onOpenBooking }: HeaderProps) {
         </div>
       </header>
 
-      {/* Fullscreen Overlay Menu Drawer */}
+      {/* Fullscreen Editorial 2-Column Overlay Menu Drawer */}
       {menuDrawerOpen && (
-        <div className="fixed inset-0 z-50 bg-[#0B1914]/95 backdrop-blur-2xl flex flex-col justify-between p-8 sm:p-16 text-[#F4F1EA]">
-          <div className="flex items-center justify-between max-w-7xl mx-auto w-full">
-            <div className="text-xs font-mono text-[#C8A97E] tracking-widest">
-              8.0264° N, 80.5284° E • KALAWEWA
+        <div className="fixed inset-0 z-50 bg-[#0B1914]/98 backdrop-blur-xl flex flex-col justify-between p-6 sm:p-10 lg:p-12 text-[#F4F1EA] overflow-y-auto">
+          
+          {/* Top Header Controls Bar */}
+          <div className="flex items-center justify-between max-w-7xl mx-auto w-full pb-6 border-b border-white/10 shrink-0">
+            {/* Top subtle branding watermark */}
+            <div className="text-xs font-mono text-[#C8A97E] tracking-[0.25em] uppercase flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#C8A97E] animate-pulse" />
+              <span>KALAWEWA — SANCTUARY EXPEDITIONS</span>
             </div>
+
+            {/* Sleek Minimalist Circular Close Button */}
             <button
               onClick={() => setMenuDrawerOpen(false)}
-              className="px-4 py-2 rounded-full border border-white/30 text-xs font-medium uppercase tracking-[0.2em] hover:border-[#C8A97E] text-[#C8A97E] transition-colors"
+              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:rotate-90 hover:border-[#C8A97E] text-[#C8A97E] hover:text-white transition-all duration-300 cursor-pointer shadow-lg bg-[#0B1914]"
+              aria-label="Close Navigation Menu"
+              title="Close Menu"
             >
-              CLOSE ✕
+              <span className="text-base font-bold">✕</span>
             </button>
           </div>
 
-          <div className="max-w-7xl mx-auto w-full my-auto py-12">
-            <nav className="flex flex-col space-y-6 sm:space-y-8 text-center sm:text-left">
-              <Link
-                href="/"
-                onClick={() => setMenuDrawerOpen(false)}
-                className="font-serif text-4xl sm:text-6xl text-[#C8A97E] hover:text-white transition-colors tracking-wide"
-              >
-                01. Home / Sanctuary
-              </Link>
-              <Link
-                href="/packages"
-                onClick={() => setMenuDrawerOpen(false)}
-                className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
-              >
-                02. Curated Expeditions &amp; Packages
-              </Link>
-              <Link
-                href="/#about"
-                onClick={() => setMenuDrawerOpen(false)}
-                className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
-              >
-                03. We Are Kalawewa
-              </Link>
-              <Link
-                href="/#custom-journeys"
-                onClick={() => setMenuDrawerOpen(false)}
-                className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
-              >
-                04. Bespoke Expeditions
-              </Link>
-              <Link
-                href="/#impact"
-                onClick={() => setMenuDrawerOpen(false)}
-                className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
-              >
-                05. Heritage &amp; Conservation
-              </Link>
+          {/* Main 2-Column Split Structure */}
+          <div className="max-w-7xl mx-auto w-full my-auto py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            {/* LEFT COLUMN: 60% Width (col-span-7) */}
+            <div className="lg:col-span-7 flex flex-col justify-center space-y-1">
+              <nav className="flex flex-col">
+                {PREVIEW_ITEMS.map((item, idx) => {
+                  const handleClick = (e: React.MouseEvent) => {
+                    setMenuDrawerOpen(false);
+                    if (item.isBookingTrigger) {
+                      e.preventDefault();
+                      handleBookingClick();
+                    }
+                  };
+
+                  return (
+                    <div
+                      key={item.num}
+                      onMouseEnter={() => setActivePreviewIndex(idx)}
+                      className="group border-b border-white/10 py-4 transition-all"
+                    >
+                      <Link
+                        href={item.href}
+                        onClick={handleClick}
+                        className="flex items-center justify-between group-hover:translate-x-2 transition-transform duration-300"
+                      >
+                        <div className="flex items-center gap-4 sm:gap-6">
+                          <span className="text-xs font-mono text-[#C8A97E] tracking-widest">
+                            {item.num}.
+                          </span>
+                          <span className="font-serif text-2xl sm:text-3xl lg:text-4xl text-[#f3efe6] group-hover:text-[#d4af37] transition-colors duration-300">
+                            {item.label}
+                          </span>
+                        </div>
+                        
+                        {/* Arrow Indicator */}
+                        <span className="text-[#C8A97E] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-lg">
+                          →
+                        </span>
+                      </Link>
+                    </div>
+                  );
+                })}
+              </nav>
+            </div>
+
+            {/* RIGHT COLUMN: 40% Width (col-span-5) - Hidden on Mobile */}
+            <div className="hidden lg:flex lg:col-span-5 flex-col space-y-5">
+              {/* Dynamic Visual Preview Frame */}
+              <div className="relative h-72 rounded-2xl overflow-hidden border border-[#c8b8a6]/20 shadow-2xl group bg-[#13241E]">
+                <Image
+                  src={PREVIEW_ITEMS[activePreviewIndex].image}
+                  alt={PREVIEW_ITEMS[activePreviewIndex].label}
+                  fill
+                  className="object-cover object-center transition-all duration-700 group-hover:scale-105"
+                  sizes="(max-width: 1200px) 100vw, 40vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1914] via-black/20 to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 z-10">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#C8A97E] block mb-0.5">
+                    PREVIEW {PREVIEW_ITEMS[activePreviewIndex].num}
+                  </span>
+                  <span className="text-xs font-serif text-white font-normal block">
+                    {PREVIEW_ITEMS[activePreviewIndex].caption}
+                  </span>
+                </div>
+              </div>
+
+              {/* Bottom Meta Card */}
+              <div className="bg-[#13241E]/90 border border-white/10 rounded-2xl p-5 space-y-3 text-xs">
+                <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+                  <span className="text-stone-400">Operating Hours:</span>
+                  <span className="text-[#F4F1EA] font-medium">6:00 AM – 6:00 PM Daily</span>
+                </div>
+                
+                <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+                  <span className="text-stone-400">GPS Coordinates:</span>
+                  <span className="text-[#C8A97E] font-mono font-medium">8.0264° N, 80.5284° E</span>
+                </div>
+
+                <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+                  <span className="text-stone-400">Direct Hotline:</span>
+                  <span className="text-[#F4F1EA] font-medium">+94 77 123 4567</span>
+                </div>
+
+                <a
+                  href="https://wa.me/94771234567"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full mt-2 py-2.5 px-4 bg-[#25D366] hover:bg-[#1ebd59] text-stone-900 font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-all shadow-md"
+                >
+                  <span>💬 WHATSAPP CONCIERGE</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Footer Bar: Copyright & Discreet Operator Access Link */}
+          <div className="max-w-7xl mx-auto w-full flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 font-light border-t border-white/10 pt-4 shrink-0 gap-3">
+            <div className="flex items-center gap-6">
+              <span>© Kayaking Kalawewa Luxury Eco-Resort</span>
+              {/* Discreet Operator Access Link */}
               <Link
                 href="/admin"
                 onClick={() => setMenuDrawerOpen(false)}
-                className="font-serif text-2xl sm:text-4xl text-[#C8A97E] hover:text-white transition-colors tracking-wide pt-4"
+                className="text-xs text-stone-500 hover:text-stone-300 tracking-widest uppercase transition-colors"
               >
-                06. Admin Operations Portal →
+                Operator Access →
               </Link>
-            </nav>
-          </div>
+            </div>
 
-          <div className="max-w-7xl mx-auto w-full flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 font-light border-t border-white/10 pt-6">
-            <span>© Kayaking Kalawewa Luxury Eco-Resort &amp; Expeditions</span>
-            <div className="flex items-center gap-6 mt-4 sm:mt-0">
+            <div className="flex items-center gap-6">
               <span className="text-[#C8A97E]">WhatsApp: +94 77 123 4567</span>
               <span>expeditions@kalawewakayak.lk</span>
             </div>
           </div>
+
         </div>
       )}
 
@@ -202,3 +315,4 @@ export default function Header({ onOpenBooking }: HeaderProps) {
     </>
   );
 }
+

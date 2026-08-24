@@ -99,29 +99,23 @@ export default function BookingEngine({
         paymentMethod,
       });
 
-      // 2. Trigger server API endpoint for email dispatch logging
-      try {
-        await fetch('/api/booking', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            fullName,
-            phone,
-            email,
-            tourDate: selectedDate,
-            timeSlot,
-            kayakType,
-            guestCount,
-            packageId: currentPkg.id,
-            packageName: currentPkg.title,
-            paymentMethod,
-            totalAmountLKR,
-            referenceId: resultDoc.bookingId,
-          }),
-        });
-      } catch (apiErr) {
-        console.warn("API route dispatch note:", apiErr);
-      }
+      // 2. Trigger Resend confirmation email API endpoint (non-blocking)
+      fetch('/api/send-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bookingId: resultDoc.bookingId,
+          customerName: fullName,
+          customerEmail: email,
+          customerPhone: phone,
+          packageName: currentPkg.title,
+          selectedDate,
+          timeSlot,
+          guestCount,
+          totalAmountLKR,
+          paymentMethod,
+        }),
+      }).catch((emailErr) => console.warn('Email dispatch notice:', emailErr));
 
       setBookingResult(resultDoc);
     } catch (err: any) {

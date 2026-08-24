@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 
 export default function CustomJourneys() {
   const [isImageVisible, setIsImageVisible] = useState<boolean>(false);
@@ -14,14 +15,10 @@ export default function CustomJourneys() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // Stage 1: Reveal background image first
           setIsImageVisible(true);
-
-          // Stage 2: Delayed text entrance reveal (400ms)
           const textTimer = setTimeout(() => {
             setIsTextVisible(true);
           }, 400);
-
           return () => clearTimeout(textTimer);
         }
       },
@@ -41,14 +38,12 @@ export default function CustomJourneys() {
       id="custom-journeys"
       className="min-h-[90vh] md:min-h-screen relative flex items-center justify-center text-center overflow-hidden bg-[#0B1914] text-white"
     >
-      {/* Full-Bleed Background Photography (Stage 1 Reveal) */}
+      {/* Full-Bleed Background Photography */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <img
           src={imgSrc}
           onError={() => {
-            setImgSrc(
-              '/images/wildlife-elephant.jpg'
-            );
+            setImgSrc('/images/wildlife-elephant.jpg');
           }}
           alt="Bespoke Kalawewa Kayaking Expedition"
           className={`w-full h-full object-cover object-center transition-all duration-1000 ease-out ${
@@ -56,7 +51,6 @@ export default function CustomJourneys() {
           }`}
         />
         
-        {/* Dark Vignette / Gradient Overlay that deepens when text appears */}
         <div
           className={`absolute inset-0 transition-opacity duration-1000 ${
             isTextVisible
@@ -66,10 +60,9 @@ export default function CustomJourneys() {
         />
       </div>
 
-      {/* Centered Staggered Scroll-Reveal Content (Stage 2 Reveal) */}
+      {/* Centered Staggered Scroll-Reveal Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-6 py-20">
         
-        {/* 1. Overline (Animates first, delay-0) */}
         <span
           className={`tracking-[0.35em] text-xs font-semibold text-[#D4AF37] uppercase mb-4 block transition-all duration-1000 ease-out ${
             isTextVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
@@ -78,7 +71,6 @@ export default function CustomJourneys() {
           SAFETY &amp; BESPOKE EXPEDITIONS
         </span>
 
-        {/* 2. Large Serif Title (Animates second, delay-150) */}
         <h2
           className={`font-serif text-4xl md:text-6xl text-white font-normal leading-tight max-w-3xl mx-auto mb-6 transition-all duration-1000 ease-out delay-150 ${
             isTextVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
@@ -87,7 +79,6 @@ export default function CustomJourneys() {
           Tailor-made eco-adventures with uncompromised safety
         </h2>
 
-        {/* 3. Story Paragraph (Animates third, delay-300) */}
         <p
           className={`text-sm md:text-base text-gray-200 font-light leading-relaxed max-w-xl mx-auto mb-8 transition-all duration-1000 ease-out delay-300 ${
             isTextVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
@@ -96,18 +87,25 @@ export default function CustomJourneys() {
           Every expedition is equipped with international-grade life jackets, certified safety instructors, and real-time lake condition monitoring. From solo paddlers to family expeditions, we guarantee seamless adventure.
         </p>
 
-        {/* 4. Interactive CTA Button (Animates last, delay-450) */}
-        <a
-          href="#about"
-          className={`tracking-[0.25em] text-xs font-bold text-white hover:text-[#D4AF37] transition-all duration-1000 ease-out delay-450 inline-flex items-center gap-3 group cursor-pointer ${
+        {/* Action Buttons */}
+        <div
+          className={`flex flex-wrap items-center justify-center gap-4 transition-all duration-1000 ease-out delay-450 ${
             isTextVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           }`}
         >
-          <span>EXPLORE OUR PRIVATE EXPEDITIONS</span>
-          <span className="w-8 h-8 rounded-full border border-white/40 group-hover:border-[#D4AF37] flex items-center justify-center transition-colors">
-            <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
-          </span>
-        </a>
+          <Link
+            href="/booking"
+            className="px-8 py-3.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold uppercase tracking-[0.2em] transition-all shadow-lg rounded-none"
+          >
+            BOOK NOW
+          </Link>
+          <Link
+            href="/packages"
+            className="px-8 py-3.5 bg-black/60 hover:bg-black/90 border border-[#C8A97E]/50 text-[#C8A97E] hover:text-white text-xs font-medium uppercase tracking-[0.2em] transition-all rounded-none"
+          >
+            EXPLORE ALL EXPEDITIONS
+          </Link>
+        </div>
 
       </div>
     </section>

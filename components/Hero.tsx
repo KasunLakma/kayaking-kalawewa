@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Hero() {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
@@ -44,6 +45,22 @@ export default function Hero() {
         <p className="text-xs sm:text-sm font-light tracking-[0.2em] text-slate-200 uppercase mt-6 max-w-2xl leading-relaxed">
           Guided kayak expeditions through Sri Lanka&apos;s ancient reservoir — where wilderness meets wonder.
         </p>
+
+        {/* Hero Action Buttons */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <Link
+            href="/booking"
+            className="px-8 py-3.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold uppercase tracking-[0.2em] transition-all shadow-lg rounded-none cursor-pointer"
+          >
+            BOOK EXPEDITION NOW
+          </Link>
+          <Link
+            href="/packages"
+            className="px-8 py-3.5 bg-[#0B1914]/80 hover:bg-[#13241E] border border-[#C8A97E]/50 text-[#C8A97E] hover:text-white text-xs font-medium uppercase tracking-[0.2em] transition-all rounded-none cursor-pointer"
+          >
+            VIEW ALL PACKAGES
+          </Link>
+        </div>
       </div>
 
       {/* Wilderness Bottom HUD & Controls */}

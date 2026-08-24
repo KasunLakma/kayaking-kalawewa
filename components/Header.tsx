@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import BookingModal from './BookingModal';
 
 interface HeaderProps {
@@ -37,7 +38,7 @@ export default function Header({ onOpenBooking }: HeaderProps) {
           </button>
 
           {/* Center: Minimalist Logo with organic wave icon and clean uppercase serif text */}
-          <a href="#" className="flex flex-col items-center group">
+          <Link href="/" className="flex flex-col items-center group">
             <div className="flex items-center gap-2">
               <svg className="w-5 h-5 text-[#C8A97E] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" />
@@ -49,10 +50,17 @@ export default function Header({ onOpenBooking }: HeaderProps) {
             <span className="text-[9px] font-medium tracking-[0.35em] text-[#C8A97E] uppercase mt-1">
               ADVENTURES &amp; EXPEDITIONS
             </span>
-          </a>
+          </Link>
 
           {/* Right: Minimal Search icon + solid luxury amber button */}
           <div className="flex items-center gap-4 sm:gap-5">
+            <Link
+              href="/packages"
+              className="hidden md:inline-flex px-4 py-2 border border-[#C8A97E]/40 hover:border-[#C8A97E] text-[#C8A97E] hover:text-white text-xs font-medium uppercase tracking-[0.15em] transition-all"
+            >
+              Packages &amp; Expeditions
+            </Link>
+
             <button
               onClick={() => setSearchModalOpen(true)}
               className="p-2 text-white/80 hover:text-[#C8A97E] transition-colors cursor-pointer"
@@ -79,7 +87,7 @@ export default function Header({ onOpenBooking }: HeaderProps) {
         <div className="fixed inset-0 z-50 bg-[#0B1914]/95 backdrop-blur-2xl flex flex-col justify-between p-8 sm:p-16 text-[#F4F1EA]">
           <div className="flex items-center justify-between max-w-7xl mx-auto w-full">
             <div className="text-xs font-mono text-[#C8A97E] tracking-widest">
-              8.0264° N, 80.5284° E • KALWEWA
+              8.0264° N, 80.5284° E • KALAWEWA
             </div>
             <button
               onClick={() => setMenuDrawerOpen(false)}
@@ -91,27 +99,34 @@ export default function Header({ onOpenBooking }: HeaderProps) {
 
           <div className="max-w-7xl mx-auto w-full my-auto py-12">
             <nav className="flex flex-col space-y-6 sm:space-y-8 text-center sm:text-left">
-              <a
-                href="#about"
+              <Link
+                href="/packages"
+                onClick={() => setMenuDrawerOpen(false)}
+                className="font-serif text-4xl sm:text-6xl text-[#C8A97E] hover:text-white transition-colors tracking-wide"
+              >
+                01. Curated Expeditions &amp; Packages
+              </Link>
+              <Link
+                href="/#about"
                 onClick={() => setMenuDrawerOpen(false)}
                 className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
               >
-                01. We Are Kalawewa
-              </a>
-              <a
-                href="#custom-journeys"
+                02. We Are Kalawewa
+              </Link>
+              <Link
+                href="/#custom-journeys"
                 onClick={() => setMenuDrawerOpen(false)}
                 className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
               >
-                02. Bespoke Expeditions
-              </a>
-              <a
-                href="#impact"
+                03. Bespoke Expeditions
+              </Link>
+              <Link
+                href="/#impact"
                 onClick={() => setMenuDrawerOpen(false)}
                 className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
               >
-                03. Heritage &amp; Conservation
-              </a>
+                04. Heritage &amp; Conservation
+              </Link>
             </nav>
           </div>
 

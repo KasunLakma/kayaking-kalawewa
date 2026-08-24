@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -145,11 +146,11 @@ export default function Footer() {
               Expedition Links
             </h4>
             <ul className="space-y-2.5 text-[#F4F1EA]/75 font-light">
-              <li><a href="#about" className="hover:text-[#C8A97E] transition-colors">Sunrise Expedition</a></li>
-              <li><a href="#about" className="hover:text-[#C8A97E] transition-colors">Sunset Romance &amp; Couples</a></li>
-              <li><a href="#about" className="hover:text-[#C8A97E] transition-colors">Full Lake Exploration</a></li>
-              <li><a href="#about" className="hover:text-[#C8A97E] transition-colors">Wildlife Corridor Trail</a></li>
-              <li><a href="#custom-journeys" className="hover:text-[#C8A97E] transition-colors">Safety &amp; Bespoke Charter</a></li>
+              <li><Link href="/packages#sunrise-lotus-drift" className="hover:text-[#C8A97E] transition-colors">Sunrise Lotus Drift</Link></li>
+              <li><Link href="/packages#sunset-romance-couples" className="hover:text-[#C8A97E] transition-colors">Sunset Romance &amp; Couples</Link></li>
+              <li><Link href="/packages#5th-century-island-exploration" className="hover:text-[#C8A97E] transition-colors">5th Century Island Exploration</Link></li>
+              <li><Link href="/packages#wild-elephant-corridor-trail" className="hover:text-[#C8A97E] transition-colors">Wild Elephant Corridor Trail</Link></li>
+              <li><Link href="/packages" className="hover:text-[#C8A97E] font-medium transition-colors">All Packages &amp; Expeditions →</Link></li>
             </ul>
           </div>
 

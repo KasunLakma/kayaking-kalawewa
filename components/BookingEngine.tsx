@@ -2,7 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { packages, Package, getPackageById } from '@/data/packages';
-import { saveBookingToFirestore, BookingDocument } from '@/lib/firebase';
+import {
+  saveBookingToFirestore,
+  BookingDocument,
+  getBlockedSlotsFromFirestore,
+  BlockedSlot,
+} from '@/lib/firebase';
 
 interface BookingEngineProps {
   initialPackageId?: string;
@@ -29,6 +34,7 @@ export default function BookingEngine({
   const [timeSlot, setTimeSlot] = useState<string>(TIME_SLOTS[0]);
   const [guestCount, setGuestCount] = useState<number>(1);
   const [kayakType, setKayakType] = useState<'Single Kayak' | 'Tandem Kayak'>('Single Kayak');
+  const [blockedSlots, setBlockedSlots] = useState<BlockedSlot[]>([]);
   
   // Guest details
   const [fullName, setFullName] = useState<string>('');
@@ -43,6 +49,13 @@ export default function BookingEngine({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [bookingResult, setBookingResult] = useState<BookingDocument | null>(null);
+
+  // Load blocked slots
+  useEffect(() => {
+    getBlockedSlotsFromFirestore().then((slots) => {
+      if (slots) setBlockedSlots(slots);
+    });
+  }, []);
 
   // Sync initial package
   useEffect(() => {
@@ -67,6 +80,13 @@ export default function BookingEngine({
 
   // Dynamic Live Price Calculation
   const totalAmountLKR = currentPkg.priceAmount * guestCount;
+
+  // Check if a slot is blocked for the selected date
+  const isSlotBlocked = (slotName: string) => {
+    return blockedSlots.some(
+      (b) => b.date === selectedDate && (b.timeSlot === slotName || b.timeSlot === 'ALL_SLOTS')
+    );
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -218,19 +238,28 @@ export default function BookingEngine({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
               {TIME_SLOTS.map((slot) => {
                 const isSelected = timeSlot === slot;
+                const blocked = isSlotBlocked(slot);
+
                 return (
                   <button
                     key={slot}
                     type="button"
-                    onClick={() => setTimeSlot(slot)}
-                    className={`px-3.5 py-2.5 text-xs text-left transition-all border rounded-none cursor-pointer flex items-center justify-between ${
-                      isSelected
-                        ? 'bg-[#C8A97E] text-[#0B1914] border-[#C8A97E] font-semibold'
-                        : 'bg-[#13241E] text-[#F4F1EA]/80 hover:text-white border-white/10 hover:border-[#C8A97E]/50'
+                    disabled={blocked}
+                    onClick={() => !blocked && setTimeSlot(slot)}
+                    className={`px-3.5 py-2.5 text-xs text-left transition-all border rounded-none flex items-center justify-between ${
+                      blocked
+                        ? 'bg-red-950/40 text-red-300 border-red-500/40 opacity-60 cursor-not-allowed'
+                        : isSelected
+                        ? 'bg-[#C8A97E] text-[#0B1914] border-[#C8A97E] font-semibold cursor-pointer'
+                        : 'bg-[#13241E] text-[#F4F1EA]/80 hover:text-white border-white/10 hover:border-[#C8A97E]/50 cursor-pointer'
                     }`}
                   >
                     <span>{slot}</span>
-                    {isSelected && <span className="text-[10px]">✓</span>}
+                    {blocked ? (
+                      <span className="text-[10px] font-bold uppercase text-red-400">BLOCKED</span>
+                    ) : (
+                      isSelected && <span className="text-[10px]">✓</span>
+                    )}
                   </button>
                 );
               })}

@@ -127,6 +127,13 @@ export default function Header({ onOpenBooking }: HeaderProps) {
               >
                 04. Heritage &amp; Conservation
               </Link>
+              <Link
+                href="/admin"
+                onClick={() => setMenuDrawerOpen(false)}
+                className="font-serif text-2xl sm:text-4xl text-[#C8A97E] hover:text-white transition-colors tracking-wide pt-4"
+              >
+                05. Admin Operations Portal →
+              </Link>
             </nav>
           </div>
 

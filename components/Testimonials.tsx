@@ -15,28 +15,28 @@ interface Testimonial {
 const testimonials: Testimonial[] = [
   {
     id: 't1',
-    quote: "Paddling into the golden morning mist of Kalawewa with our naturalist guide was the highlight of our entire trip to Sri Lanka. Seeing wild Asian elephants grazing along the distant shore from our kayaks was breathtaking!",
-    author: "Elena & Marcus Vance",
-    location: "Zurich, Switzerland",
-    tourTag: "Sunrise Paddle Expedition",
+    quote: "Gliding through the ancient lotus beds at dawn was surreal. The guides' respect for wild elephants is commendable.",
+    author: "Sarah W.",
+    location: "UK",
+    tourTag: "Dawn & Lotus Lagoons",
     rating: 5,
     date: "July 2026",
   },
   {
     id: 't2',
-    quote: "As an avid outdoors photographer, the twilight colors across the reservoir were unbelievable. The tandem kayak was incredibly stable, high quality, and the local fresh coconut break on the island was pure luxury.",
-    author: "David Chen",
-    location: "Singapore",
-    tourTag: "Sunset Romance & Photography",
+    quote: "Best kayaking experience in Sri Lanka. 100% safe, high-grade life vests, and zero plastic policy.",
+    author: "Dilshan P.",
+    location: "Colombo",
+    tourTag: "Eco Heritage & Safety",
     rating: 5,
     date: "August 2026",
   },
   {
     id: 't3',
-    quote: "Top-tier wilderness safety standards! As a family travelling with teenagers, we were thoroughly impressed by the safety orientation, ISO life jackets, and the guide’s knowledge of King Dhatusena's ancient history.",
-    author: "Sarah & Thomas Brody",
-    location: "Melbourne, Australia",
-    tourTag: "Classic Kalawewa Island Tour",
+    quote: "Watching the sunset behind the submerged dead trees while elephants grazed on the bank was pure magic.",
+    author: "Elena & Marcus",
+    location: "Germany",
+    tourTag: "Sunset & Wildlife Trail",
     rating: 5,
     date: "June 2026",
   },
@@ -45,29 +45,32 @@ const testimonials: Testimonial[] = [
 export default function Testimonials() {
   return (
     <section id="testimonials" className="w-full bg-[#08120E] py-28 sm:py-36 px-6 lg:px-12 text-[#F4F1EA] relative overflow-hidden border-t border-white/10">
+      {/* Background Decorative Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#C8A97E]/5 rounded-full blur-[140px] pointer-events-none" />
+
       <div className="max-w-7xl mx-auto relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-20 space-y-3">
           <span className="tracking-[0.35em] text-xs font-medium text-[#C8A97E] uppercase block">
-            GUEST REVIEWS &amp; STORIES
+            GUEST REVIEWS &amp; TESTIMONIALS
           </span>
 
           <h2 className="font-serif text-4xl sm:text-6xl font-normal text-[#F4F1EA] tracking-tight">
-            What Our Adventurers Say
+            Adventures Shared by Our Guests
           </h2>
 
           <p className="text-base text-[#F4F1EA]/80 font-light max-w-2xl mx-auto leading-relaxed pt-2">
-            Read verified reviews from global travelers and wilderness enthusiasts who explored Kalawewa with us.
+            Read verified experiences from global explorers who journeyed through the historic 5th-century waters of Kalawewa Reservoir.
           </p>
         </div>
 
-        {/* Minimalist Editorial Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+        {/* Luxury 3-Card Testimonials Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
           {testimonials.map((t) => (
             <div
               key={t.id}
-              className="flex flex-col justify-between space-y-8 relative"
+              className="bg-[#13241E]/80 border border-white/10 hover:border-[#C8A97E]/60 transition-all duration-500 p-8 sm:p-10 flex flex-col justify-between space-y-8 shadow-xl relative group"
             >
               <div>
                 {/* Rating Stars */}
@@ -83,7 +86,7 @@ export default function Testimonials() {
                   {t.tourTag}
                 </div>
 
-                <p className="text-sm sm:text-base text-[#F4F1EA]/85 leading-relaxed font-light italic">
+                <p className="text-sm sm:text-base text-[#F4F1EA]/90 leading-relaxed font-light italic">
                   &ldquo;{t.quote}&rdquo;
                 </p>
               </div>
@@ -91,7 +94,7 @@ export default function Testimonials() {
               {/* Author Footer */}
               <div className="pt-6 border-t border-white/10 flex items-center justify-between">
                 <div>
-                  <h4 className="text-base font-normal text-[#F4F1EA] font-serif">{t.author}</h4>
+                  <h4 className="text-base font-normal text-[#F4F1EA] font-serif group-hover:text-[#C8A97E] transition-colors">{t.author}</h4>
                   <p className="text-xs text-slate-400 font-light">{t.location}</p>
                 </div>
                 <span className="text-[10px] text-[#C8A97E]/80 font-mono uppercase tracking-wider">{t.date}</span>

@@ -138,6 +138,27 @@ export default function BookingEngine({
       }).catch((emailErr) => console.warn('Email dispatch notice:', emailErr));
 
       setBookingResult(resultDoc);
+
+      // Trigger Meta & TikTok Tracking Pixels for Successful Booking
+      if (typeof window !== "undefined" && (window as any).fbq) {
+        (window as any).fbq("track", "Purchase", {
+          value: totalAmountLKR,
+          currency: "LKR",
+          content_name: currentPkg.title,
+        });
+        (window as any).fbq("track", "Lead", {
+          value: totalAmountLKR,
+          currency: "LKR",
+          content_name: currentPkg.title,
+        });
+      }
+      if (typeof window !== "undefined" && (window as any).ttq) {
+        (window as any).ttq.track("CompleteRegistration", {
+          content_name: currentPkg.title,
+          value: totalAmountLKR,
+          currency: "LKR",
+        });
+      }
     } catch (err: any) {
       console.error("Booking error:", err);
       setErrorMsg('An unexpected error occurred while saving your booking. Please try again.');

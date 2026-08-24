@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Header from '@/components/Header';
@@ -13,6 +13,32 @@ export default function PackagesPage() {
   const [activeBookingId, setActiveBookingId] = useState<string | null>(null);
 
   const categories = ['All Expeditions', 'Dawn & Dusk', 'Heritage', 'Wildlife'];
+
+  const trackPackageView = (pkg: Package) => {
+    if (typeof window !== "undefined" && (window as any).fbq) {
+      (window as any).fbq("track", "ViewContent", {
+        content_name: pkg.title,
+        content_category: pkg.category,
+        value: pkg.priceAmount,
+        currency: "LKR",
+      });
+    }
+    if (typeof window !== "undefined" && (window as any).ttq) {
+      (window as any).ttq.track("ViewContent", {
+        content_name: pkg.title,
+        content_category: pkg.category,
+        value: pkg.priceAmount,
+        currency: "LKR",
+      });
+    }
+  };
+
+  useEffect(() => {
+    // Trigger ViewContent on initial page load for packages
+    packages.forEach((pkg) => {
+      trackPackageView(pkg);
+    });
+  }, []);
 
   const filteredPackages = useMemo(() => {
     if (activeTab === 'All Expeditions') {
@@ -217,6 +243,7 @@ export default function PackagesPage() {
                       {/* Direct Reserve Button */}
                       <Link
                         href={bookingUrl}
+                        onClick={() => trackPackageView(pkg)}
                         className="w-full sm:w-1/2 py-3.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 text-center rounded-none shadow-md cursor-pointer flex items-center justify-center gap-2 group/btn"
                       >
                         <span>RESERVE EXPEDITION</span>

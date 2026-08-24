@@ -13,6 +13,25 @@ export default function FeaturedTrips({ onSelectPackage }: FeaturedTripsProps) {
   const [activeBookingId, setActiveBookingId] = useState<string | null>(null);
 
   const handleBook = (id: string) => {
+    const pkg = packages.find((p) => p.id === id);
+    if (pkg && typeof window !== "undefined") {
+      if ((window as any).fbq) {
+        (window as any).fbq("track", "ViewContent", {
+          content_name: pkg.title,
+          content_category: pkg.category,
+          value: pkg.priceAmount,
+          currency: "LKR",
+        });
+      }
+      if ((window as any).ttq) {
+        (window as any).ttq.track("ViewContent", {
+          content_name: pkg.title,
+          content_category: pkg.category,
+          value: pkg.priceAmount,
+          currency: "LKR",
+        });
+      }
+    }
     if (onSelectPackage) {
       onSelectPackage(id);
     } else {

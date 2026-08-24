@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import TrackingPixels from "@/components/TrackingPixels";
 
 const cormorantGaramond = Cormorant_Garamond({
   variable: "--font-serif",
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${cormorantGaramond.variable} ${plusJakartaSans.variable} h-full antialiased scroll-smooth`}
     >
       <body className="min-h-full flex flex-col font-sans bg-[#0B1914] text-[#F4F1EA] selection:bg-[#C8A97E] selection:text-[#0B1914]">
+        <TrackingPixels />
         {children}
       </body>
     </html>

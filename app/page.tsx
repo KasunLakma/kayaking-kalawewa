@@ -15,10 +15,25 @@ import BookingModal from "@/components/BookingModal";
 import { packages } from "@/data/packages";
 
 export default function Home() {
-  const [activeBookingId, setActiveBookingId] = useState<string | null>(null);
+  const [activeBookingState, setActiveBookingState] = useState<{
+    packageId: string;
+    date?: string;
+    slot?: string;
+    guests?: number;
+  } | null>(null);
 
-  const handleOpenBooking = (packageId?: string) => {
-    setActiveBookingId(packageId || packages[0].id);
+  const handleOpenBooking = (
+    packageId?: string,
+    date?: string,
+    slot?: string,
+    guests?: number
+  ) => {
+    setActiveBookingState({
+      packageId: packageId || packages[0].id,
+      date,
+      slot,
+      guests,
+    });
   };
 
   return (
@@ -30,8 +45,12 @@ export default function Home() {
         {/* 2. Fullscreen Cinematic Hero */}
         <Hero />
 
-        {/* 3. Sleek Minimal Floating Quick Booking Bar (Below Hero) */}
-        <QuickBookingBar onCheckAvailability={(pkgId) => handleOpenBooking(pkgId)} />
+        {/* 3. Sleek Floating Quick Booking Bar (Below Hero) */}
+        <QuickBookingBar
+          onCheckAvailability={(pkgId, date, slot, guests) =>
+            handleOpenBooking(pkgId, date, slot, guests)
+          }
+        />
 
         {/* 4. Editorial Split About Section */}
         <AboutSection />
@@ -56,13 +75,17 @@ export default function Home() {
       <Footer />
 
       {/* Booking Modal Popup */}
-      {activeBookingId && (
+      {activeBookingState && (
         <BookingModal
           isOpen={true}
-          selectedPackageId={activeBookingId}
-          onClose={() => setActiveBookingId(null)}
+          selectedPackageId={activeBookingState.packageId}
+          selectedDate={activeBookingState.date}
+          selectedTimeSlot={activeBookingState.slot}
+          selectedGuestCount={activeBookingState.guests}
+          onClose={() => setActiveBookingState(null)}
         />
       )}
     </div>
   );
 }
+

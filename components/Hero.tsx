@@ -8,7 +8,7 @@ export default function Hero() {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
 
   return (
-    <section className="relative w-full h-screen min-h-[700px] flex flex-col justify-between overflow-hidden bg-[#0B1914] text-white">
+    <section className="relative w-full min-h-[750px] lg:h-screen flex flex-col justify-between overflow-hidden bg-[#0B1914] text-white">
       
       {/* Fullscreen 100vh Edge-to-Edge Cinematic Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -28,10 +28,10 @@ export default function Hero() {
       </div>
 
       {/* Top Spacer for Header */}
-      <div className="relative z-10 pt-24" />
+      <div className="relative z-10 pt-20 md:pt-24" />
 
       {/* Central Immersive Title Hierarchy */}
-      <div className="relative z-10 max-w-5xl mx-auto w-full px-6 my-auto text-center flex flex-col items-center justify-center">
+      <div className="relative z-10 max-w-5xl mx-auto w-full px-6 my-auto text-center flex flex-col items-center justify-center py-6">
         {/* Overline */}
         <span className="tracking-[0.35em] text-xs font-semibold text-[#C8A97E] uppercase mb-4 block">
           KALAWEWA ADVENTURES &amp; EXPEDITIONS
@@ -64,7 +64,7 @@ export default function Hero() {
       </div>
 
       {/* Wilderness Bottom HUD & Controls */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-6 sm:px-12 pb-10">
+      <div className="relative z-20 w-full max-w-7xl mx-auto px-6 sm:px-12 pb-16 md:pb-24">
         
         {/* Thin Horizontal Separator Line */}
         <div className="relative w-full flex items-center justify-center mb-6">

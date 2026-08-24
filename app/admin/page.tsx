@@ -279,6 +279,17 @@ export default function AdminPage() {
 
       {/* Main Admin Dashboard Container */}
       <main className="max-w-7xl mx-auto w-full px-6 sm:px-10 py-8 flex-1 space-y-10">
+        <div className="pt-1">
+          <Link
+            className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#c8b8a6] hover:text-white transition-colors duration-200 py-2 px-4 rounded-full bg-[#112620]/80 border border-[#c8b8a6]/20 backdrop-blur-sm shadow-md"
+            href="/"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span>Return to Sanctuary / Back to Home</span>
+          </Link>
+        </div>
         
         {/* MODULE 1: Top KPI Cards */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">

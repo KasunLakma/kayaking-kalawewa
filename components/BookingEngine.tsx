@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { packages, Package, getPackageById } from '@/data/packages';
 import {
   saveBookingToFirestore,
@@ -634,6 +635,16 @@ export default function BookingEngine({
               >
                 <span>💬 MESSAGE CONCIERGE ON WHATSAPP</span>
               </a>
+              <Link
+                href="/"
+                onClick={resetForm}
+                className="w-full sm:w-auto px-6 py-3 bg-[#112620] hover:bg-[#1f3d34] text-white text-xs font-semibold rounded-xl shadow-md flex items-center justify-center gap-2"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>RETURN TO HOME</span>
+              </Link>
               <button
                 onClick={resetForm}
                 className="w-full sm:w-auto px-6 py-3 bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-semibold rounded-xl border border-stone-300"

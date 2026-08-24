@@ -52,7 +52,20 @@ export default function PackagesPage() {
       {/* 1. Navigation Header */}
       <Header onOpenBooking={() => setActiveBookingId(packages[0].id)} />
 
-      <main className="flex-1 w-full pt-28 sm:pt-36">
+      <main className="flex-1 w-full pt-24 sm:pt-28">
+        {/* Back to Home Button */}
+        <div className="max-w-6xl mx-auto px-6 pt-4 pb-2 relative z-20">
+          <Link
+            className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#c8b8a6] hover:text-white transition-colors duration-200 py-2 px-4 rounded-full bg-[#112620]/80 border border-[#c8b8a6]/20 backdrop-blur-sm shadow-md"
+            href="/"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span>Return to Sanctuary / Back to Home</span>
+          </Link>
+        </div>
+
         {/* 2. Editorial Page Header Section */}
         <section className="relative px-6 lg:px-12 pb-16 sm:pb-24 border-b border-white/10 overflow-hidden">
           {/* Subtle Background Glow & Pattern */}

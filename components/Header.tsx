@@ -100,39 +100,46 @@ export default function Header({ onOpenBooking }: HeaderProps) {
           <div className="max-w-7xl mx-auto w-full my-auto py-12">
             <nav className="flex flex-col space-y-6 sm:space-y-8 text-center sm:text-left">
               <Link
-                href="/packages"
+                href="/"
                 onClick={() => setMenuDrawerOpen(false)}
                 className="font-serif text-4xl sm:text-6xl text-[#C8A97E] hover:text-white transition-colors tracking-wide"
               >
-                01. Curated Expeditions &amp; Packages
+                01. Home / Sanctuary
+              </Link>
+              <Link
+                href="/packages"
+                onClick={() => setMenuDrawerOpen(false)}
+                className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
+              >
+                02. Curated Expeditions &amp; Packages
               </Link>
               <Link
                 href="/#about"
                 onClick={() => setMenuDrawerOpen(false)}
                 className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
               >
-                02. We Are Kalawewa
+                03. We Are Kalawewa
               </Link>
               <Link
                 href="/#custom-journeys"
                 onClick={() => setMenuDrawerOpen(false)}
                 className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
               >
-                03. Bespoke Expeditions
+                04. Bespoke Expeditions
               </Link>
               <Link
                 href="/#impact"
                 onClick={() => setMenuDrawerOpen(false)}
                 className="font-serif text-4xl sm:text-6xl text-[#F4F1EA] hover:text-[#C8A97E] transition-colors tracking-wide"
               >
-                04. Heritage &amp; Conservation
+                05. Heritage &amp; Conservation
               </Link>
               <Link
                 href="/admin"
                 onClick={() => setMenuDrawerOpen(false)}
                 className="font-serif text-2xl sm:text-4xl text-[#C8A97E] hover:text-white transition-colors tracking-wide pt-4"
               >
-                05. Admin Operations Portal →
+                06. Admin Operations Portal →
               </Link>
             </nav>
           </div>

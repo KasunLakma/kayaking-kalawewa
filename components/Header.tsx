@@ -28,7 +28,7 @@ const PREVIEW_ITEMS = [
     num: '03',
     label: 'About Kalawewa',
     href: '/#about',
-    image: '/images/kalawewa-about1.jpeg.jpg',
+    image: '/images/about-elephant.jpg',
     caption: 'Hydraulic Heritage of King Dhatusena',
   },
   {

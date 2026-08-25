@@ -36,19 +36,15 @@ export default function AboutSection() {
           <div className="lg:col-span-5 flex items-center justify-center lg:justify-end">
             <div className="relative flex items-center gap-4 w-full max-w-md lg:max-w-none">
               
-              {/* Large portrait image container (aspect ratio 3:4, rounded-sm overflow-hidden shadow-2xl relative) */}
-              <div className="relative w-full aspect-[3/4] rounded-sm overflow-hidden shadow-2xl group border border-white/10">
+              <div className="relative aspect-[4/5] w-full max-w-md rounded-2xl overflow-hidden shadow-2xl border border-[#c8b8a6]/20">
                 <Image
-                  src="/kalawewa-about1.jpeg"
-                  alt="Wild Elephant Kalawewa"
+                  alt="Majestic Sri Lankan Tusker crossing Kalawewa wetlands"
+                  className="object-cover transition-transform duration-700 hover:scale-105"
                   fill
                   priority
-                  unoptimized
-                  className="object-cover object-center rounded-sm transition-transform duration-700 ease-out group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  src="/images/about-elephant.jpg"
                 />
-                
-                {/* Subtle Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#142D28]/60 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none z-10" />
               </div>
 
               {/* Micro Detail: Subtle vertical rotated text next to the image */}

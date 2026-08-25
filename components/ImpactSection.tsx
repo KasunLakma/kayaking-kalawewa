@@ -3,83 +3,70 @@
 import React from 'react';
 import Image from 'next/image';
 
-const impactStats = [
-  {
-    number: '100%',
-    label: 'Silent & Non-Motorized',
-    description: 'Zero carbon emissions preserving pristine aquatic bird colonies and elephant drinking corridors.',
-  },
-  {
-    number: '5th C.',
-    label: 'Ancient Hydraulic Heritage',
-    description: 'Custodians of King Dhatusena’s historic 15-century-old freshwater reservoir system.',
-  },
-  {
-    number: 'Native',
-    label: 'Indigenous Naturalists',
-    description: 'Every charter is escorted by local Kalawewa villagers trained in hydrology & wildlife tracking.',
-  },
-  {
-    number: 'Zero',
-    label: 'Single-Use Plastics',
-    description: 'Strict leave-no-trace charter standards with reusable canteens and organic refreshes.',
-  },
-];
-
 export default function ImpactSection() {
   return (
-    <section id="impact" className="relative overflow-hidden py-24 sm:py-28 md:py-36 bg-[#07120e] text-white border-t border-white/10">
-      {/* Ambient Heritage Imagery */}
-      <div className="absolute inset-0 z-0 opacity-25">
+    <section id="impact" className="relative overflow-hidden py-28 bg-[#07120e] text-white">
+      {/* Ambient Heritage Image */}
+      <div className="absolute inset-0 z-0">
         <Image
           alt="Ancient 5th-Century Hydraulic Sanctuary"
-          className="object-cover object-center filter saturate-50"
+          className="object-cover object-center opacity-60 filter saturate-90"
           fill
-          priority={false}
+          priority
           src="/images/heritage-legacy.jpg"
         />
-        {/* Dual Vignette Gradients for Editorial Luxury Legibility */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#07120e] via-[#07120e]/90 to-[#07120e]/70" />
+        {/* Balanced Luxury Vignette */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#07120e] via-[#07120e]/75 to-black/50" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0B1914] via-transparent to-[#0B1914]" />
       </div>
 
-      {/* Existing Text & 4-Stat Metric Cards remain crisp & fully legible on top */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
-        
-        {/* Split Top Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-end mb-20">
-          <div className="lg:col-span-7">
-            <span className="tracking-[0.35em] text-xs font-semibold text-[#C8A97E] uppercase block mb-4">
-              WILDERNESS CONSERVATION &amp; HERITAGE
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 border-b border-[#c8b8a6]/30 pb-12">
+          <div className="max-w-2xl">
+            <span className="text-xs uppercase tracking-[0.25em] text-[#d4af37] block mb-3 font-semibold">
+              Wilderness Conservation & Heritage
             </span>
-            <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-white leading-tight">
-              Protecting King Dhatusena&apos;s 5th Century Legacy
+            <h2 className="font-serif text-3xl md:text-5xl text-[#f3efe6] leading-tight drop-shadow-md">
+              Protecting King Dhatusena&apos;s <br className="hidden md:inline" />
+              5th Century Legacy
             </h2>
           </div>
-          <div className="lg:col-span-5">
-            <p className="text-sm md:text-base text-gray-300 font-light leading-relaxed">
-              Every expedition directly funds indigenous wetland naturalists, zero-plastic non-motorized paddling charters, and real-time wild Asian elephant corridor monitoring across Kalawewa Reservoir.
+          <p className="max-w-md text-sm text-[#f3efe6]/90 leading-relaxed font-light drop-shadow-sm">
+            Every expedition directly funds indigenous wetland naturalists, zero-plastic non-motorized paddling charters, and real-time wild Asian elephant corridor monitoring across Kalawewa Reservoir.
+          </p>
+        </div>
+
+        {/* 4 Stat Metrics with solid backing */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="bg-[#0B1914]/70 backdrop-blur-md p-6 rounded-xl border border-white/10">
+            <div className="font-serif text-3xl md:text-4xl text-[#d4af37] mb-1">100%</div>
+            <div className="text-xs uppercase tracking-wider text-[#f3efe6] font-medium mb-2">Silent & Non-Motorized</div>
+            <p className="text-xs text-stone-300 font-light leading-relaxed">
+              Zero carbon emissions preserving pristine aquatic bird colonies.
+            </p>
+          </div>
+          <div className="bg-[#0B1914]/70 backdrop-blur-md p-6 rounded-xl border border-white/10">
+            <div className="font-serif text-3xl md:text-4xl text-[#d4af37] mb-1">5th C.</div>
+            <div className="text-xs uppercase tracking-wider text-[#f3efe6] font-medium mb-2">Hydraulic Heritage</div>
+            <p className="text-xs text-stone-300 font-light leading-relaxed">
+              Custodians of King Dhatusena&apos;s 15-century-old freshwater reservoir.
+            </p>
+          </div>
+          <div className="bg-[#0B1914]/70 backdrop-blur-md p-6 rounded-xl border border-white/10">
+            <div className="font-serif text-3xl md:text-4xl text-[#d4af37] mb-1">Native</div>
+            <div className="text-xs uppercase tracking-wider text-[#f3efe6] font-medium mb-2">Indigenous Naturalists</div>
+            <p className="text-xs text-stone-300 font-light leading-relaxed">
+              Escorted by Kalawewa villagers trained in hydrology & tracking.
+            </p>
+          </div>
+          <div className="bg-[#0B1914]/70 backdrop-blur-md p-6 rounded-xl border border-white/10">
+            <div className="font-serif text-3xl md:text-4xl text-[#d4af37] mb-1">Zero</div>
+            <div className="text-xs uppercase tracking-wider text-[#f3efe6] font-medium mb-2">Single-Use Plastics</div>
+            <p className="text-xs text-stone-300 font-light leading-relaxed">
+              Strict leave-no-trace standards with reusable canteens.
             </p>
           </div>
         </div>
-
-        {/* 4 Impact Stat Columns */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 border-t border-white/10 pt-16">
-          {impactStats.map((stat, i) => (
-            <div key={i} className="flex flex-col space-y-3">
-              <span className="font-serif text-4xl sm:text-5xl font-normal text-[#C8A97E]">
-                {stat.number}
-              </span>
-              <h3 className="font-serif text-xl text-white font-normal">
-                {stat.label}
-              </h3>
-              <p className="text-xs sm:text-sm text-gray-400 font-light leading-relaxed">
-                {stat.description}
-              </p>
-            </div>
-          ))}
-        </div>
-
       </div>
     </section>
   );

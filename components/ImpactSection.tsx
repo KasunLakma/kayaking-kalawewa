@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 
 const impactStats = [
   {
@@ -27,8 +28,23 @@ const impactStats = [
 
 export default function ImpactSection() {
   return (
-    <section id="impact" className="w-full bg-[#08120E] text-white py-28 md:py-36 relative overflow-hidden border-t border-white/10">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+    <section id="impact" className="relative overflow-hidden py-24 sm:py-28 md:py-36 bg-[#07120e] text-white border-t border-white/10">
+      {/* Ambient Heritage Imagery */}
+      <div className="absolute inset-0 z-0 opacity-25">
+        <Image
+          alt="Ancient 5th-Century Hydraulic Sanctuary"
+          className="object-cover object-center filter saturate-50"
+          fill
+          priority={false}
+          src="/images/heritage-legacy.jpg"
+        />
+        {/* Dual Vignette Gradients for Editorial Luxury Legibility */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#07120e] via-[#07120e]/90 to-[#07120e]/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0B1914] via-transparent to-[#0B1914]" />
+      </div>
+
+      {/* Existing Text & 4-Stat Metric Cards remain crisp & fully legible on top */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
         
         {/* Split Top Header */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-end mb-20">

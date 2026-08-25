@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import BookingModal from './BookingModal';
 
 interface ExpeditionSlide {
@@ -25,8 +26,8 @@ const expeditions: ExpeditionSlide[] = [
     duration: '2 Hours',
     price: 'LKR 4,500',
     unit: '/ person',
-    imageUrl: '/images/sunrise-paddle.jpg',
-    fallbackUrl: '/images/sunrise-paddle.jpg',
+    imageUrl: '/images/sunrise-drift.jpg',
+    fallbackUrl: '/images/sunrise-drift.jpg',
     description: 'Early morning mist & lotus lagoons on King Dhatusena’s ancient 5th-century reservoir. Includes single/double kayak, life jacket & certified guide.',
   },
   {
@@ -49,8 +50,8 @@ const expeditions: ExpeditionSlide[] = [
     duration: 'Full Day Expedition',
     price: 'LKR 14,000',
     unit: '/ person',
-    imageUrl: '/images/island-heritage.jpg',
-    fallbackUrl: '/images/island-heritage.jpg',
+    imageUrl: '/images/lake-exploration.jpg',
+    fallbackUrl: '/images/lake-exploration.jpg',
     description: 'Island exploration, historic wetlands & endemic waterfowl on King Dhatusena’s reservoir with traditional island refreshment stop.',
   },
   {
@@ -207,11 +208,13 @@ export default function DestinationsSlider({ onSelectPackage }: DestinationsSlid
               onClick={() => setCurrentIndex(idx)}
               className={`absolute transition-all duration-700 ease-in-out w-[88vw] sm:w-[650px] md:w-[780px] h-[360px] sm:h-[400px] md:h-[460px] rounded-sm overflow-hidden border border-black/10 cursor-pointer ${stateClasses}`}
             >
-              <img
+              <Image
                 src={currentImgSrc}
-                onError={() => handleImageError(item.id)}
                 alt={item.fullTitle}
-                className="w-full h-full object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-105"
+                fill
+                sizes="(max-width: 768px) 88vw, 780px"
+                onError={() => handleImageError(item.id)}
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-[#0E1B17]/90 via-[#0E1B17]/35 to-black/30" />

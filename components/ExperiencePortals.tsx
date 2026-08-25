@@ -19,8 +19,8 @@ const experiences: Experience[] = [
     title: 'Sunrise Lotus Drift',
     description: 'Drift through early morning mist and blooming lotus bays as the 5th-century reservoir awakens to dawn calls of endemic waterbirds.',
     location: 'Kalawewa Lotus Lagoons, Sri Lanka',
-    imageUrl: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1000&q=80',
-    fallbackUrl: '/images/sunrise-paddle.jpg',
+    imageUrl: '/images/sunrise-drift.jpg',
+    fallbackUrl: '/images/sunrise-drift.jpg',
   },
   {
     id: 'sunset-golden-hour',
@@ -28,7 +28,7 @@ const experiences: Experience[] = [
     title: 'Sunset Golden Hour',
     description: 'Tranquil evening paddles with reflection photography as amber sunset hues cast golden light across quiet reservoir waters.',
     location: 'Kalawewa Western Coves, Sri Lanka',
-    imageUrl: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1000&q=80',
+    imageUrl: '/images/sunset-romance.jpg',
     fallbackUrl: '/images/sunset-romance.jpg',
   },
   {
@@ -37,7 +37,7 @@ const experiences: Experience[] = [
     title: 'Wild Elephant Corridor',
     description: 'Safe distance observation of wildlife along lake banks and elephant drinking trails under guided safety supervision.',
     location: 'Elephant Sanctuary Corridor, Kalawewa',
-    imageUrl: 'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=1000&q=80',
+    imageUrl: '/images/wildlife-elephant.jpg',
     fallbackUrl: '/images/wildlife-elephant.jpg',
   },
   {
@@ -46,8 +46,8 @@ const experiences: Experience[] = [
     title: 'Island Camp Refreshment',
     description: 'Traditional herbal tea stop on secluded rocky islets, stepping ashore to enjoy fresh island teas and king coconuts.',
     location: 'King Dhatusena Islets, Sri Lanka',
-    imageUrl: 'https://images.unsplash.com/photo-1510312305653-8ed496efae75?auto=format&fit=crop&w=1000&q=80',
-    fallbackUrl: '/images/island-heritage.jpg',
+    imageUrl: '/images/lake-exploration.jpg',
+    fallbackUrl: '/images/lake-exploration.jpg',
   },
 ];
 

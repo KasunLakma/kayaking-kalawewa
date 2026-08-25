@@ -45,7 +45,7 @@ export const packages: Package[] = [
       'Local Eco-Naturalist Guide',
       'Organic Ceylon Tea on Lake'
     ],
-    imageUrl: '/images/sunrise-paddle.jpg',
+    imageUrl: '/images/sunrise-drift.jpg',
     badge: 'Morning Glory',
     popular: true,
     rating: '5.0 ★ Exceptional',
@@ -107,7 +107,7 @@ export const packages: Package[] = [
       'Island Trekking',
       'Coconut Hydration'
     ],
-    imageUrl: '/images/island-heritage.jpg',
+    imageUrl: '/images/lake-exploration.jpg',
     badge: 'Heritage Masterclass',
     popular: false,
     rating: '5.0 ★ Heritage',

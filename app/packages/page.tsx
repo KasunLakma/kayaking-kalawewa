@@ -73,7 +73,7 @@ export default function PackagesPage() {
           <div className="max-w-6xl mx-auto text-center relative z-10 space-y-6">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#13241E] border border-[#C8A97E]/30 text-[10px] sm:text-xs font-medium text-[#C8A97E] uppercase tracking-[0.3em]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#C8A97E] animate-pulse" />
-              5TH CENTURY RESERVOIR EXPEDITIONS
+              EXCLUSIVE JOURNEYS
             </div>
 
             <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal text-[#F4F1EA] tracking-tight leading-[1.1]">
@@ -115,18 +115,18 @@ export default function PackagesPage() {
                 <button
                   key={cat}
                   onClick={() => setActiveTab(cat)}
-                  className={`px-6 py-3 text-xs font-medium uppercase tracking-[0.2em] transition-all duration-300 cursor-pointer border rounded-none flex items-center gap-2.5 ${
+                  className={`px-6 py-3 text-xs uppercase tracking-wider transition-all duration-300 cursor-pointer flex items-center gap-2.5 ${
                     isActive
-                      ? 'bg-[#C8A97E] text-[#0B1914] border-[#C8A97E] shadow-lg font-semibold'
-                      : 'bg-[#13241E] text-[#F4F1EA]/80 hover:text-[#C8A97E] border-white/10 hover:border-[#C8A97E]/50'
+                      ? 'bg-[#d4af37] text-black font-semibold border border-[#d4af37] shadow-md'
+                      : 'bg-[#132b22]/60 hover:bg-[#132b22] border border-white/20 hover:border-[#d4af37]/60 text-stone-200 hover:text-white font-medium'
                   }`}
                 >
                   <span>{cat}</span>
                   <span
-                    className={`px-2 py-0.5 text-[10px] rounded-none ${
+                    className={`px-2 py-0.5 text-[10px] ${
                       isActive
-                        ? 'bg-[#0B1914] text-[#C8A97E]'
-                        : 'bg-[#0B1914]/60 text-[#F4F1EA]/60 border border-white/10'
+                        ? 'bg-black text-[#d4af37] font-bold'
+                        : 'bg-[#0B1914]/80 text-stone-300 border border-white/15'
                     }`}
                   >
                     {count}

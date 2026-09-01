@@ -93,15 +93,8 @@ export default function Header({ onOpenBooking }: HeaderProps) {
             </span>
           </Link>
 
-          {/* Right: Minimal Search icon + solid luxury amber button */}
-          <div className="flex items-center gap-4 sm:gap-5">
-            <Link
-              href="/packages"
-              className="hidden md:inline-flex px-4 py-2 border border-[#C8A97E]/40 hover:border-[#C8A97E] text-[#C8A97E] hover:text-white text-xs font-medium uppercase tracking-[0.15em] transition-all"
-            >
-              Packages &amp; Expeditions
-            </Link>
-
+          {/* Right: Minimal Search icon + secondary gold outline action */}
+          <div className="flex items-center gap-3 sm:gap-4">
             <button
               onClick={() => setSearchModalOpen(true)}
               className="p-2 text-white/80 hover:text-[#C8A97E] transition-colors cursor-pointer"
@@ -113,12 +106,12 @@ export default function Header({ onOpenBooking }: HeaderProps) {
               </svg>
             </button>
 
-            <button
-              onClick={handleBookingClick}
-              className="px-5 sm:px-6 py-2.5 bg-[#D97706] hover:bg-[#B45309] text-white text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-300 shadow-md cursor-pointer rounded-none"
+            <Link
+              href="/#packages"
+              className="px-4 sm:px-5 py-2.5 border border-[#C8A97E]/70 hover:border-[#C8A97E] hover:bg-[#C8A97E]/10 text-[#C8A97E] hover:text-white text-[11px] font-semibold uppercase tracking-[0.18em] transition-all duration-300 shadow-sm cursor-pointer rounded-none inline-flex items-center justify-center text-center"
             >
-              BOOK NOW
-            </button>
+              EXPLORE EXPEDITIONS
+            </Link>
           </div>
         </div>
       </header>

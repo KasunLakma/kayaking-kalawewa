@@ -123,15 +123,15 @@ export default function QuickBookingBar({ onCheckAvailability }: QuickBookingBar
             </div>
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Button - Primary Gold Solid Button */}
           <div className="w-full md:w-auto shrink-0 pt-2 md:pt-0">
             <button
               type="submit"
-              className="w-full md:w-auto bg-[#112620] hover:bg-[#1f3d34] text-white px-8 py-3.5 rounded-xl font-medium tracking-wide transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer text-sm"
+              className="w-full md:w-auto bg-[#D97706] hover:bg-[#B45309] text-white px-8 py-3.5 rounded-xl text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 shadow-lg hover:shadow-amber-900/30 flex items-center justify-center gap-2.5 cursor-pointer"
             >
-              <span>Check Availability</span>
+              <span>CHECK AVAILABILITY</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path d="M5 12h14M12 5l7 7-7 7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M5 12h14M12 5l7 7-7 7" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
           </div>

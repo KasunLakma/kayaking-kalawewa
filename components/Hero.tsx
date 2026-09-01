@@ -49,10 +49,10 @@ export default function Hero() {
         {/* Hero Action Buttons */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <Link
-            href="/booking"
+            href="#packages"
             className="px-8 py-3.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold uppercase tracking-[0.2em] transition-all shadow-lg rounded-none cursor-pointer"
           >
-            BOOK EXPEDITION NOW
+            EXPLORE EXPEDITIONS
           </Link>
           <Link
             href="/packages"

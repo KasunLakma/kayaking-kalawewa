@@ -117,7 +117,7 @@ export default function DestinationsSlider({ onSelectPackage }: DestinationsSlid
   };
 
   return (
-    <section className="w-full bg-[#C8B8A6] text-[#0E1B17] py-24 md:py-32 relative overflow-hidden">
+    <section id="packages" className="w-full bg-[#C8B8A6] text-[#0E1B17] py-24 md:py-32 relative overflow-hidden">
       
       {/* Category Pills Header */}
       <div className="max-w-7xl mx-auto px-6 mb-12 sm:mb-16 text-center">

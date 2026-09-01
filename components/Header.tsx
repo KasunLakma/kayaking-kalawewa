@@ -220,19 +220,23 @@ export default function Header({ onOpenBooking }: HeaderProps) {
                   <span className="text-[#d4af37] font-mono font-medium">8.0264° N, 80.5284° E</span>
                 </div>
 
-                <div className="flex items-center justify-between border-b border-white/15 pb-2.5">
-                  <span className="text-stone-300 font-light">Direct Hotline:</span>
-                  <span className="text-[#f5f2eb] font-medium">+94 77 123 4567</span>
+                {/* Unified Contact Action Row */}
+                <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
+                  <a
+                    href="tel:+94771234567"
+                    className="flex-1 w-full py-2.5 px-3 bg-[#13241E] hover:bg-[#1a3028] border border-white/20 hover:border-[#d4af37] text-[#f3efe6] hover:text-[#d4af37] text-sm tracking-wider transition-colors rounded-xl flex items-center justify-center gap-2 font-medium shadow-md"
+                  >
+                    <span>📞 +94 77 123 4567</span>
+                  </a>
+                  <a
+                    href="https://wa.me/94771234567"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 w-full py-2.5 px-3 bg-[#132b22]/90 hover:bg-[#132b22] border border-[#d4af37]/40 hover:border-[#d4af37] text-[#f3efe6] hover:text-[#d4af37] text-sm tracking-wider transition-colors rounded-xl flex items-center justify-center gap-2 font-medium shadow-md"
+                  >
+                    <span>💬 WhatsApp Concierge</span>
+                  </a>
                 </div>
-
-                <a
-                  href="https://wa.me/94771234567"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full mt-2 py-2.5 px-4 bg-[#132b22]/90 hover:bg-[#132b22] border border-[#d4af37]/40 hover:border-[#d4af37] text-[#f3efe6] hover:text-[#d4af37] font-semibold text-xs rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-md"
-                >
-                  <span>💬 WHATSAPP CONCIERGE</span>
-                </a>
               </div>
             </div>
 
@@ -253,8 +257,12 @@ export default function Header({ onOpenBooking }: HeaderProps) {
             </div>
 
             <div className="flex items-center gap-6">
-              <span className="text-[#d4af37] font-medium">WhatsApp: +94 77 123 4567</span>
-              <span className="text-[#f5f2eb]">expeditions@kalawewakayak.lk</span>
+              <a
+                href="mailto:expeditions@kalawewakayak.lk"
+                className="text-[#f3efe6] hover:text-[#d4af37] text-sm tracking-wider transition-colors"
+              >
+                expeditions@kalawewakayak.lk
+              </a>
             </div>
           </div>
 

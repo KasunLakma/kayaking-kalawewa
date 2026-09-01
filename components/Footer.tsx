@@ -80,22 +80,24 @@ export default function Footer() {
               Sri Lanka&apos;s premier eco-friendly kayaking tour operator on Kalawewa Reservoir. Dedicated to sustainable wilderness adventure, historic 5th-century irrigation heritage, and safety excellence.
             </p>
 
-            <div className="text-xs text-[#F4F1EA]/80 font-light space-y-1 pt-1">
+            <div className="text-xs text-[#F4F1EA]/80 font-light space-y-2 pt-1">
               <p>📍 Kalawewa Lake, North Central Province, Sri Lanka (Coordinates: 8.0264° N, 80.5284° E)</p>
-              <div className="flex items-center gap-4 pt-2">
+              
+              {/* Unified Contact Action Row */}
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <a
+                  href="tel:+94771234567"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#13241E] hover:bg-[#1a3028] border border-white/20 hover:border-[#d4af37] text-[#f3efe6] hover:text-[#d4af37] text-sm tracking-wider transition-colors rounded-lg shadow-sm"
+                >
+                  <span>📞 +94 77 123 4567</span>
+                </a>
                 <a
                   href="https://wa.me/94771234567"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#132b22]/90 hover:bg-[#132b22] border border-[#d4af37]/40 hover:border-[#d4af37] text-xs text-[#f3efe6] hover:text-[#d4af37] transition-all duration-300 rounded-lg shadow-sm"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#132b22]/90 hover:bg-[#132b22] border border-[#d4af37]/40 hover:border-[#d4af37] text-[#f3efe6] hover:text-[#d4af37] text-sm tracking-wider transition-colors rounded-lg shadow-sm"
                 >
                   <span>💬 WhatsApp Concierge</span>
-                </a>
-                <a
-                  href="tel:+94771234567"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#13241E] border border-white/20 text-[11px] text-slate-300 hover:text-white transition-colors"
-                >
-                  <span>📞 Call Hotline</span>
                 </a>
               </div>
             </div>

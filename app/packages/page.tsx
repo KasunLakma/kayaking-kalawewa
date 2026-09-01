@@ -56,13 +56,11 @@ export default function PackagesPage() {
         {/* Back to Home Button */}
         <div className="max-w-6xl mx-auto px-6 pt-4 pb-2 relative z-20">
           <Link
-            className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#c8b8a6] hover:text-white transition-colors duration-200 py-2 px-4 rounded-full bg-[#112620]/80 border border-[#c8b8a6]/20 backdrop-blur-sm shadow-md"
             href="/"
+            className="inline-flex items-center gap-2 text-stone-300 hover:text-[#d4af37] text-xs font-semibold tracking-[0.2em] uppercase transition-colors"
           >
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            <span>Return to Sanctuary / Back to Home</span>
+            <span>←</span>
+            <span>BACK TO HOME</span>
           </Link>
         </div>
 

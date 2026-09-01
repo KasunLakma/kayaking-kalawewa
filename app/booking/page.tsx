@@ -35,7 +35,7 @@ export default function BookingPage() {
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-stone-400 hover:text-[#d4af37] text-xs font-medium tracking-[0.2em] uppercase transition-colors"
+            className="inline-flex items-center gap-2 text-stone-300 hover:text-[#d4af37] text-xs font-semibold tracking-[0.2em] uppercase transition-colors"
           >
             <span>←</span>
             <span>BACK TO HOME</span>

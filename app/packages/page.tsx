@@ -70,33 +70,50 @@ export default function PackagesPage() {
           <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-[#C8A97E]/10 rounded-full blur-[120px] pointer-events-none" />
           <div className="absolute inset-0 bg-[radial-gradient(#C8A97E_1px,transparent_1px)] [background-size:32px_32px] opacity-[0.03] pointer-events-none" />
 
-          <div className="max-w-6xl mx-auto text-center relative z-10 space-y-6">
+          <div className="max-w-6xl mx-auto relative z-10 space-y-6">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#13241E] border border-[#C8A97E]/30 text-[10px] sm:text-xs font-medium text-[#C8A97E] uppercase tracking-[0.3em]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#C8A97E] animate-pulse" />
               EXCLUSIVE JOURNEYS
             </div>
 
-            <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal text-[#F4F1EA] tracking-tight leading-[1.1]">
+            <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal text-[#F4F1EA] tracking-tight leading-[1.1] text-left md:text-left">
               Our Curated Expeditions
             </h1>
 
-            <p className="text-base sm:text-lg text-[#F4F1EA]/80 font-light max-w-3xl mx-auto leading-relaxed pt-2">
+            <p className="text-left text-stone-300 text-sm md:text-base leading-relaxed max-w-2xl mx-auto md:mx-0 pt-2 font-light">
               Immerse yourself in ancient Sri Lankan hydraulic heritage. Experience serene eco-kayaking across the historic 5th-century waters of King Dhatusena, surrounded by thriving lotus lagoons and Asian elephant sanctuary corridors.
             </p>
 
-            {/* Quick Metrics Bar */}
-            <div className="pt-8 flex flex-wrap items-center justify-center gap-8 text-xs text-[#F4F1EA]/70 font-light border-t border-white/10 max-w-2xl mx-auto">
-              <div className="flex items-center gap-2">
-                <span className="text-[#C8A97E]">❖</span>
-                <span>Indigenous Naturalist Escorts</span>
+            {/* Trust Badges */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 w-full max-w-6xl mx-auto mt-12 pt-8 border-t border-white/10 text-left">
+              <div className="p-5 rounded-xl bg-white/[0.03] border border-white/10 flex items-start gap-4 hover:border-[#d4af37]/40 transition-colors">
+                <div className="p-2.5 rounded-lg bg-[#C8A97E]/10 text-[#C8A97E] text-base shrink-0">
+                  ❖
+                </div>
+                <div>
+                  <h4 className="text-xs font-semibold uppercase tracking-wider text-[#F4F1EA]">Indigenous Naturalist Escorts</h4>
+                  <p className="text-xs text-stone-400 font-light mt-1 leading-relaxed">Guided by local villagers &amp; wetland wildlife experts</p>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="text-[#C8A97E]">❖</span>
-                <span>Zero Single-Use Plastic Policy</span>
+
+              <div className="p-5 rounded-xl bg-white/[0.03] border border-white/10 flex items-start gap-4 hover:border-[#d4af37]/40 transition-colors">
+                <div className="p-2.5 rounded-lg bg-[#C8A97E]/10 text-[#C8A97E] text-base shrink-0">
+                  ❖
+                </div>
+                <div>
+                  <h4 className="text-xs font-semibold uppercase tracking-wider text-[#F4F1EA]">Zero Single-Use Plastic Policy</h4>
+                  <p className="text-xs text-stone-400 font-light mt-1 leading-relaxed">Eco-certified water canteens &amp; sanctuary protection</p>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="text-[#C8A97E]">❖</span>
-                <span>USCG/CE Safety Gear</span>
+
+              <div className="p-5 rounded-xl bg-white/[0.03] border border-white/10 flex items-start gap-4 hover:border-[#d4af37]/40 transition-colors">
+                <div className="p-2.5 rounded-lg bg-[#C8A97E]/10 text-[#C8A97E] text-base shrink-0">
+                  ❖
+                </div>
+                <div>
+                  <h4 className="text-xs font-semibold uppercase tracking-wider text-[#F4F1EA]">USCG / CE Safety Gear</h4>
+                  <p className="text-xs text-stone-400 font-light mt-1 leading-relaxed">Certified life jackets, backup radios &amp; safety boats</p>
+                </div>
               </div>
             </div>
           </div>
@@ -115,18 +132,18 @@ export default function PackagesPage() {
                 <button
                   key={cat}
                   onClick={() => setActiveTab(cat)}
-                  className={`px-6 py-3 text-xs uppercase tracking-wider transition-all duration-300 cursor-pointer flex items-center gap-2.5 ${
+                  className={`px-4 py-2.5 text-xs uppercase tracking-wider rounded-full transition-all duration-300 cursor-pointer flex items-center ${
                     isActive
-                      ? 'bg-[#d4af37] text-black font-semibold border border-[#d4af37] shadow-md'
+                      ? 'bg-[#d4af37]/20 border border-[#d4af37] text-[#d4af37] font-semibold shadow-sm'
                       : 'bg-[#132b22]/60 hover:bg-[#132b22] border border-white/20 hover:border-[#d4af37]/60 text-stone-200 hover:text-white font-medium'
                   }`}
                 >
                   <span>{cat}</span>
                   <span
-                    className={`px-2 py-0.5 text-[10px] ${
+                    className={`ml-2 px-1.5 py-0.5 text-[10px] rounded-full ${
                       isActive
-                        ? 'bg-black text-[#d4af37] font-bold'
-                        : 'bg-[#0B1914]/80 text-stone-300 border border-white/15'
+                        ? 'bg-[#d4af37]/30 text-[#d4af37] font-bold'
+                        : 'bg-white/10 text-stone-300 border border-white/15'
                     }`}
                   >
                     {count}

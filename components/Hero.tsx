@@ -3,12 +3,17 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import QuickBookingBar from './QuickBookingBar';
 
-export default function Hero() {
+interface HeroProps {
+  onCheckAvailability?: (packageId: string, date: string, timeSlot: string, guests: number) => void;
+}
+
+export default function Hero({ onCheckAvailability }: HeroProps) {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
 
   return (
-    <section className="relative w-full min-h-screen flex flex-col justify-between pt-28 pb-12 overflow-hidden bg-[#0B1914] text-white">
+    <section className="relative w-full min-h-screen flex flex-col justify-between pt-28 pb-20 md:pb-24 bg-[#0B1914] text-white">
       
       {/* Fullscreen 100vh Edge-to-Edge Cinematic Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -102,6 +107,11 @@ export default function Hero() {
           </button>
         </div>
 
+      </div>
+
+      {/* Availability Floating Bar straddling 50% on bottom boundary seam */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-30 w-full max-w-5xl px-4 pointer-events-auto">
+        <QuickBookingBar onCheckAvailability={onCheckAvailability} />
       </div>
 
     </section>

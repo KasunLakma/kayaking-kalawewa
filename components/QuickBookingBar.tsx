@@ -32,13 +32,13 @@ export default function QuickBookingBar({ onCheckAvailability }: QuickBookingBar
   };
 
   return (
-    <section className="relative z-20 max-w-5xl mx-auto px-4 md:px-6 mt-8 mb-16">
-      <div className="bg-white text-gray-800 rounded-2xl shadow-2xl px-6 py-4 max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 border border-gray-100">
+    <div className="w-full">
+      <div className="bg-[#162720]/95 text-[#f3efe6] backdrop-blur-md rounded-2xl shadow-2xl px-6 py-4 max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 border border-[#d4af37]/30">
         <form onSubmit={handleSubmit} className="w-full flex flex-col md:flex-row items-center justify-between gap-4">
           
           {/* Field 1: SELECT DATE */}
-          <div className="flex items-center gap-3 w-full md:w-auto flex-1 min-w-[200px] border-b md:border-b-0 md:border-r border-gray-100 pb-3 md:pb-0 md:pr-4">
-            <div className="p-2.5 rounded-xl bg-stone-100 text-stone-700 shrink-0">
+          <div className="flex items-center gap-3 w-full md:w-auto flex-1 min-w-[200px] border-b md:border-b-0 md:border-r border-white/10 pb-3 md:pb-0 md:pr-4">
+            <div className="p-2.5 rounded-xl bg-white/5 text-[#d4af37] shrink-0 border border-white/10">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 <line x1="16" y1="2" x2="16" y2="6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -47,7 +47,7 @@ export default function QuickBookingBar({ onCheckAvailability }: QuickBookingBar
               </svg>
             </div>
             <div className="flex-1">
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-[#d4af37]">
                 SELECT DATE
               </label>
               <input
@@ -55,15 +55,15 @@ export default function QuickBookingBar({ onCheckAvailability }: QuickBookingBar
                 min={todayStr}
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="w-full bg-transparent text-sm font-semibold text-gray-800 focus:outline-none cursor-pointer"
+                className="w-full bg-transparent text-sm font-semibold text-[#f3efe6] focus:outline-none cursor-pointer"
                 aria-label="Select Date"
               />
             </div>
           </div>
 
           {/* Field 2: PREFERRED TIME SLOT */}
-          <div className="flex items-center gap-3 w-full md:w-auto flex-1 min-w-[200px] border-b md:border-b-0 md:border-r border-gray-100 pb-3 md:pb-0 md:pr-4">
-            <div className="p-2.5 rounded-xl bg-amber-50 text-amber-700 shrink-0">
+          <div className="flex items-center gap-3 w-full md:w-auto flex-1 min-w-[200px] border-b md:border-b-0 md:border-r border-white/10 pb-3 md:pb-0 md:pr-4">
+            <div className="p-2.5 rounded-xl bg-white/5 text-[#d4af37] shrink-0 border border-white/10">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 <line x1="12" y1="1" x2="12" y2="3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -77,26 +77,26 @@ export default function QuickBookingBar({ onCheckAvailability }: QuickBookingBar
               </svg>
             </div>
             <div className="flex-1">
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-[#d4af37]">
                 PREFERRED TIME SLOT
               </label>
               <select
                 value={selectedTimeSlot}
                 onChange={(e) => setSelectedTimeSlot(e.target.value)}
-                className="w-full bg-transparent text-sm font-semibold text-gray-800 focus:outline-none cursor-pointer"
+                className="w-full bg-transparent text-sm font-semibold text-[#f3efe6] focus:outline-none cursor-pointer"
                 aria-label="Preferred Time Slot"
               >
-                <option value="Morning | 6:00 AM">Morning | 6:00 AM</option>
-                <option value="Evening | 4:30 PM">Evening | 4:30 PM</option>
-                <option value="Late Morning | 9:00 AM">Late Morning | 9:00 AM</option>
-                <option value="Afternoon | 3:30 PM">Afternoon | 3:30 PM</option>
+                <option value="Morning | 6:00 AM" className="bg-[#0B1914] text-[#f3efe6]">Morning | 6:00 AM</option>
+                <option value="Evening | 4:30 PM" className="bg-[#0B1914] text-[#f3efe6]">Evening | 4:30 PM</option>
+                <option value="Late Morning | 9:00 AM" className="bg-[#0B1914] text-[#f3efe6]">Late Morning | 9:00 AM</option>
+                <option value="Afternoon | 3:30 PM" className="bg-[#0B1914] text-[#f3efe6]">Afternoon | 3:30 PM</option>
               </select>
             </div>
           </div>
 
           {/* Field 3: GUESTS COUNT */}
           <div className="flex items-center gap-3 w-full md:w-auto flex-1 min-w-[180px]">
-            <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-800 shrink-0">
+            <div className="p-2.5 rounded-xl bg-white/5 text-[#d4af37] shrink-0 border border-white/10">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 <circle cx="9" cy="7" r="4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -105,20 +105,20 @@ export default function QuickBookingBar({ onCheckAvailability }: QuickBookingBar
               </svg>
             </div>
             <div className="flex-1">
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-[#d4af37]">
                 GUESTS COUNT
               </label>
               <select
                 value={guestCount}
                 onChange={(e) => setGuestCount(parseInt(e.target.value) || 2)}
-                className="w-full bg-transparent text-sm font-semibold text-gray-800 focus:outline-none cursor-pointer"
+                className="w-full bg-transparent text-sm font-semibold text-[#f3efe6] focus:outline-none cursor-pointer"
                 aria-label="Guests Count"
               >
-                <option value={1}>1 Adventurer</option>
-                <option value={2}>2 Adventurers</option>
-                <option value={3}>3 Adventurers</option>
-                <option value={4}>4 Adventurers</option>
-                <option value={5}>5+ Adventurers</option>
+                <option value={1} className="bg-[#0B1914] text-[#f3efe6]">1 Adventurer</option>
+                <option value={2} className="bg-[#0B1914] text-[#f3efe6]">2 Adventurers</option>
+                <option value={3} className="bg-[#0B1914] text-[#f3efe6]">3 Adventurers</option>
+                <option value={4} className="bg-[#0B1914] text-[#f3efe6]">4 Adventurers</option>
+                <option value={5} className="bg-[#0B1914] text-[#f3efe6]">5+ Adventurers</option>
               </select>
             </div>
           </div>
@@ -138,7 +138,7 @@ export default function QuickBookingBar({ onCheckAvailability }: QuickBookingBar
 
         </form>
       </div>
-    </section>
+    </div>
   );
 }
 

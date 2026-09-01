@@ -42,17 +42,14 @@ export default function Home() {
       <Header onOpenBooking={() => handleOpenBooking()} />
 
       <main className="w-full">
-        {/* 2. Fullscreen Cinematic Hero */}
-        <Hero />
-
-        {/* 3. Sleek Floating Quick Booking Bar (Below Hero) */}
-        <QuickBookingBar
+        {/* 2. Fullscreen Cinematic Hero with Straddling Boundary Booking Bar */}
+        <Hero
           onCheckAvailability={(pkgId, date, slot, guests) =>
             handleOpenBooking(pkgId, date, slot, guests)
           }
         />
 
-        {/* 4. Editorial Split About Section */}
+        {/* 3. Editorial Split About Section */}
         <AboutSection />
 
         {/* 5. Infinite Auto-Play Warm Taupe Destinations Slider */}

@@ -87,9 +87,9 @@ export default function Footer() {
                   href="https://wa.me/94771234567"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#13241E] border border-[#C8A97E]/40 text-[11px] text-[#C8A97E] hover:text-white transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#132b22]/90 hover:bg-[#132b22] border border-[#d4af37]/40 hover:border-[#d4af37] text-xs text-[#f3efe6] hover:text-[#d4af37] transition-all duration-300 rounded-lg shadow-sm"
                 >
-                  <span>💬 WhatsApp Us</span>
+                  <span>💬 WhatsApp Concierge</span>
                 </a>
                 <a
                   href="tel:+94771234567"

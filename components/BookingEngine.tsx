@@ -631,7 +631,7 @@ export default function BookingEngine({
                 href={whatsappConciergeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto px-6 py-3 bg-[#25D366] text-stone-900 font-bold text-xs rounded-xl shadow-md flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-6 py-3 bg-[#132b22]/90 hover:bg-[#132b22] border border-[#d4af37]/40 hover:border-[#d4af37] text-[#f3efe6] hover:text-[#d4af37] font-bold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition-all duration-300"
               >
                 <span>💬 MESSAGE CONCIERGE ON WHATSAPP</span>
               </a>

@@ -268,7 +268,7 @@ export default function PackagesPage() {
                         href={whatsappUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full sm:w-1/2 py-3.5 bg-[#0B1914] hover:bg-[#13241E] border border-[#C8A97E]/50 text-[#C8A97E] hover:text-white text-xs font-semibold uppercase tracking-[0.15em] transition-all duration-300 text-center rounded-none flex items-center justify-center gap-2"
+                        className="w-full sm:w-1/2 py-3.5 bg-[#132b22]/90 hover:bg-[#132b22] border border-[#d4af37]/40 hover:border-[#d4af37] text-[#f3efe6] hover:text-[#d4af37] text-xs font-semibold uppercase tracking-[0.15em] transition-all duration-300 text-center rounded-none flex items-center justify-center gap-2 shadow-sm"
                       >
                         <span>💬 WHATSAPP INQUIRY</span>
                       </a>

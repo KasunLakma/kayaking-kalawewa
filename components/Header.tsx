@@ -229,7 +229,7 @@ export default function Header({ onOpenBooking }: HeaderProps) {
                   href="https://wa.me/94771234567"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full mt-2 py-2.5 px-4 bg-[#25D366] hover:bg-[#1ebd59] text-stone-900 font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-all shadow-md"
+                  className="w-full mt-2 py-2.5 px-4 bg-[#132b22]/90 hover:bg-[#132b22] border border-[#d4af37]/40 hover:border-[#d4af37] text-[#f3efe6] hover:text-[#d4af37] font-semibold text-xs rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-md"
                 >
                   <span>💬 WHATSAPP CONCIERGE</span>
                 </a>

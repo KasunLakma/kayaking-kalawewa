@@ -8,7 +8,7 @@ export default function Hero() {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
 
   return (
-    <section className="relative w-full min-h-[850px] lg:min-h-[900px] lg:h-screen flex flex-col justify-between overflow-hidden bg-[#0B1914] text-white">
+    <section className="relative w-full min-h-screen flex flex-col justify-between pt-28 pb-12 overflow-hidden bg-[#0B1914] text-white">
       
       {/* Fullscreen 100vh Edge-to-Edge Cinematic Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -27,18 +27,15 @@ export default function Hero() {
         <div className="absolute inset-0 bg-black/40 bg-gradient-to-t from-black/80 via-black/20 to-black/40 pointer-events-none" />
       </div>
 
-      {/* Top Spacer for Header */}
-      <div className="relative z-10 pt-20 md:pt-24" />
-
       {/* Central Immersive Title Hierarchy */}
-      <div className="relative z-10 max-w-5xl mx-auto w-full px-6 my-auto text-center flex flex-col items-center justify-center py-8 sm:py-12">
+      <div className="my-auto flex flex-col items-center justify-center text-center px-4 max-w-5xl mx-auto relative z-10 py-6">
         {/* Overline */}
         <span className="tracking-[0.35em] text-xs font-semibold text-[#C8A97E] uppercase mb-4 block">
           KALAWEWA ADVENTURES &amp; EXPEDITIONS
         </span>
 
         {/* Main Title */}
-        <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-[0.08em] sm:tracking-[0.15em] text-white leading-tight drop-shadow-lg uppercase">
+        <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-normal tracking-tight text-white leading-[1.1] drop-shadow-lg uppercase">
           Experience the Untamed Beauty of Kalawewa
         </h1>
 
@@ -63,35 +60,11 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Wilderness Bottom HUD & Controls (Sufficient pb-28 md:pb-36 reserved for floating availability bar) */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-6 sm:px-12 pb-28 md:pb-36">
+      {/* Wilderness Bottom HUD & Controls */}
+      <div className="relative z-20 w-full max-w-5xl mx-auto px-4 sm:px-6 pt-6">
         
-        {/* Thin Horizontal Separator Line */}
-        <div className="relative w-full flex items-center justify-center mb-6">
-          <div className="w-full h-[1px] bg-white/20" />
-
-          {/* Centered Circular Pause/Play Toggle Button with Dynamic Ring */}
-          <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="absolute p-3 rounded-full bg-[#0B1914]/80 border border-white/30 text-white hover:border-[#C8A97E] hover:text-[#C8A97E] transition-all cursor-pointer group shadow-2xl flex items-center justify-center"
-            title={isPlaying ? 'Pause Background Animation' : 'Play Background Animation'}
-            aria-label="Toggle Animation"
-          >
-            {/* Spinning Circular Progress Ring */}
-            {isPlaying && (
-              <svg className="absolute w-10 h-10 animate-spin text-[#C8A97E]/60 pointer-events-none" viewBox="0 0 40 40">
-                <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="25 75" />
-              </svg>
-            )}
-
-            <span className="text-sm font-medium relative z-10">
-              {isPlaying ? '⏸' : '▶'}
-            </span>
-          </button>
-        </div>
-
         {/* HUD Bottom Bar: Coordinates (Left) & Editorial Snippet (Right) */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs mb-6">
           
           {/* Left Bottom: Geographic Coordinates */}
           <div className="font-mono tracking-widest text-xs text-gray-300 uppercase">
@@ -104,6 +77,31 @@ export default function Hero() {
           </p>
 
         </div>
+
+        {/* Thin Horizontal Separator Line */}
+        <div className="relative w-full flex items-center justify-center">
+          <div className="w-full h-[1px] bg-white/20" />
+
+          {/* Centered Circular Pause/Play Toggle Button with Dynamic Ring */}
+          <button
+            onClick={() => setIsPlaying(!isPlaying)}
+            className="absolute p-2.5 rounded-full bg-[#0B1914]/80 border border-white/30 text-white hover:border-[#C8A97E] hover:text-[#C8A97E] transition-all cursor-pointer group shadow-2xl flex items-center justify-center"
+            title={isPlaying ? 'Pause Background Animation' : 'Play Background Animation'}
+            aria-label="Toggle Animation"
+          >
+            {/* Spinning Circular Progress Ring */}
+            {isPlaying && (
+              <svg className="absolute w-9 h-9 animate-spin text-[#C8A97E]/60 pointer-events-none" viewBox="0 0 40 40">
+                <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="25 75" />
+              </svg>
+            )}
+
+            <span className="text-xs font-medium relative z-10">
+              {isPlaying ? '⏸' : '▶'}
+            </span>
+          </button>
+        </div>
+
       </div>
 
     </section>

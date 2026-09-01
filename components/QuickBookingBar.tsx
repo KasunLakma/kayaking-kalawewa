@@ -32,7 +32,7 @@ export default function QuickBookingBar({ onCheckAvailability }: QuickBookingBar
   };
 
   return (
-    <section className="relative z-30 max-w-5xl mx-auto px-4 md:px-6 -mt-12 md:-mt-14 mb-16">
+    <section className="relative z-30 max-w-5xl mx-auto px-4 md:px-6 -mt-16 md:-mt-20 mb-16">
       <div className="bg-white text-gray-800 rounded-2xl shadow-2xl px-6 py-4 max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 border border-gray-100">
         <form onSubmit={handleSubmit} className="w-full flex flex-col md:flex-row items-center justify-between gap-4">
           

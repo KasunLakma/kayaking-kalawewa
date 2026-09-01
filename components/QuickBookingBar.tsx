@@ -37,8 +37,16 @@ export default function QuickBookingBar({ onCheckAvailability }: QuickBookingBar
         <form onSubmit={handleSubmit} className="w-full grid grid-cols-1 md:grid-cols-4 items-center gap-3">
           
           {/* Field 1: SELECT DATE */}
-          <div className="flex items-center gap-3 h-[52px] px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl w-full">
-            <div className="text-[#d4af37] shrink-0">
+          <div
+            onClick={(e) => {
+              const inputEl = e.currentTarget.querySelector('input');
+              if (inputEl && typeof inputEl.showPicker === 'function') {
+                inputEl.showPicker();
+              }
+            }}
+            className="flex items-center gap-3 h-[52px] px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl w-full cursor-pointer"
+          >
+            <div className="text-[#d4af37] shrink-0 pointer-events-none">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 <line x1="16" y1="2" x2="16" y2="6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -47,7 +55,7 @@ export default function QuickBookingBar({ onCheckAvailability }: QuickBookingBar
               </svg>
             </div>
             <div className="flex-1 min-w-0">
-              <label className="block text-[9px] font-bold uppercase tracking-wider text-[#d4af37] leading-none mb-1">
+              <label className="block text-[9px] font-bold uppercase tracking-wider text-[#d4af37] leading-none mb-1 cursor-pointer">
                 SELECT DATE
               </label>
               <input
@@ -55,7 +63,7 @@ export default function QuickBookingBar({ onCheckAvailability }: QuickBookingBar
                 min={todayStr}
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="w-full bg-transparent text-xs font-semibold text-[#f3efe6] focus:outline-none cursor-pointer leading-tight"
+                className="w-full bg-transparent text-xs font-semibold text-[#f3efe6] focus:outline-none cursor-pointer leading-tight [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-inner-spin-button]:hidden"
                 aria-label="Select Date"
               />
             </div>

@@ -20,20 +20,41 @@ export default function BookingModal({
   selectedTimeSlot,
   selectedGuestCount,
 }: BookingModalProps) {
+  // Support ESC key to close modal
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-sm overflow-y-auto">
-      <div className="bg-[#f4efe8] text-stone-800 max-w-5xl w-full shadow-2xl relative p-4 sm:p-6 my-8 rounded-3xl border border-stone-300">
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-6 right-6 text-stone-500 hover:text-stone-900 transition-colors text-xl font-bold cursor-pointer z-10 w-8 h-8 rounded-full bg-white border border-stone-200 flex items-center justify-center shadow-sm"
-          aria-label="Close Booking Modal"
-        >
-          ✕
-        </button>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md overflow-y-auto"
+      onClick={onClose}
+      aria-modal="true"
+      role="dialog"
+    >
+      {/* Fixed Accessible Top-Right Close Action Button */}
+      <button
+        onClick={onClose}
+        className="fixed top-6 right-6 z-50 p-2.5 text-stone-400 hover:text-white rounded-full bg-black/60 border border-white/10 backdrop-blur-md hover:border-[#d4af37] transition-all cursor-pointer shadow-2xl flex items-center justify-center"
+        aria-label="Close Booking Modal"
+        title="Close Booking Modal"
+      >
+        <span className="text-xl font-bold leading-none px-1">✕</span>
+      </button>
 
+      {/* Modal Content Card */}
+      <div
+        className="bg-[#f4efe8] text-stone-800 max-w-5xl w-full shadow-2xl relative p-4 sm:p-6 my-8 rounded-3xl border border-stone-300 pointer-events-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
         <BookingEngine
           initialPackageId={selectedPackageId}
           initialDate={selectedDate}

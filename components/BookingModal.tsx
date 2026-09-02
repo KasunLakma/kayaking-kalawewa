@@ -50,9 +50,9 @@ export default function BookingModal({
         <span className="text-xl font-bold leading-none px-1">✕</span>
       </button>
 
-      {/* Modal Content Card */}
+      {/* Modal Content Container */}
       <div
-        className="bg-[#f4efe8] text-stone-800 max-w-5xl w-full shadow-2xl relative p-4 sm:p-6 my-8 rounded-3xl border border-stone-300 pointer-events-auto"
+        className="w-full max-w-5xl relative pointer-events-auto flex justify-center my-8"
         onClick={(e) => e.stopPropagation()}
       >
         <BookingEngine

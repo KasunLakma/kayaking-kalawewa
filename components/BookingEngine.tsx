@@ -9,6 +9,7 @@ import {
   getBlockedSlotsFromFirestore,
   BlockedSlot,
 } from '@/lib/firebase';
+import BookingConfirmationModal from './BookingConfirmationModal';
 
 interface BookingEngineProps {
   initialPackageId?: string;
@@ -243,16 +244,24 @@ export default function BookingEngine({
         </div>
       )}
 
-      {/* Main White Card Frame */}
-      <div className="bg-white rounded-3xl p-6 md:p-10 shadow-xl max-w-5xl mx-auto border border-stone-200 relative">
-        {errorMsg && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl flex items-center gap-2">
-            <span>⚠️</span>
-            <span>{errorMsg}</span>
-          </div>
-        )}
+      {/* Main Content Frame */}
+      {bookingResult ? (
+        <BookingConfirmationModal
+          bookingResult={bookingResult}
+          onReset={resetForm}
+          onClose={onSuccessClose}
+          primaryActionText="CONFIRM & RESERVE NOW"
+          secondaryActionText="RETURN HOME"
+        />
+      ) : (
+        <div className="bg-white rounded-3xl p-6 md:p-10 shadow-xl max-w-5xl mx-auto border border-stone-200 relative">
+          {errorMsg && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl flex items-center gap-2">
+              <span>⚠️</span>
+              <span>{errorMsg}</span>
+            </div>
+          )}
 
-        {!bookingResult ? (
           <form onSubmit={handleSubmit}>
             
             {/* Package Selector Pill Bar */}
@@ -584,77 +593,8 @@ export default function BookingEngine({
             </div>
 
           </form>
-        ) : (
-          /* CONFIRMATION CARD VIEW */
-          <div className="py-8 px-4 text-center space-y-6">
-            <div className="w-16 h-16 rounded-full bg-emerald-100 text-[#112620] text-2xl font-bold flex items-center justify-center mx-auto shadow-inner">
-              ✓
-            </div>
-
-            <div className="space-y-1">
-              <span className="text-xs font-bold uppercase tracking-widest text-emerald-800 block">
-                BOOKING CONFIRMED
-              </span>
-              <h3 className="font-serif text-3xl md:text-4xl font-normal text-stone-900">
-                Expedition Reserved!
-              </h3>
-              <p className="text-xs text-stone-600 max-w-md mx-auto">
-                Your eco-kayaking order has been successfully recorded in our system.
-              </p>
-            </div>
-
-            <div className="bg-stone-50 border border-stone-200 rounded-2xl p-6 text-left max-w-lg mx-auto text-xs space-y-2.5">
-              <div className="flex justify-between border-b border-stone-200 pb-2">
-                <span className="text-stone-500">Booking Reference:</span>
-                <span className="font-mono text-[#112620] font-bold">{bookingResult.bookingId}</span>
-              </div>
-              <div className="flex justify-between border-b border-stone-200 pb-2">
-                <span className="text-stone-500">Expedition Package:</span>
-                <span className="text-stone-900 font-semibold">{bookingResult.packageName}</span>
-              </div>
-              <div className="flex justify-between border-b border-stone-200 pb-2">
-                <span className="text-stone-500">Scheduled Date &amp; Slot:</span>
-                <span className="text-stone-900 font-medium">{bookingResult.selectedDate} ({bookingResult.timeSlot})</span>
-              </div>
-              <div className="flex justify-between border-b border-stone-200 pb-2">
-                <span className="text-stone-500">Guest Name:</span>
-                <span className="text-stone-900">{bookingResult.customer.fullName} ({bookingResult.guestCount} Guests)</span>
-              </div>
-              <div className="flex justify-between font-serif text-base pt-1">
-                <span className="text-stone-900 font-bold">Total Amount:</span>
-                <span className="text-[#112620] font-bold">LKR {bookingResult.totalAmountLKR.toLocaleString()}</span>
-              </div>
-            </div>
-
-            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <a
-                href={whatsappConciergeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto px-6 py-3 bg-[#132b22]/90 hover:bg-[#132b22] border border-[#d4af37]/40 hover:border-[#d4af37] text-[#f3efe6] hover:text-[#d4af37] font-bold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 transition-all duration-300"
-              >
-                <span>💬 MESSAGE CONCIERGE ON WHATSAPP</span>
-              </a>
-              <Link
-                href="/"
-                onClick={resetForm}
-                className="w-full sm:w-auto px-6 py-3 bg-[#112620] hover:bg-[#1f3d34] text-white text-xs font-semibold rounded-xl shadow-md flex items-center justify-center gap-2"
-              >
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                <span>RETURN TO HOME</span>
-              </Link>
-              <button
-                onClick={resetForm}
-                className="w-full sm:w-auto px-6 py-3 bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-semibold rounded-xl border border-stone-300"
-              >
-                BOOK ANOTHER EXPEDITION
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

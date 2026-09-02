@@ -304,56 +304,56 @@ export default function AdminPage() {
         {/* MODULE 1: Top KPI Cards */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {/* KPI 1: Total Bookings */}
-          <div className="bg-[#13241E] border border-white/10 p-6 space-y-2 relative overflow-hidden">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-slate-400 block">
+          <div className="bg-[#0B1914] border border-white/10 rounded-xl p-5 space-y-2 relative overflow-hidden">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-stone-300 block">
               TOTAL RESERVATIONS
             </span>
-            <div className="font-serif text-4xl text-[#F4F1EA] font-normal">
+            <div className="text-[#f3efe6] font-mono text-2xl font-bold">
               {totalBookings}
             </div>
-            <span className="text-[11px] text-slate-400 font-light block pt-1">
+            <span className="text-stone-300 text-xs font-normal block pt-1">
               Total Expedition Bookings
             </span>
           </div>
 
           {/* KPI 2: Pending Review Count (Ember Orange Highlighted) */}
-          <div className="bg-[#13241E] border border-[#D97706]/60 p-6 space-y-2 relative overflow-hidden">
+          <div className="bg-[#0B1914] border border-[#D97706]/60 rounded-xl p-5 space-y-2 relative overflow-hidden">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#D97706] block">
                 PENDING REVIEW
               </span>
               <span className="w-2.5 h-2.5 rounded-full bg-[#D97706] animate-ping" />
             </div>
-            <div className="font-serif text-4xl text-[#D97706] font-bold">
+            <div className="text-[#D97706] font-mono text-2xl font-bold">
               {pendingCount}
             </div>
-            <span className="text-[11px] text-[#D97706]/80 font-light block pt-1">
+            <span className="text-stone-300 text-xs font-normal block pt-1">
               Requires operator verification
             </span>
           </div>
 
           {/* KPI 3: Confirmed Expeditions */}
-          <div className="bg-[#13241E] border border-white/10 p-6 space-y-2 relative overflow-hidden">
+          <div className="bg-[#0B1914] border border-white/10 rounded-xl p-5 space-y-2 relative overflow-hidden">
             <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-emerald-400 block">
               CONFIRMED EXPEDITIONS
             </span>
-            <div className="font-serif text-4xl text-emerald-400 font-normal">
+            <div className="text-emerald-400 font-mono text-2xl font-bold">
               {confirmedCount}
             </div>
-            <span className="text-[11px] text-slate-400 font-light block pt-1">
+            <span className="text-stone-300 text-xs font-normal block pt-1">
               Active departures scheduled
             </span>
           </div>
 
           {/* KPI 4: Total Revenue (LKR) */}
-          <div className="bg-[#13241E] border border-[#C8A97E]/50 p-6 space-y-2 relative overflow-hidden">
+          <div className="bg-[#0B1914] border border-[#C8A97E]/50 rounded-xl p-5 space-y-2 relative overflow-hidden">
             <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#C8A97E] block">
               ESTIMATED REVENUE
             </span>
-            <div className="font-serif text-3xl text-[#C8A97E] font-bold tracking-tight">
+            <div className="text-[#C8A97E] font-mono text-2xl font-bold tracking-tight">
               LKR {totalRevenueLKR.toLocaleString()}
             </div>
-            <span className="text-[11px] text-slate-400 font-light block pt-1">
+            <span className="text-stone-300 text-xs font-normal block pt-1">
               Confirmed &amp; Completed orders
             </span>
           </div>
@@ -439,10 +439,10 @@ export default function AdminPage() {
           </div>
 
           {/* Live Data Table */}
-          <div className="overflow-x-auto border border-white/10">
+          <div className="overflow-x-auto border border-white/10 rounded-xl">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="bg-[#0B1914] border-b border-white/15 text-[#C8A97E] font-medium uppercase tracking-wider">
+                <tr className="bg-[#0B1914] border-b border-white/15 text-stone-300 uppercase tracking-widest text-[11px] font-medium">
                   <th className="p-4">Ref ID</th>
                   <th className="p-4">Customer &amp; Contact</th>
                   <th className="p-4">Expedition Package</th>
@@ -457,13 +457,13 @@ export default function AdminPage() {
               <tbody className="divide-y divide-white/10 font-light">
                 {isLoading ? (
                   <tr>
-                    <td colSpan={9} className="p-8 text-center text-slate-400 italic">
+                    <td colSpan={9} className="p-8 text-center text-stone-300 italic">
                       Loading live reservation records feed...
                     </td>
                   </tr>
                 ) : filteredBookings.length === 0 ? (
                   <tr>
-                    <td colSpan={9} className="p-8 text-center text-slate-400 italic">
+                    <td colSpan={9} className="p-8 text-center text-stone-300 italic">
                       No matching reservation records found.
                     </td>
                   </tr>
@@ -477,16 +477,16 @@ export default function AdminPage() {
                     return (
                       <tr
                         key={b.docId || b.bookingId}
-                        className="hover:bg-[#0B1914]/60 transition-colors"
+                        className="bg-[#0B1914]/80 hover:bg-[#0B1914] transition-colors"
                       >
                         {/* Ref ID */}
-                        <td className="p-4 font-mono font-bold text-[#C8A97E]">
+                        <td className="p-4 font-mono font-bold text-[#d4af37]">
                           #{b.bookingId}
                         </td>
 
                         {/* Customer & WhatsApp */}
                         <td className="p-4">
-                          <div className="font-semibold text-[#F4F1EA] flex items-center gap-2">
+                          <div className="text-[#f3efe6] font-medium text-sm flex items-center gap-2">
                             <span>{b.customer.fullName}</span>
                             <a
                               href={waUrl}
@@ -498,29 +498,29 @@ export default function AdminPage() {
                               💬
                             </a>
                           </div>
-                          <div className="text-[11px] text-slate-400">
+                          <div className="text-[#d4af37] text-xs font-mono">
                             {b.customer.phone}
                           </div>
-                          <div className="text-[10px] text-slate-500 font-mono">
+                          <div className="text-stone-300 font-mono text-xs block mt-0.5 select-all">
                             {b.customer.email}
                           </div>
                         </td>
 
                         {/* Package */}
-                        <td className="p-4 font-medium text-slate-200">
+                        <td className="p-4 font-medium text-stone-200">
                           {b.packageName}
                         </td>
 
                         {/* Date & Slot */}
                         <td className="p-4">
-                          <div className="text-[#F4F1EA] font-medium">{b.selectedDate}</div>
-                          <div className="text-[10px] text-[#C8A97E]">{b.timeSlot}</div>
+                          <div className="text-[#f3efe6] font-medium">{b.selectedDate}</div>
+                          <div className="text-stone-300 text-xs">{b.timeSlot}</div>
                         </td>
 
                         {/* Party & Kayak */}
-                        <td className="p-4 text-slate-300">
+                        <td className="p-4 text-stone-200">
                           {b.guestCount} Guest{b.guestCount > 1 ? 's' : ''}
-                          <div className="text-[10px] text-slate-400">{b.kayakType}</div>
+                          <div className="text-stone-300 text-xs">{b.kayakType}</div>
                         </td>
 
                         {/* Amount */}

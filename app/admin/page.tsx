@@ -20,6 +20,69 @@ const TIME_SLOTS = [
   'ALL_SLOTS (Full Day Emergency Override)',
 ];
 
+// Helper: Format timestamp as clean human-readable date & time (e.g., "Sep 02, 2026 • 06:00 AM")
+function formatDateTime(dateVal: any): string {
+  if (!dateVal) return 'N/A';
+  try {
+    let d: Date;
+    if (typeof dateVal === 'object' && typeof dateVal.toDate === 'function') {
+      d = dateVal.toDate();
+    } else if (typeof dateVal === 'object' && dateVal.seconds) {
+      d = new Date(dateVal.seconds * 1000);
+    } else {
+      d = new Date(dateVal);
+    }
+    if (isNaN(d.getTime())) return String(dateVal);
+
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const month = monthNames[d.getMonth()];
+    const day = String(d.getDate()).padStart(2, '0');
+    const year = d.getFullYear();
+
+    let hours = d.getHours();
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    const formattedHours = String(hours).padStart(2, '0');
+
+    return `${month} ${day}, ${year} • ${formattedHours}:${minutes} ${ampm}`;
+  } catch {
+    return String(dateVal);
+  }
+}
+
+// Helper: Format date string YYYY-MM-DD cleanly (e.g., "Sep 02, 2026")
+function formatDateOnly(dateStr: string): string {
+  if (!dateStr) return 'N/A';
+  try {
+    const parts = dateStr.split('-');
+    if (parts.length === 3) {
+      const year = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10) - 1;
+      const day = parseInt(parts[2], 10);
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+        return `${monthNames[month]} ${String(day).padStart(2, '0')}, ${year}`;
+      }
+    }
+    const d = new Date(dateStr);
+    if (!isNaN(d.getTime())) {
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return `${monthNames[d.getMonth()]} ${String(d.getDate()).padStart(2, '0')}, ${d.getFullYear()}`;
+    }
+  } catch {
+    // fallback
+  }
+  return dateStr;
+}
+
+// Helper: Standardize currency formatting (e.g., "LKR 4,500")
+function formatCurrency(amount: number | undefined | null): string {
+  const val = amount || 0;
+  return `LKR ${val.toLocaleString('en-US')}`;
+}
+
 export default function AdminPage() {
   // 1. PIN Security Gate State
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -63,7 +126,7 @@ export default function AdminPage() {
       setBookings(fetchedBookings);
       setBlockedSlots(fetchedSlots);
     } catch (err) {
-      console.error('Failed to load admin data:', err);
+      console.error('Failed to load reservation data:', err);
     } finally {
       setIsLoading(false);
     }
@@ -144,7 +207,6 @@ export default function AdminPage() {
   const totalBookings = bookings.length;
   const pendingCount = bookings.filter((b) => b.orderStatus === 'PENDING').length;
   const confirmedCount = bookings.filter((b) => b.orderStatus === 'CONFIRMED').length;
-  const completedCount = bookings.filter((b) => b.orderStatus === 'COMPLETED').length;
   
   const totalRevenueLKR = useMemo(() => {
     return bookings
@@ -251,8 +313,9 @@ export default function AdminPage() {
               </span>
             </Link>
             <span className="hidden sm:inline text-xs text-slate-500">•</span>
-            <span className="hidden sm:inline text-xs font-mono text-[#C8A97E]">
-              8.0264° N, 80.5284° E
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-xs font-medium">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>All Systems Operational</span>
             </span>
           </div>
 
@@ -267,14 +330,14 @@ export default function AdminPage() {
 
             <button
               onClick={() => setShowSlotModal(true)}
-              className="px-4 py-2 bg-amber-600/20 border border-amber-500/50 hover:bg-amber-600/40 text-amber-300 text-xs font-semibold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer"
+              className="px-4 py-2 bg-amber-600/20 border border-amber-500/50 hover:bg-amber-600/40 text-amber-300 text-xs font-semibold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer rounded-lg"
             >
               <span>⚡ WEATHER / SLOT OVERRIDE</span>
             </button>
 
             <button
               onClick={loadData}
-              className="p-2 border border-white/20 hover:border-[#C8A97E] text-slate-300 hover:text-white transition-all text-xs"
+              className="p-2 border border-white/20 hover:border-[#C8A97E] text-slate-300 hover:text-white transition-all text-xs rounded-lg"
               title="Refresh Live Operations Feed"
             >
               🔄
@@ -282,7 +345,7 @@ export default function AdminPage() {
 
             <button
               onClick={handleLogout}
-              className="px-3.5 py-2 border border-white/20 hover:border-red-400 text-slate-300 hover:text-red-400 text-xs uppercase tracking-wider transition-colors cursor-pointer"
+              className="px-3.5 py-2 border border-white/20 hover:border-red-400 text-slate-300 hover:text-red-400 text-xs uppercase tracking-wider transition-colors cursor-pointer rounded-lg"
             >
               LOCK 🔒
             </button>
@@ -317,7 +380,7 @@ export default function AdminPage() {
             </span>
           </div>
 
-          {/* KPI 2: Pending Review Count (Ember Orange Highlighted) */}
+          {/* KPI 2: Pending Review Count */}
           <div className="bg-[#0B1914] border border-[#D97706]/60 rounded-xl p-5 space-y-2 relative overflow-hidden">
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#D97706] block">
@@ -352,7 +415,7 @@ export default function AdminPage() {
               ESTIMATED REVENUE
             </span>
             <div className="text-[#C8A97E] font-mono text-2xl font-bold tracking-tight">
-              LKR {totalRevenueLKR.toLocaleString()}
+              {formatCurrency(totalRevenueLKR)}
             </div>
             <span className="text-stone-300 text-xs font-normal block pt-1">
               Confirmed &amp; Completed orders
@@ -361,37 +424,40 @@ export default function AdminPage() {
         </section>
 
         {/* MODULE 2: Booking Table & Filters */}
-        <section className="bg-[#13241E] border border-white/10 p-6 sm:p-8 space-y-6">
+        <section className="bg-[#13241E] border border-white/10 p-6 sm:p-8 space-y-6 rounded-2xl">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-white/10 pb-6">
             <div>
               <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#C8A97E] block mb-1">
                 LIVE OPERATIONS FEED
               </span>
               <h2 className="font-serif text-2xl sm:text-3xl text-[#F4F1EA]">
-                Reservation Records &amp; Live Status
+                Reservation Records &amp; Operational Status
               </h2>
             </div>
 
-            {/* Controls: Search Bar & Quick Date Filter */}
+            {/* Controls: Lightweight Search Bar & Quick Date Filter */}
             <div className="flex flex-wrap items-center gap-3">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search Ref, Name, Phone..."
-                className="px-4 py-2.5 bg-[#0B1914] border border-white/20 text-xs text-[#F4F1EA] placeholder-slate-500 focus:outline-none focus:border-[#C8A97E] min-w-[220px]"
-              />
+              <div className="relative">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Filter by Guest Name, Phone, ID..."
+                  className="px-4 py-2.5 pl-9 bg-[#0B1914] border border-white/20 text-xs text-[#F4F1EA] placeholder-slate-400 focus:outline-none focus:border-[#C8A97E] min-w-[260px] rounded-lg"
+                />
+                <span className="absolute left-3 top-2.5 text-slate-400 text-xs">🔍</span>
+              </div>
 
               <input
                 type="date"
                 value={selectedDateFilter}
                 onChange={(e) => setSelectedDateFilter(e.target.value)}
-                className="px-3 py-2.5 bg-[#0B1914] border border-white/20 text-xs text-[#F4F1EA] focus:outline-none focus:border-[#C8A97E]"
+                className="px-3 py-2.5 bg-[#0B1914] border border-white/20 text-xs text-[#F4F1EA] focus:outline-none focus:border-[#C8A97E] rounded-lg"
               />
 
               <button
                 onClick={() => setSelectedDateFilter(todayStr)}
-                className={`px-3 py-2.5 text-xs uppercase tracking-wider font-medium border transition-colors ${
+                className={`px-3 py-2.5 text-xs uppercase tracking-wider font-medium border rounded-lg transition-colors cursor-pointer ${
                   selectedDateFilter === todayStr
                     ? 'bg-[#C8A97E] text-[#0B1914] border-[#C8A97E]'
                     : 'bg-[#0B1914] text-slate-300 border-white/20 hover:text-white'
@@ -403,7 +469,7 @@ export default function AdminPage() {
               {selectedDateFilter && (
                 <button
                   onClick={() => setSelectedDateFilter('')}
-                  className="text-xs text-slate-400 hover:text-white underline"
+                  className="text-xs text-slate-400 hover:text-white underline cursor-pointer"
                 >
                   Clear Date
                 </button>
@@ -424,14 +490,14 @@ export default function AdminPage() {
                 <button
                   key={tab}
                   onClick={() => setSelectedStatusTab(tab)}
-                  className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-all border rounded-none cursor-pointer flex items-center gap-2 ${
+                  className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-all border rounded-lg cursor-pointer flex items-center gap-2 ${
                     isActive
                       ? 'bg-[#C8A97E] text-[#0B1914] border-[#C8A97E]'
                       : 'bg-[#0B1914] text-slate-300 border-white/10 hover:border-[#C8A97E]/50'
                   }`}
                 >
                   <span>{tab}</span>
-                  <span className="px-1.5 py-0.5 text-[9px] bg-black/40 rounded-none">
+                  <span className="px-1.5 py-0.5 text-[9px] bg-black/40 rounded-full">
                     {count}
                   </span>
                 </button>
@@ -439,32 +505,28 @@ export default function AdminPage() {
             })}
           </div>
 
-          {/* Live Data Table */}
+          {/* Streamlined 5-Column Live Data Table */}
           <div className="overflow-x-auto border border-white/10 rounded-xl">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
                 <tr className="bg-[#0B1914] border-b border-white/15 text-stone-300 uppercase tracking-widest text-[11px] font-medium">
-                  <th className="p-4">Ref ID</th>
-                  <th className="p-4">Customer &amp; Contact</th>
-                  <th className="p-4">Expedition Package</th>
-                  <th className="p-4">Date &amp; Slot</th>
-                  <th className="p-4">Party</th>
-                  <th className="p-4">Amount (LKR)</th>
-                  <th className="p-4">Payment</th>
-                  <th className="p-4">Status</th>
-                  <th className="p-4 text-right">Actions</th>
+                  <th className="p-4">1. RESERVATION</th>
+                  <th className="p-4">2. GUEST</th>
+                  <th className="p-4">3. EXPEDITION</th>
+                  <th className="p-4">4. TOTAL &amp; PAYMENT</th>
+                  <th className="p-4 text-right sm:text-left">5. STATUS &amp; ACTIONS</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/10 font-light">
                 {isLoading ? (
                   <tr>
-                    <td colSpan={9} className="p-8 text-center text-stone-300 italic">
+                    <td colSpan={5} className="p-8 text-center text-stone-300 italic">
                       Loading live reservation records feed...
                     </td>
                   </tr>
                 ) : filteredBookings.length === 0 ? (
                   <tr>
-                    <td colSpan={9} className="p-8 text-center text-stone-300 italic">
+                    <td colSpan={5} className="p-8 text-center text-stone-300 italic">
                       No matching reservation records found.
                     </td>
                   </tr>
@@ -478,14 +540,19 @@ export default function AdminPage() {
                     return (
                       <tr
                         key={b.docId || b.bookingId}
-                        className="bg-[#0B1914]/80 hover:bg-[#0B1914] transition-colors"
+                        className="bg-[#0B1914]/80 hover:bg-white/[0.02] transition-colors"
                       >
-                        {/* Ref ID */}
-                        <td className="p-4 font-mono font-bold text-[#d4af37]">
-                          #{b.bookingId}
+                        {/* 1. RESERVATION */}
+                        <td className="p-4">
+                          <div className="font-mono font-bold text-[#d4af37] text-sm">
+                            #{b.bookingId}
+                          </div>
+                          <div className="text-stone-300 text-xs font-mono mt-0.5">
+                            {formatDateTime(b.createdAt)}
+                          </div>
                         </td>
 
-                        {/* Customer & WhatsApp */}
+                        {/* 2. GUEST */}
                         <td className="p-4">
                           <div className="text-[#f3efe6] font-medium text-sm flex items-center gap-2">
                             <span>{b.customer.fullName}</span>
@@ -493,13 +560,13 @@ export default function AdminPage() {
                               href={waUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-emerald-400 hover:text-emerald-300 text-sm"
+                              className="text-emerald-400 hover:text-emerald-300 text-sm transition-transform hover:scale-110"
                               title="Message Guest via WhatsApp"
                             >
                               💬
                             </a>
                           </div>
-                          <div className="text-[#d4af37] text-xs font-mono">
+                          <div className="text-[#d4af37] text-xs font-mono mt-0.5">
                             {b.customer.phone}
                           </div>
                           <div className="text-stone-300 font-mono text-xs block mt-0.5 select-all">
@@ -507,77 +574,77 @@ export default function AdminPage() {
                           </div>
                         </td>
 
-                        {/* Package */}
-                        <td className="p-4 font-medium text-stone-200">
-                          {b.packageName}
-                        </td>
-
-                        {/* Date & Slot */}
+                        {/* 3. EXPEDITION */}
                         <td className="p-4">
-                          <div className="text-[#f3efe6] font-medium">{b.selectedDate}</div>
-                          <div className="text-stone-300 text-xs">{b.timeSlot}</div>
+                          <div className="font-medium text-stone-200 text-sm">
+                            {b.packageName}
+                          </div>
+                          <div className="text-[#f3efe6] text-xs mt-0.5 font-medium">
+                            {formatDateOnly(b.selectedDate)} • {b.timeSlot}
+                          </div>
+                          <div className="text-stone-300 text-xs mt-0.5">
+                            {b.guestCount} Guest{b.guestCount > 1 ? 's' : ''} • {b.kayakType || 'Single Kayak'}
+                          </div>
                         </td>
 
-                        {/* Party & Kayak */}
-                        <td className="p-4 text-stone-200">
-                          {b.guestCount} Guest{b.guestCount > 1 ? 's' : ''}
-                          <div className="text-stone-300 text-xs">{b.kayakType}</div>
-                        </td>
-
-                        {/* Amount */}
-                        <td className="p-4 font-serif font-bold text-[#C8A97E] text-sm">
-                          LKR {b.totalAmountLKR ? b.totalAmountLKR.toLocaleString() : '0'}
-                        </td>
-
-                        {/* Payment */}
-                        <td className="p-4 text-[11px]">
-                          <span
-                            className={`px-2 py-0.5 border ${
-                              b.paymentMethod === 'COD'
-                                ? 'bg-amber-950/40 text-amber-300 border-amber-500/40'
-                                : 'bg-blue-950/40 text-blue-300 border-blue-500/40'
-                            }`}
-                          >
-                            {b.paymentMethod}
-                          </span>
-                        </td>
-
-                        {/* Status Select Dropdown */}
+                        {/* 4. TOTAL & PAYMENT */}
                         <td className="p-4">
-                          <select
-                            value={b.orderStatus}
-                            onChange={(e) =>
-                              handleStatusUpdate(
-                                b.docId || b.bookingId,
-                                e.target.value as any
-                              )
-                            }
-                            className={`px-3 py-1.5 rounded-lg text-xs font-medium focus:outline-none cursor-pointer border transition-all ${
-                              b.orderStatus === 'PENDING'
-                                ? 'bg-amber-950/40 text-amber-300 border-amber-500/30 hover:border-amber-500/60'
-                                : b.orderStatus === 'CONFIRMED'
-                                ? 'bg-emerald-950/40 text-emerald-300 border-emerald-500/30 hover:border-emerald-500/60'
-                                : b.orderStatus === 'COMPLETED'
-                                ? 'bg-blue-950/40 text-blue-300 border-blue-500/30 hover:border-blue-500/60'
-                                : 'bg-rose-950/40 text-rose-300 border-rose-500/30 hover:border-rose-500/60'
-                            }`}
-                          >
-                            <option value="PENDING" className="bg-[#0B1914] text-amber-300">Pending</option>
-                            <option value="CONFIRMED" className="bg-[#0B1914] text-emerald-300">Confirmed</option>
-                            <option value="COMPLETED" className="bg-[#0B1914] text-blue-300">Completed</option>
-                            <option value="CANCELLED" className="bg-[#0B1914] text-rose-300">Cancelled</option>
-                          </select>
+                          <div className="font-serif font-bold text-[#C8A97E] text-sm">
+                            {formatCurrency(b.totalAmountLKR)}
+                          </div>
+                          <div className="mt-1 flex items-center gap-1.5 flex-wrap">
+                            <span
+                              className={`px-2 py-0.5 text-[10px] font-semibold tracking-wider uppercase rounded border ${
+                                b.paymentMethod === 'COD'
+                                  ? 'bg-amber-950/40 text-amber-300 border-amber-500/40'
+                                  : 'bg-blue-950/40 text-blue-300 border-blue-500/40'
+                              }`}
+                            >
+                              {b.paymentMethod === 'COD' ? 'Cash on Arrival' : 'Bank Transfer'}
+                            </span>
+                            {b.paymentStatus && (
+                              <span className="text-[10px] text-stone-300 font-mono">
+                                ({b.paymentStatus.replace('_', ' ')})
+                              </span>
+                            )}
+                          </div>
                         </td>
 
-                        {/* Actions */}
-                        <td className="p-4 text-right">
-                          <button
-                            onClick={() => setSelectedBookingForDetails(b)}
-                            className="px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/15 text-stone-200 hover:text-white rounded-lg text-xs font-medium transition-all inline-flex items-center gap-1.5 cursor-pointer"
-                          >
-                            <span>👁️</span>
-                            <span>View Details</span>
-                          </button>
+                        {/* 5. STATUS & ACTIONS */}
+                        <td className="p-4">
+                          <div className="flex flex-wrap items-center gap-2 justify-end sm:justify-start">
+                            <select
+                              value={b.orderStatus}
+                              onChange={(e) =>
+                                handleStatusUpdate(
+                                  b.docId || b.bookingId,
+                                  e.target.value as any
+                                )
+                              }
+                              className={`px-3 py-1.5 rounded-lg text-xs font-semibold focus:outline-none cursor-pointer border transition-all ${
+                                b.orderStatus === 'PENDING'
+                                  ? 'bg-amber-950/40 text-amber-300 border-amber-500/40 hover:border-amber-500/70'
+                                  : b.orderStatus === 'CONFIRMED'
+                                  ? 'bg-emerald-950/40 text-emerald-300 border-emerald-500/40 hover:border-emerald-500/70'
+                                  : b.orderStatus === 'COMPLETED'
+                                  ? 'bg-blue-950/40 text-blue-300 border-blue-500/40 hover:border-blue-500/70'
+                                  : 'bg-rose-950/40 text-rose-300 border-rose-500/40 hover:border-rose-500/70'
+                              }`}
+                            >
+                              <option value="PENDING" className="bg-[#0B1914] text-amber-300">Pending</option>
+                              <option value="CONFIRMED" className="bg-[#0B1914] text-emerald-300">Confirmed</option>
+                              <option value="COMPLETED" className="bg-[#0B1914] text-blue-300">Completed</option>
+                              <option value="CANCELLED" className="bg-[#0B1914] text-rose-300">Cancelled</option>
+                            </select>
+
+                            <button
+                              onClick={() => setSelectedBookingForDetails(b)}
+                              className="px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/15 text-stone-200 hover:text-white rounded-lg text-xs font-medium transition-all inline-flex items-center gap-1.5 cursor-pointer whitespace-nowrap"
+                            >
+                              <span>👁️</span>
+                              <span>View Details</span>
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );
@@ -589,7 +656,7 @@ export default function AdminPage() {
         </section>
 
         {/* MODULE 4: Slot & Availability Control Panel */}
-        <section className="bg-[#13241E] border border-white/10 p-6 sm:p-8 space-y-6">
+        <section className="bg-[#13241E] border border-white/10 p-6 sm:p-8 space-y-6 rounded-2xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
             <div>
               <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#C8A97E] block mb-1">
@@ -602,7 +669,7 @@ export default function AdminPage() {
 
             <button
               onClick={() => setShowSlotModal(true)}
-              className="px-5 py-2.5 bg-[#C8A97E] hover:bg-[#b5966c] text-[#0B1914] text-xs font-bold uppercase tracking-wider transition-all shadow-md cursor-pointer self-start sm:self-auto"
+              className="px-5 py-2.5 bg-[#C8A97E] hover:bg-[#b5966c] text-[#0B1914] text-xs font-bold uppercase tracking-wider transition-all shadow-md cursor-pointer self-start sm:self-auto rounded-lg"
             >
               + BLOCK NEW DATE / SLOT
             </button>
@@ -611,14 +678,14 @@ export default function AdminPage() {
           {/* Currently Blocked Slots List */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {blockedSlots.length === 0 ? (
-              <div className="col-span-full p-6 text-center text-xs text-slate-400 italic bg-[#0B1914] border border-white/10">
+              <div className="col-span-full p-6 text-center text-xs text-slate-400 italic bg-[#0B1914] border border-white/10 rounded-lg">
                 No active slot blocks recorded. All tour departure times are available for guest reservations.
               </div>
             ) : (
               blockedSlots.map((slot) => (
                 <div
                   key={slot.id}
-                  className="bg-[#0B1914] border border-red-500/40 p-4 space-y-3 relative"
+                  className="bg-[#0B1914] border border-red-500/40 p-4 space-y-3 relative rounded-lg"
                 >
                   <div className="flex items-center justify-between border-b border-white/10 pb-2">
                     <span className="text-xs font-bold text-red-400 uppercase tracking-wider">
@@ -626,14 +693,14 @@ export default function AdminPage() {
                     </span>
                     <button
                       onClick={() => slot.id && handleUnblockSlot(slot.id)}
-                      className="text-[10px] text-slate-400 hover:text-white underline uppercase"
+                      className="text-[10px] text-slate-400 hover:text-white underline uppercase cursor-pointer"
                     >
                       Unblock ✕
                     </button>
                   </div>
 
                   <div className="space-y-1 text-xs">
-                    <div className="text-[#F4F1EA] font-medium">Date: {slot.date}</div>
+                    <div className="text-[#F4F1EA] font-medium">Date: {formatDateOnly(slot.date)}</div>
                     <div className="text-[#C8A97E]">{slot.timeSlot}</div>
                     <div className="text-slate-400 text-[11px] italic pt-1">
                       Reason: &quot;{slot.reason}&quot;
@@ -649,10 +716,10 @@ export default function AdminPage() {
       {/* EMERGENCY WEATHER BLOCK MODAL */}
       {showSlotModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-          <div className="bg-[#0B1914] border border-[#C8A97E]/50 p-6 sm:p-8 max-w-lg w-full shadow-2xl space-y-6 relative text-[#F4F1EA]">
+          <div className="bg-[#0B1914] border border-[#C8A97E]/50 p-6 sm:p-8 max-w-lg w-full shadow-2xl space-y-6 relative text-[#F4F1EA] rounded-xl">
             <button
               onClick={() => setShowSlotModal(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white"
+              className="absolute top-4 right-4 text-slate-400 hover:text-white cursor-pointer"
             >
               ✕
             </button>
@@ -677,7 +744,7 @@ export default function AdminPage() {
                   required
                   value={blockDate}
                   onChange={(e) => setBlockDate(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#13241E] border border-white/20 text-xs text-[#F4F1EA] focus:outline-none focus:border-[#C8A97E]"
+                  className="w-full px-4 py-3 bg-[#13241E] border border-white/20 text-xs text-[#F4F1EA] focus:outline-none focus:border-[#C8A97E] rounded-lg"
                 />
               </div>
 
@@ -688,7 +755,7 @@ export default function AdminPage() {
                 <select
                   value={blockTimeSlot}
                   onChange={(e) => setBlockTimeSlot(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#13241E] border border-white/20 text-xs text-[#F4F1EA] focus:outline-none focus:border-[#C8A97E]"
+                  className="w-full px-4 py-3 bg-[#13241E] border border-white/20 text-xs text-[#F4F1EA] focus:outline-none focus:border-[#C8A97E] rounded-lg"
                 >
                   {TIME_SLOTS.map((st) => (
                     <option key={st} value={st}>
@@ -708,7 +775,7 @@ export default function AdminPage() {
                   value={blockReason}
                   onChange={(e) => setBlockReason(e.target.value)}
                   placeholder="e.g. Monsoon heavy rainfall, reservoir spillway discharge, full capacity..."
-                  className="w-full px-4 py-3 bg-[#13241E] border border-white/20 text-xs text-[#F4F1EA] placeholder-slate-500 focus:outline-none focus:border-[#C8A97E]"
+                  className="w-full px-4 py-3 bg-[#13241E] border border-white/20 text-xs text-[#F4F1EA] placeholder-slate-500 focus:outline-none focus:border-[#C8A97E] rounded-lg"
                 />
               </div>
 
@@ -716,14 +783,14 @@ export default function AdminPage() {
                 <button
                   type="button"
                   onClick={() => setShowSlotModal(false)}
-                  className="px-5 py-2.5 border border-white/20 text-xs uppercase tracking-wider text-slate-300 hover:text-white"
+                  className="px-5 py-2.5 border border-white/20 text-xs uppercase tracking-wider text-slate-300 hover:text-white rounded-lg cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isBlocking}
-                  className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
+                  className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer rounded-lg"
                 >
                   {isBlocking ? 'BLOCKING...' : 'ENFORCE SLOT BLOCK'}
                 </button>
@@ -732,6 +799,7 @@ export default function AdminPage() {
           </div>
         </div>
       )}
+
       {/* RESERVATION DETAILS MODAL */}
       {selectedBookingForDetails && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
@@ -750,6 +818,9 @@ export default function AdminPage() {
               <h3 className="font-serif text-2xl text-[#F4F1EA]">
                 Booking #{selectedBookingForDetails.bookingId}
               </h3>
+              <p className="text-xs text-stone-400 font-mono mt-0.5">
+                Created: {formatDateTime(selectedBookingForDetails.createdAt)}
+              </p>
             </div>
 
             <div className="space-y-4 text-xs">
@@ -776,7 +847,7 @@ export default function AdminPage() {
                   Package: {selectedBookingForDetails.packageName}
                 </div>
                 <div className="text-stone-300">
-                  Date: {selectedBookingForDetails.selectedDate} | Slot: {selectedBookingForDetails.timeSlot}
+                  Date: {formatDateOnly(selectedBookingForDetails.selectedDate)} | Slot: {selectedBookingForDetails.timeSlot}
                 </div>
                 <div className="text-stone-300">
                   Party Size: {selectedBookingForDetails.guestCount} Guest(s) | Kayak: {selectedBookingForDetails.kayakType}
@@ -788,10 +859,10 @@ export default function AdminPage() {
                   Payment &amp; Financials
                 </span>
                 <div className="text-sm font-serif font-bold text-[#C8A97E]">
-                  Total Amount: LKR {selectedBookingForDetails.totalAmountLKR ? selectedBookingForDetails.totalAmountLKR.toLocaleString() : '0'}
+                  Total Amount: {formatCurrency(selectedBookingForDetails.totalAmountLKR)}
                 </div>
                 <div className="text-stone-300">
-                  Method: {selectedBookingForDetails.paymentMethod} ({selectedBookingForDetails.paymentStatus})
+                  Method: {selectedBookingForDetails.paymentMethod === 'COD' ? 'Cash on Arrival' : 'Bank Transfer'} ({selectedBookingForDetails.paymentStatus.replace('_', ' ')})
                 </div>
               </div>
             </div>

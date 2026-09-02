@@ -222,8 +222,12 @@ export default function AdminPage() {
           </form>
 
           <div className="text-center pt-2">
-            <Link href="/" className="text-xs text-slate-400 hover:text-[#C8A97E] transition-colors">
-              ← Return to Resort Homepage
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-stone-300 hover:text-[#d4af37] text-xs font-semibold tracking-wider uppercase transition-colors px-3 py-1.5 rounded-lg border border-white/10 hover:border-[#d4af37]/40 bg-white/[0.02]"
+            >
+              <span>←</span>
+              <span>BACK TO HOME</span>
             </Link>
           </div>
         </div>
@@ -252,6 +256,14 @@ export default function AdminPage() {
           </div>
 
           <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-stone-300 hover:text-[#d4af37] text-xs font-semibold tracking-wider uppercase transition-colors px-3 py-1.5 rounded-lg border border-white/10 hover:border-[#d4af37]/40 bg-white/[0.02]"
+            >
+              <span>←</span>
+              <span>BACK TO HOME</span>
+            </Link>
+
             <button
               onClick={() => setShowSlotModal(true)}
               className="px-4 py-2 bg-amber-600/20 border border-amber-500/50 hover:bg-amber-600/40 text-amber-300 text-xs font-semibold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer"
@@ -282,7 +294,7 @@ export default function AdminPage() {
         <div className="pt-1">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-stone-300 hover:text-[#d4af37] text-xs font-semibold tracking-[0.2em] uppercase transition-colors"
+            className="inline-flex items-center gap-2 text-stone-300 hover:text-[#d4af37] text-xs font-semibold tracking-wider uppercase transition-colors px-3 py-1.5 rounded-lg border border-white/10 hover:border-[#d4af37]/40 bg-white/[0.02]"
           >
             <span>←</span>
             <span>BACK TO HOME</span>

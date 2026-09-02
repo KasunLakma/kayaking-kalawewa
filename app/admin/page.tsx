@@ -36,8 +36,9 @@ export default function AdminPage() {
   const [selectedStatusTab, setSelectedStatusTab] = useState<string>('ALL');
   const [selectedDateFilter, setSelectedDateFilter] = useState<string>('');
 
-  // 4. Weather / Slot Override Modal State
+  // 4. Weather / Slot Override Modal State & Details Modal State
   const [showSlotModal, setShowSlotModal] = useState<boolean>(false);
+  const [selectedBookingForDetails, setSelectedBookingForDetails] = useState<BookingDocument | null>(null);
   const [blockDate, setBlockDate] = useState<string>(new Date().toISOString().split('T')[0]);
   const [blockTimeSlot, setBlockTimeSlot] = useState<string>(TIME_SLOTS[0]);
   const [blockReason, setBlockReason] = useState<string>('High Water Level & Monsoon Spillway Discharge');
@@ -541,25 +542,8 @@ export default function AdminPage() {
                           </span>
                         </td>
 
-                        {/* Status Badge */}
+                        {/* Status Select Dropdown */}
                         <td className="p-4">
-                          <span
-                            className={`px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider border ${
-                              b.orderStatus === 'PENDING'
-                                ? 'bg-amber-950/80 text-amber-400 border-amber-500'
-                                : b.orderStatus === 'CONFIRMED'
-                                ? 'bg-emerald-950/80 text-emerald-400 border-emerald-500'
-                                : b.orderStatus === 'COMPLETED'
-                                ? 'bg-blue-950/80 text-blue-400 border-blue-500'
-                                : 'bg-red-950/80 text-red-400 border-red-500'
-                            }`}
-                          >
-                            {b.orderStatus}
-                          </span>
-                        </td>
-
-                        {/* Actions */}
-                        <td className="p-4 text-right">
                           <select
                             value={b.orderStatus}
                             onChange={(e) =>
@@ -568,13 +552,32 @@ export default function AdminPage() {
                                 e.target.value as any
                               )
                             }
-                            className="px-2.5 py-1 bg-[#0B1914] border border-white/20 text-[11px] text-[#F4F1EA] focus:outline-none focus:border-[#C8A97E]"
+                            className={`px-3 py-1.5 rounded-lg text-xs font-medium focus:outline-none cursor-pointer border transition-all ${
+                              b.orderStatus === 'PENDING'
+                                ? 'bg-amber-950/40 text-amber-300 border-amber-500/30 hover:border-amber-500/60'
+                                : b.orderStatus === 'CONFIRMED'
+                                ? 'bg-emerald-950/40 text-emerald-300 border-emerald-500/30 hover:border-emerald-500/60'
+                                : b.orderStatus === 'COMPLETED'
+                                ? 'bg-blue-950/40 text-blue-300 border-blue-500/30 hover:border-blue-500/60'
+                                : 'bg-rose-950/40 text-rose-300 border-rose-500/30 hover:border-rose-500/60'
+                            }`}
                           >
-                            <option value="PENDING">PENDING</option>
-                            <option value="CONFIRMED">CONFIRMED</option>
-                            <option value="COMPLETED">COMPLETED</option>
-                            <option value="CANCELLED">CANCELLED</option>
+                            <option value="PENDING" className="bg-[#0B1914] text-amber-300">Pending</option>
+                            <option value="CONFIRMED" className="bg-[#0B1914] text-emerald-300">Confirmed</option>
+                            <option value="COMPLETED" className="bg-[#0B1914] text-blue-300">Completed</option>
+                            <option value="CANCELLED" className="bg-[#0B1914] text-rose-300">Cancelled</option>
                           </select>
+                        </td>
+
+                        {/* Actions */}
+                        <td className="p-4 text-right">
+                          <button
+                            onClick={() => setSelectedBookingForDetails(b)}
+                            className="px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/15 text-stone-200 hover:text-white rounded-lg text-xs font-medium transition-all inline-flex items-center gap-1.5 cursor-pointer"
+                          >
+                            <span>👁️</span>
+                            <span>View Details</span>
+                          </button>
                         </td>
                       </tr>
                     );
@@ -726,6 +729,93 @@ export default function AdminPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+      {/* RESERVATION DETAILS MODAL */}
+      {selectedBookingForDetails && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+          <div className="bg-[#0B1914] border border-[#C8A97E]/50 p-6 sm:p-8 max-w-lg w-full shadow-2xl space-y-6 relative text-[#F4F1EA] rounded-xl">
+            <button
+              onClick={() => setSelectedBookingForDetails(null)}
+              className="absolute top-4 right-4 text-stone-400 hover:text-white text-lg font-bold cursor-pointer"
+            >
+              ✕
+            </button>
+
+            <div>
+              <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#C8A97E] block mb-1">
+                RESERVATION DETAILS
+              </span>
+              <h3 className="font-serif text-2xl text-[#F4F1EA]">
+                Booking #{selectedBookingForDetails.bookingId}
+              </h3>
+            </div>
+
+            <div className="space-y-4 text-xs">
+              <div className="bg-[#13241E] p-4 rounded-lg border border-white/10 space-y-2">
+                <span className="text-[10px] uppercase font-semibold text-stone-400 tracking-wider block">
+                  Guest Information
+                </span>
+                <div className="text-sm font-semibold text-[#f3efe6]">
+                  {selectedBookingForDetails.customer.fullName}
+                </div>
+                <div className="text-[#d4af37] font-mono">
+                  📞 {selectedBookingForDetails.customer.phone}
+                </div>
+                <div className="text-stone-300 font-mono select-all">
+                  ✉️ {selectedBookingForDetails.customer.email}
+                </div>
+              </div>
+
+              <div className="bg-[#13241E] p-4 rounded-lg border border-white/10 space-y-2">
+                <span className="text-[10px] uppercase font-semibold text-stone-400 tracking-wider block">
+                  Expedition Details
+                </span>
+                <div className="text-stone-200 font-medium">
+                  Package: {selectedBookingForDetails.packageName}
+                </div>
+                <div className="text-stone-300">
+                  Date: {selectedBookingForDetails.selectedDate} | Slot: {selectedBookingForDetails.timeSlot}
+                </div>
+                <div className="text-stone-300">
+                  Party Size: {selectedBookingForDetails.guestCount} Guest(s) | Kayak: {selectedBookingForDetails.kayakType}
+                </div>
+              </div>
+
+              <div className="bg-[#13241E] p-4 rounded-lg border border-white/10 space-y-2">
+                <span className="text-[10px] uppercase font-semibold text-stone-400 tracking-wider block">
+                  Payment &amp; Financials
+                </span>
+                <div className="text-sm font-serif font-bold text-[#C8A97E]">
+                  Total Amount: LKR {selectedBookingForDetails.totalAmountLKR ? selectedBookingForDetails.totalAmountLKR.toLocaleString() : '0'}
+                </div>
+                <div className="text-stone-300">
+                  Method: {selectedBookingForDetails.paymentMethod} ({selectedBookingForDetails.paymentStatus})
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-2 flex justify-between items-center border-t border-white/10">
+              <a
+                href={`https://wa.me/${selectedBookingForDetails.customer.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
+                  `Hi ${selectedBookingForDetails.customer.fullName}, contacting you regarding your Kalawewa Expedition #${selectedBookingForDetails.bookingId}.`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all inline-flex items-center gap-2 cursor-pointer"
+              >
+                <span>💬 Contact via WhatsApp</span>
+              </a>
+
+              <button
+                type="button"
+                onClick={() => setSelectedBookingForDetails(null)}
+                className="px-5 py-2 bg-white/10 hover:bg-white/20 text-xs font-medium uppercase tracking-wider text-stone-200 hover:text-white rounded-lg transition-colors cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}

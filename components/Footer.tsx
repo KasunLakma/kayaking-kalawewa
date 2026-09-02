@@ -189,10 +189,10 @@ export default function Footer() {
         {/* Bottom Legal & Copyright Bar */}
         <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400 font-light">
           <p>© {new Date().getFullYear()} Kayaking Kalawewa Adventures &amp; Expeditions. All rights reserved.</p>
-          <div className="flex items-center gap-6">
-            <a href="#" className="hover:text-[#C8A97E] transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-[#C8A97E] transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-[#C8A97E] transition-colors">Resort Safety Charter</a>
+          <div className="flex flex-wrap items-center gap-6">
+            <Link href="/terms" className="hover:text-[#C8A97E] transition-colors">Terms of Service</Link>
+            <Link href="/privacy" className="hover:text-[#C8A97E] transition-colors">Privacy Policy</Link>
+            <Link href="/safety" className="hover:text-[#C8A97E] transition-colors">Resort Safety Charter</Link>
           </div>
         </div>
 

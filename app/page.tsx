@@ -37,11 +37,11 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B1914] text-[#F4F1EA] font-sans selection:bg-[#C8A97E] selection:text-[#0B1914] overflow-x-hidden">
+    <div className="min-h-screen bg-[#0B1914] text-[#F4F1EA] font-sans selection:bg-[#C8A97E] selection:text-[#0B1914] w-full max-w-full overflow-x-hidden">
       {/* 1. Minimalist Header */}
       <Header onOpenBooking={() => handleOpenBooking()} />
 
-      <main className="w-full">
+      <main className="w-full max-w-full overflow-x-hidden">
         {/* 2. Fullscreen Cinematic Hero with Straddling Boundary Booking Bar */}
         <Hero
           onCheckAvailability={(pkgId, date, slot, guests) =>

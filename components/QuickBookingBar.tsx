@@ -33,8 +33,8 @@ export default function QuickBookingBar({ onCheckAvailability }: QuickBookingBar
 
   return (
     <div className="w-full">
-      <div className="bg-[#162720]/95 text-[#f3efe6] backdrop-blur-md rounded-2xl shadow-2xl p-3 md:p-4 max-w-5xl mx-auto border border-[#d4af37]/30">
-        <form onSubmit={handleSubmit} className="w-full grid grid-cols-1 md:grid-cols-4 items-center gap-3">
+      <div className="bg-[#162720]/95 text-[#f3efe6] backdrop-blur-md rounded-2xl shadow-2xl p-4 max-w-5xl mx-auto border border-[#d4af37]/30 w-full">
+        <form onSubmit={handleSubmit} className="w-full flex flex-col md:grid md:grid-cols-4 items-center gap-3">
           
           {/* Field 1: SELECT DATE */}
           <div

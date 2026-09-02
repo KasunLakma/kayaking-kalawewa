@@ -45,30 +45,30 @@ export default function PackageGrid({ onSelectPackage }: PackageGridProps) {
   };
 
   return (
-    <section id="packages" className="w-full bg-[#0B1914] py-28 sm:py-36 px-6 lg:px-12 text-[#F4F1EA] relative overflow-hidden">
+    <section id="packages" className="w-full max-w-full overflow-x-hidden bg-[#0B1914] py-20 sm:py-36 px-4 sm:px-6 lg:px-12 text-[#F4F1EA] relative">
       {/* Background Decorative Glow */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#C8A97E]/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-3">
           <span className="tracking-[0.3em] text-xs font-medium text-[#C8A97E] uppercase block">
             FULL EXPEDITION PORTFOLIO
           </span>
           
-          <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-normal text-[#F4F1EA] tracking-tight">
+          <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal text-[#F4F1EA] tracking-tight">
             Kayaking Packages &amp; Expeditions
           </h2>
           
-          <p className="text-base text-[#F4F1EA]/80 font-light leading-relaxed pt-2">
+          <p className="text-sm sm:text-base text-[#F4F1EA]/80 font-light leading-relaxed pt-2">
             Discover the ancient beauty of Kalawewa Reservoir. Select your ideal water tour led by certified eco-guides with instant online reservation.
           </p>
 
-          {/* Filter Buttons */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          {/* Touch Momentum Filter Buttons Bar */}
+          <div className="mt-8 flex items-center justify-start sm:justify-center gap-3 overflow-x-auto no-scrollbar py-2 flex-nowrap w-full">
             <button
               onClick={() => setSelectedCategory('all')}
-              className={`px-5 py-2 rounded-none text-xs font-medium uppercase tracking-[0.2em] transition-all duration-300 cursor-pointer ${
+              className={`px-5 py-2.5 min-h-[44px] shrink-0 rounded-none text-xs font-medium uppercase tracking-[0.2em] transition-all duration-300 cursor-pointer ${
                 selectedCategory === 'all'
                   ? 'bg-[#C8A97E] text-[#0B1914] border border-[#C8A97E]'
                   : 'bg-[#13241E] text-[#F4F1EA] hover:text-[#C8A97E] border border-white/10 hover:border-[#C8A97E]/60'
@@ -78,7 +78,7 @@ export default function PackageGrid({ onSelectPackage }: PackageGridProps) {
             </button>
             <button
               onClick={() => setSelectedCategory('easy')}
-              className={`px-5 py-2 rounded-none text-xs font-medium uppercase tracking-[0.2em] transition-all duration-300 cursor-pointer ${
+              className={`px-5 py-2.5 min-h-[44px] shrink-0 rounded-none text-xs font-medium uppercase tracking-[0.2em] transition-all duration-300 cursor-pointer ${
                 selectedCategory === 'easy'
                   ? 'bg-[#C8A97E] text-[#0B1914] border border-[#C8A97E]'
                   : 'bg-[#13241E] text-[#F4F1EA] hover:text-[#C8A97E] border border-white/10 hover:border-[#C8A97E]/60'
@@ -88,7 +88,7 @@ export default function PackageGrid({ onSelectPackage }: PackageGridProps) {
             </button>
             <button
               onClick={() => setSelectedCategory('moderate')}
-              className={`px-5 py-2 rounded-none text-xs font-medium uppercase tracking-[0.2em] transition-all duration-300 cursor-pointer ${
+              className={`px-5 py-2.5 min-h-[44px] shrink-0 rounded-none text-xs font-medium uppercase tracking-[0.2em] transition-all duration-300 cursor-pointer ${
                 selectedCategory === 'moderate'
                   ? 'bg-[#C8A97E] text-[#0B1914] border border-[#C8A97E]'
                   : 'bg-[#13241E] text-[#F4F1EA] hover:text-[#C8A97E] border border-white/10 hover:border-[#C8A97E]/60'
@@ -98,7 +98,7 @@ export default function PackageGrid({ onSelectPackage }: PackageGridProps) {
             </button>
             <button
               onClick={() => setSelectedCategory('challenging')}
-              className={`px-5 py-2 rounded-none text-xs font-medium uppercase tracking-[0.2em] transition-all duration-300 cursor-pointer ${
+              className={`px-5 py-2.5 min-h-[44px] shrink-0 rounded-none text-xs font-medium uppercase tracking-[0.2em] transition-all duration-300 cursor-pointer ${
                 selectedCategory === 'challenging'
                   ? 'bg-[#C8A97E] text-[#0B1914] border border-[#C8A97E]'
                   : 'bg-[#13241E] text-[#F4F1EA] hover:text-[#C8A97E] border border-white/10 hover:border-[#C8A97E]/60'
@@ -109,8 +109,8 @@ export default function PackageGrid({ onSelectPackage }: PackageGridProps) {
           </div>
         </div>
 
-        {/* 3-Column Responsive Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+        {/* Responsive Single-Column Mobile / Multi-Column Desktop Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
           {filteredPackages.map((pkg: Package) => (
             <div
               key={pkg.id}

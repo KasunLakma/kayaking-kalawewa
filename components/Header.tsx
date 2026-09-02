@@ -72,7 +72,7 @@ export default function Header({ onOpenBooking }: HeaderProps) {
           {/* Left: Rounded Hamburger Menu button ("☰ MENU") */}
           <button
             onClick={() => setMenuDrawerOpen(!menuDrawerOpen)}
-            className="px-4 py-2 rounded-full border border-white/30 hover:border-white text-white text-xs font-medium uppercase tracking-[0.2em] transition-all flex items-center gap-2.5 cursor-pointer bg-black/20 backdrop-blur-sm"
+            className="px-4 py-2.5 min-h-[44px] min-w-[44px] rounded-full border border-white/30 hover:border-white text-white text-xs font-medium uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2.5 cursor-pointer bg-black/20 backdrop-blur-sm"
             aria-label="Toggle Menu"
           >
             <span className="text-sm">☰</span>
@@ -98,7 +98,7 @@ export default function Header({ onOpenBooking }: HeaderProps) {
           <div className="flex items-center gap-3 sm:gap-4">
             <button
               onClick={() => setSearchModalOpen(true)}
-              className="p-2 text-white/80 hover:text-[#C8A97E] transition-colors cursor-pointer"
+              className="p-2.5 min-w-[44px] min-h-[44px] text-white/80 hover:text-[#C8A97E] transition-colors cursor-pointer flex items-center justify-center"
               aria-label="Search Expeditions"
               title="Search Expeditions"
             >
@@ -109,7 +109,7 @@ export default function Header({ onOpenBooking }: HeaderProps) {
 
             <Link
               href="/#packages"
-              className="px-4 sm:px-5 py-2.5 border border-[#C8A97E]/70 hover:border-[#C8A97E] hover:bg-[#C8A97E]/10 text-[#C8A97E] hover:text-white text-[11px] font-semibold uppercase tracking-[0.18em] transition-all duration-300 shadow-sm cursor-pointer rounded-none inline-flex items-center justify-center text-center"
+              className="px-4 sm:px-5 py-2.5 min-h-[44px] border border-[#C8A97E]/70 hover:border-[#C8A97E] hover:bg-[#C8A97E]/10 text-[#C8A97E] hover:text-white text-[11px] font-semibold uppercase tracking-[0.18em] transition-all duration-300 shadow-sm cursor-pointer rounded-none inline-flex items-center justify-center text-center"
             >
               EXPLORE EXPEDITIONS
             </Link>
@@ -119,7 +119,7 @@ export default function Header({ onOpenBooking }: HeaderProps) {
 
       {/* Fullscreen Editorial 2-Column Overlay Menu Drawer */}
       {menuDrawerOpen && (
-        <div className="fixed inset-0 z-50 bg-[#0B1914]/98 backdrop-blur-xl border-l border-white/15 flex flex-col justify-between p-6 sm:p-10 lg:p-12 text-[#f5f2eb] overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-[#0B1914]/98 backdrop-blur-xl border-l border-white/15 flex flex-col justify-between p-6 sm:p-10 lg:p-12 text-[#f5f2eb] overflow-y-auto pb-safe h-screen min-h-dvh">
           
           {/* Top Header Controls Bar */}
           <div className="flex items-center justify-between max-w-7xl mx-auto w-full pb-6 border-b border-white/15 shrink-0">
@@ -132,7 +132,7 @@ export default function Header({ onOpenBooking }: HeaderProps) {
             {/* Sleek Minimalist Circular Close Button */}
             <button
               onClick={() => setMenuDrawerOpen(false)}
-              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:rotate-90 hover:border-[#d4af37] text-[#d4af37] hover:text-white transition-all duration-300 cursor-pointer shadow-lg bg-[#0B1914]"
+              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full border border-white/20 flex items-center justify-center hover:rotate-90 hover:border-[#d4af37] text-[#d4af37] hover:text-white transition-all duration-300 cursor-pointer shadow-lg bg-[#0B1914]"
               aria-label="Close Navigation Menu"
               title="Close Menu"
             >

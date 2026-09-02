@@ -13,7 +13,7 @@ export default function Hero({ onCheckAvailability }: HeroProps) {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
 
   return (
-    <section className="relative w-full min-h-screen flex flex-col justify-between pt-28 pb-20 md:pb-24 bg-[#0B1914] text-white">
+    <section className="relative w-full max-w-full overflow-x-hidden min-h-screen flex flex-col justify-between pt-24 md:pt-28 pb-16 md:pb-24 bg-[#0B1914] text-white">
       
       {/* Fullscreen 100vh Edge-to-Edge Cinematic Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -40,11 +40,11 @@ export default function Hero({ onCheckAvailability }: HeroProps) {
         </span>
 
         {/* Main Title */}
-        <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-normal tracking-tight text-white leading-[1.1] drop-shadow-lg uppercase">
+        <h1 className="font-serif text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-normal tracking-tight text-white leading-tight drop-shadow-lg uppercase text-center">
           Experience the Untamed Beauty of Kalawewa
         </h1>
 
-        <p className="text-xs sm:text-sm font-light tracking-[0.2em] text-slate-200 uppercase mt-6 max-w-2xl leading-relaxed">
+        <p className="text-xs sm:text-sm font-light tracking-[0.2em] text-slate-200 uppercase mt-4 sm:mt-6 max-w-2xl leading-relaxed">
           Guided kayak expeditions through Sri Lanka&apos;s ancient reservoir — where wilderness meets wonder.
         </p>
 
@@ -52,13 +52,13 @@ export default function Hero({ onCheckAvailability }: HeroProps) {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <Link
             href="#packages"
-            className="px-8 py-3.5 bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold uppercase tracking-[0.2em] transition-all shadow-lg rounded-none cursor-pointer"
+            className="px-8 py-3.5 min-h-[44px] bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold uppercase tracking-[0.2em] transition-all shadow-lg rounded-none cursor-pointer inline-flex items-center justify-center"
           >
             EXPLORE EXPEDITIONS
           </Link>
           <Link
             href="/packages"
-            className="px-8 py-3.5 bg-[#0B1914]/80 hover:bg-[#13241E] border border-[#C8A97E]/50 text-[#C8A97E] hover:text-white text-xs font-medium uppercase tracking-[0.2em] transition-all rounded-none cursor-pointer"
+            className="px-8 py-3.5 min-h-[44px] bg-[#0B1914]/80 hover:bg-[#13241E] border border-[#C8A97E]/50 text-[#C8A97E] hover:text-white text-xs font-medium uppercase tracking-[0.2em] transition-all rounded-none cursor-pointer inline-flex items-center justify-center"
           >
             VIEW ALL PACKAGES
           </Link>
@@ -90,7 +90,7 @@ export default function Hero({ onCheckAvailability }: HeroProps) {
           {/* Centered Circular Pause/Play Toggle Button with Dynamic Ring */}
           <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className="absolute p-2.5 rounded-full bg-[#0B1914]/80 border border-white/30 text-white hover:border-[#C8A97E] hover:text-[#C8A97E] transition-all cursor-pointer group shadow-2xl flex items-center justify-center"
+            className="absolute p-2.5 rounded-full bg-[#0B1914]/80 border border-white/30 text-white hover:border-[#C8A97E] hover:text-[#C8A97E] transition-all cursor-pointer group shadow-2xl flex items-center justify-center min-w-[44px] min-h-[44px]"
             title={isPlaying ? 'Pause Background Animation' : 'Play Background Animation'}
             aria-label="Toggle Animation"
           >
@@ -109,8 +109,8 @@ export default function Hero({ onCheckAvailability }: HeroProps) {
 
       </div>
 
-      {/* Availability Floating Bar straddling 50% on bottom boundary seam */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-30 w-full max-w-5xl px-4 pointer-events-auto">
+      {/* Availability Floating Bar straddling 50% on bottom boundary seam on desktop, natural page flow on mobile */}
+      <div className="relative md:absolute mt-8 md:mt-0 md:bottom-0 left-0 md:left-1/2 translate-x-0 md:-translate-x-1/2 translate-y-0 md:translate-y-1/2 z-30 w-full max-w-5xl px-4 pointer-events-auto">
         <QuickBookingBar onCheckAvailability={onCheckAvailability} />
       </div>
 

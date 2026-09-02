@@ -436,28 +436,28 @@ export default function AdminPage() {
             </div>
 
             {/* Controls: Lightweight Search Bar & Quick Date Filter */}
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="relative">
+            <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+              <div className="relative flex-1 sm:flex-initial min-w-[240px]">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Filter by Guest Name, Phone, ID..."
-                  className="px-4 py-2.5 pl-9 bg-[#0B1914] border border-white/20 text-xs text-[#F4F1EA] placeholder-slate-400 focus:outline-none focus:border-[#C8A97E] min-w-[260px] rounded-lg"
+                  className="w-full px-4 py-2.5 min-h-[44px] pl-9 bg-[#0B1914] border border-white/20 text-xs text-[#F4F1EA] placeholder-slate-400 focus:outline-none focus:border-[#C8A97E] rounded-lg"
                 />
-                <span className="absolute left-3 top-2.5 text-slate-400 text-xs">🔍</span>
+                <span className="absolute left-3 top-3 text-slate-400 text-xs">🔍</span>
               </div>
 
               <input
                 type="date"
                 value={selectedDateFilter}
                 onChange={(e) => setSelectedDateFilter(e.target.value)}
-                className="px-3 py-2.5 bg-[#0B1914] border border-white/20 text-xs text-[#F4F1EA] focus:outline-none focus:border-[#C8A97E] rounded-lg"
+                className="px-3 py-2.5 min-h-[44px] bg-[#0B1914] border border-white/20 text-xs text-[#F4F1EA] focus:outline-none focus:border-[#C8A97E] rounded-lg"
               />
 
               <button
                 onClick={() => setSelectedDateFilter(todayStr)}
-                className={`px-3 py-2.5 text-xs uppercase tracking-wider font-medium border rounded-lg transition-colors cursor-pointer ${
+                className={`px-4 py-2.5 min-h-[44px] text-xs uppercase tracking-wider font-medium border rounded-lg transition-colors cursor-pointer ${
                   selectedDateFilter === todayStr
                     ? 'bg-[#C8A97E] text-[#0B1914] border-[#C8A97E]'
                     : 'bg-[#0B1914] text-slate-300 border-white/20 hover:text-white'
@@ -469,7 +469,7 @@ export default function AdminPage() {
               {selectedDateFilter && (
                 <button
                   onClick={() => setSelectedDateFilter('')}
-                  className="text-xs text-slate-400 hover:text-white underline cursor-pointer"
+                  className="px-2 py-2 min-h-[44px] text-xs text-slate-400 hover:text-white underline cursor-pointer"
                 >
                   Clear Date
                 </button>
@@ -477,8 +477,8 @@ export default function AdminPage() {
             </div>
           </div>
 
-          {/* Status Tabs */}
-          <div className="flex flex-wrap items-center gap-2">
+          {/* Status Tabs with Horizontal Touch Momentum Scrolling */}
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 flex-nowrap sm:flex-wrap w-full">
             {['ALL', 'PENDING', 'CONFIRMED', 'COMPLETED', 'CANCELLED'].map((tab) => {
               const isActive = selectedStatusTab === tab;
               const count =
@@ -490,7 +490,7 @@ export default function AdminPage() {
                 <button
                   key={tab}
                   onClick={() => setSelectedStatusTab(tab)}
-                  className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-all border rounded-lg cursor-pointer flex items-center gap-2 ${
+                  className={`px-4 py-2.5 min-h-[44px] shrink-0 text-xs font-semibold uppercase tracking-wider transition-all border rounded-lg cursor-pointer flex items-center gap-2 ${
                     isActive
                       ? 'bg-[#C8A97E] text-[#0B1914] border-[#C8A97E]'
                       : 'bg-[#0B1914] text-slate-300 border-white/10 hover:border-[#C8A97E]/50'
@@ -505,8 +505,8 @@ export default function AdminPage() {
             })}
           </div>
 
-          {/* Streamlined 5-Column Live Data Table */}
-          <div className="overflow-x-auto border border-white/10 rounded-xl">
+          {/* Streamlined 5-Column Live Data Table inside Accessible Scroll Container */}
+          <div className="overflow-x-auto w-full border border-white/10 rounded-xl no-scrollbar">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
                 <tr className="bg-[#0B1914] border-b border-white/15 text-stone-300 uppercase tracking-widest text-[11px] font-medium">

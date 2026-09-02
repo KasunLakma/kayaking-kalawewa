@@ -51,7 +51,7 @@ export default function AdminPage() {
     }
   }, []);
 
-  // Fetch Firestore data on auth success
+  // Fetch reservation records on auth success
   const loadData = async () => {
     setIsLoading(true);
     try {
@@ -274,7 +274,7 @@ export default function AdminPage() {
             <button
               onClick={loadData}
               className="p-2 border border-white/20 hover:border-[#C8A97E] text-slate-300 hover:text-white transition-all text-xs"
-              title="Refresh Firestore Data"
+              title="Refresh Live Operations Feed"
             >
               🔄
             </button>
@@ -312,7 +312,7 @@ export default function AdminPage() {
               {totalBookings}
             </div>
             <span className="text-[11px] text-slate-400 font-light block pt-1">
-              All time Firestore bookings
+              Total Expedition Bookings
             </span>
           </div>
 
@@ -364,10 +364,10 @@ export default function AdminPage() {
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-white/10 pb-6">
             <div>
               <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#C8A97E] block mb-1">
-                FIRESTORE REAL-TIME DATA PIPELINE
+                LIVE OPERATIONS FEED
               </span>
               <h2 className="font-serif text-2xl sm:text-3xl text-[#F4F1EA]">
-                Booking &amp; Order Pipeline Management
+                Reservation Records &amp; Live Status
               </h2>
             </div>
 
@@ -458,7 +458,7 @@ export default function AdminPage() {
                 {isLoading ? (
                   <tr>
                     <td colSpan={9} className="p-8 text-center text-slate-400 italic">
-                      Loading real-time Firestore bookings pipeline...
+                      Loading live reservation records feed...
                     </td>
                   </tr>
                 ) : filteredBookings.length === 0 ? (
@@ -609,7 +609,7 @@ export default function AdminPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {blockedSlots.length === 0 ? (
               <div className="col-span-full p-6 text-center text-xs text-slate-400 italic bg-[#0B1914] border border-white/10">
-                No active slot blocks recorded. All tour departure times are available on frontend.
+                No active slot blocks recorded. All tour departure times are available for guest reservations.
               </div>
             ) : (
               blockedSlots.map((slot) => (
@@ -660,7 +660,7 @@ export default function AdminPage() {
               </span>
               <h3 className="font-serif text-2xl text-[#F4F1EA]">Block Date or Time Slot</h3>
               <p className="text-xs text-slate-300 font-light mt-1">
-                Disables slot selection in real-time on the guest reservation engine.
+                Disables slot selection in real-time on the guest reservation portal.
               </p>
             </div>
 

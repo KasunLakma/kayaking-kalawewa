@@ -355,18 +355,8 @@ export default function CustomersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0B1914] text-[#F4F1EA] flex flex-col font-sans">
-      {/* Top Operations SubNav */}
-      <AdminSubNav
-        onRefresh={fetchCustomers}
-        onLogout={() => {
-          sessionStorage.removeItem('admin_authenticated');
-          setIsAuthenticated(false);
-        }}
-      />
-
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-8 space-y-8">
-        {/* Header Title Section */}
+    <div className="p-4 sm:p-8 space-y-8 max-w-7xl mx-auto">
+      {/* Header Title Section */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-6">
           <div>
             <div className="flex items-center gap-3">
@@ -671,7 +661,6 @@ export default function CustomersPage() {
             </div>
           )}
         </div>
-      </main>
 
       {/* =========================================================================
          DETAILED CUSTOMER PROFILE & HISTORY MODAL

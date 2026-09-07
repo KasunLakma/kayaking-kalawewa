@@ -183,17 +183,8 @@ export default function GeneralSettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0B1914] text-[#F4F1EA] flex flex-col font-sans">
-      <AdminSubNav
-        onRefresh={fetchSettings}
-        onLogout={() => {
-          sessionStorage.removeItem('admin_authenticated');
-          setIsAuthenticated(false);
-        }}
-      />
-
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-8 py-8 space-y-8">
-        {/* Header Bar */}
+    <div className="p-4 sm:p-8 space-y-8 max-w-5xl mx-auto">
+      {/* Header Bar */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-6">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[#C8A97E]">
@@ -588,7 +579,6 @@ export default function GeneralSettingsPage() {
             </button>
           </div>
         </form>
-      </main>
     </div>
   );
 }

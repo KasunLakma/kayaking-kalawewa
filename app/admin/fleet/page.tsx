@@ -504,13 +504,8 @@ export default function FleetManagementPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0B1914] text-[#F4F1EA] font-sans selection:bg-[#C8A97E] selection:text-[#0B1914] flex flex-col justify-between">
-      {/* Top Admin Sub-Navigation Header */}
-      <AdminSubNav onRefresh={loadData} onLogout={handleLogout} />
-
-      {/* Main Container */}
-      <main className="max-w-7xl mx-auto w-full px-4 sm:px-8 py-8 flex-1 space-y-8">
-        {/* Header Title Section */}
+    <div className="p-4 sm:p-8 space-y-8 max-w-7xl mx-auto">
+      {/* Header Title Section */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-6">
           <div>
             <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#C8A97E] block mb-1">
@@ -895,7 +890,6 @@ export default function FleetManagementPage() {
             </table>
           </div>
         </section>
-      </main>
 
       {/* ADD VESSEL / VEHICLE MODAL */}
       {showAddModal && (

@@ -45,7 +45,7 @@ export default function PackageGrid({ onSelectPackage }: PackageGridProps) {
   };
 
   return (
-    <section id="packages" className="w-full max-w-full overflow-x-hidden bg-[#0B1914] py-20 sm:py-36 px-4 sm:px-6 lg:px-12 text-[#F4F1EA] relative">
+    <section id="packages" className="w-full max-w-full overflow-x-hidden bg-[#0B1914] py-16 md:py-24 px-4 sm:px-6 lg:px-8 text-[#F4F1EA] relative">
       {/* Background Decorative Glow */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#C8A97E]/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -110,7 +110,7 @@ export default function PackageGrid({ onSelectPackage }: PackageGridProps) {
         </div>
 
         {/* Responsive Single-Column Mobile / Multi-Column Desktop Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-stretch">
           {filteredPackages.map((pkg: Package) => (
             <div
               key={pkg.id}

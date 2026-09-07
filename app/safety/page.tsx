@@ -13,7 +13,7 @@ export default function SafetyPage() {
     <div className="min-h-screen bg-[#07130E] text-stone-300 font-sans flex flex-col justify-between overflow-x-hidden">
       <Header />
 
-      <main className="flex-1 w-full py-20 px-6 sm:px-12">
+      <main className="flex-1 w-full py-12 md:py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto font-light leading-relaxed">
           {/* Back to Home Link */}
           <div className="mb-8">

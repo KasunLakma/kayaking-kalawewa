@@ -54,7 +54,7 @@ export default function PackagesPage() {
 
       <main className="flex-1 w-full pt-24 sm:pt-28">
         {/* Back to Home Button */}
-        <div className="max-w-6xl mx-auto px-6 pt-4 pb-2 relative z-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-2 relative z-20">
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-stone-300 hover:text-[#d4af37] text-xs font-semibold tracking-wider uppercase transition-colors px-3 py-1.5 rounded-lg border border-white/10 hover:border-[#d4af37]/40 bg-white/[0.02]"
@@ -65,12 +65,12 @@ export default function PackagesPage() {
         </div>
 
         {/* 2. Editorial Page Header Section */}
-        <section className="relative px-6 lg:px-12 pb-16 sm:pb-24 border-b border-white/10 overflow-hidden">
+        <section className="relative px-4 sm:px-6 lg:px-8 pb-12 md:pb-16 border-b border-white/10 overflow-hidden">
           {/* Subtle Background Glow & Pattern */}
           <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-[#C8A97E]/10 rounded-full blur-[120px] pointer-events-none" />
           <div className="absolute inset-0 bg-[radial-gradient(#C8A97E_1px,transparent_1px)] [background-size:32px_32px] opacity-[0.03] pointer-events-none" />
 
-          <div className="max-w-6xl mx-auto relative z-10 space-y-6">
+          <div className="max-w-7xl mx-auto relative z-10 space-y-6">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#13241E] border border-[#C8A97E]/30 text-[10px] sm:text-xs font-medium text-[#C8A97E] uppercase tracking-[0.3em]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#C8A97E] animate-pulse" />
               EXCLUSIVE JOURNEYS
@@ -85,7 +85,7 @@ export default function PackagesPage() {
             </p>
 
             {/* Trust Badges */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 w-full max-w-6xl mx-auto mt-12 pt-8 border-t border-white/10 text-left">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10 text-left">
               <div className="p-5 rounded-xl bg-white/[0.03] border border-white/10 flex items-start gap-4 hover:border-[#d4af37]/40 transition-colors">
                 <div className="p-2.5 rounded-lg bg-[#C8A97E]/10 text-[#C8A97E] text-base shrink-0">
                   ❖
@@ -120,7 +120,7 @@ export default function PackagesPage() {
         </section>
 
         {/* 3. Filter Tabs */}
-        <section className="max-w-7xl mx-auto px-6 lg:px-12 py-10 sm:py-14">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 border-b border-white/10 pb-8">
             {categories.map((cat) => {
               const isActive = activeTab === cat;
@@ -161,8 +161,8 @@ export default function PackagesPage() {
         </section>
 
         {/* 4. Package Grid (2-Column Editorial Cards) */}
-        <section className="max-w-7xl mx-auto px-6 lg:px-12 pb-24 sm:pb-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 md:pb-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
             {filteredPackages.map((pkg: Package) => {
               const whatsappMsg = encodeURIComponent(
                 `Hi! I would like to inquire about booking the "${pkg.title}" expedition (${pkg.price}${pkg.unit}) at Kalawewa Reservoir.`
@@ -296,7 +296,7 @@ export default function PackagesPage() {
         </section>
 
         {/* 5. Safety & Inclusion Callout Bar */}
-        <section className="bg-[#13241E] border-t border-b border-[#C8A97E]/30 py-16 px-6 lg:px-12 relative overflow-hidden">
+        <section className="bg-[#13241E] border-t border-b border-[#C8A97E]/30 py-12 md:py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
           <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-[#C8A97E]/5 rounded-full blur-3xl pointer-events-none" />
 
           <div className="max-w-7xl mx-auto relative z-10 space-y-12">
@@ -313,7 +313,7 @@ export default function PackagesPage() {
             </div>
 
             {/* 4 Feature Callouts */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
               {/* Feature 1 */}
               <div className="bg-[#0B1914] border border-white/10 p-6 space-y-3">
                 <div className="w-10 h-10 rounded-none bg-[#13241E] border border-[#C8A97E]/40 flex items-center justify-center text-[#C8A97E] text-lg font-serif">

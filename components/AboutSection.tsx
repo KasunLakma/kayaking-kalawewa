@@ -6,8 +6,8 @@ import Image from 'next/image';
 export default function AboutSection() {
   return (
     <section id="about" className="w-full bg-[#142D28] text-white relative overflow-hidden">
-      <div className="max-w-7xl mx-auto pt-28 md:pt-36 pb-24 md:pb-32 px-8 md:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      <div className="max-w-7xl mx-auto pt-16 md:pt-20 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           {/* A. LEFT COLUMN (Typography & Narrative) */}
           <div className="lg:col-span-7 flex flex-col justify-center">

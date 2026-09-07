@@ -13,7 +13,7 @@ export default function Hero({ onCheckAvailability }: HeroProps) {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
 
   return (
-    <section className="relative w-full max-w-full overflow-x-hidden min-h-screen flex flex-col justify-between pt-24 md:pt-28 pb-16 md:pb-24 bg-[#0B1914] text-white">
+    <section className="relative w-full max-w-full overflow-x-hidden min-h-screen flex flex-col justify-between pt-24 md:pt-28 pb-12 md:pb-16 bg-[#0B1914] text-white">
       
       {/* Fullscreen 100vh Edge-to-Edge Cinematic Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">

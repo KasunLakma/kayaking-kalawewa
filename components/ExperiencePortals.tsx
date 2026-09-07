@@ -68,10 +68,10 @@ export default function ExperiencePortals() {
   };
 
   return (
-    <section className="w-full bg-[#0E1110] text-white py-28 md:py-36 relative overflow-hidden">
+    <section className="w-full bg-[#0E1110] text-white py-16 md:py-24 relative overflow-hidden">
       
       {/* Section Title Header */}
-      <div className="max-w-7xl mx-auto px-6 mb-16 text-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 text-center">
         <span className="tracking-[0.35em] text-xs font-semibold text-[#C8A97E] uppercase block mb-3">
           EXCLUSIVE RESORT PORTALS
         </span>
@@ -170,7 +170,7 @@ export default function ExperiencePortals() {
       </div>
 
       {/* Slider Controls & Numbering (Bottom Right) */}
-      <div className="max-w-7xl mx-auto px-6 mt-12 flex items-center justify-center md:justify-end gap-6 z-30 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 flex items-center justify-center md:justify-end gap-6 z-30 relative">
         <span className="font-mono text-xs text-gray-400 tracking-widest">
           0{currentIndex + 1} / 0{experiences.length}
         </span>

@@ -61,7 +61,7 @@ export default function CustomJourneys() {
       </div>
 
       {/* Centered Staggered Scroll-Reveal Content */}
-      <div className="relative z-10 max-w-4xl mx-auto px-6 py-20">
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
         
         <span
           className={`tracking-[0.35em] text-xs font-semibold text-[#D4AF37] uppercase mb-4 block transition-all duration-1000 ease-out ${

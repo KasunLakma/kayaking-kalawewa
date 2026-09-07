@@ -71,8 +71,8 @@ export default function WildernessDifference() {
       </div>
 
       {/* Minimalist Editorial Story Columns (No dark boxed grids) */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-28 sm:py-36 border-t border-white/10">
-        <div className="mb-20 text-center max-w-3xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 border-t border-white/10">
+        <div className="mb-12 sm:mb-16 text-center max-w-3xl mx-auto">
           <span className="tracking-[0.35em] text-xs font-medium text-[#C8A97E] uppercase block mb-3">
             HERITAGE &amp; CONSERVATION PILLARS
           </span>
@@ -82,7 +82,7 @@ export default function WildernessDifference() {
         </div>
 
         {/* Minimalist 4-Column Narrative Blocks with Pure Whitespace */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {heritagePillars.map((pillar) => (
             <div key={pillar.number} className="flex flex-col space-y-4">
               <span className="font-serif text-3xl text-[#C8A97E] font-normal">

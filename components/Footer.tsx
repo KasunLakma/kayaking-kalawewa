@@ -16,11 +16,11 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full bg-[#0B1914] text-[#F4F1EA] border-t border-white/10 pt-20 pb-12 px-6 lg:px-12 relative overflow-hidden">
+    <footer className="w-full bg-[#0B1914] text-[#F4F1EA] border-t border-white/10 pt-16 md:pt-20 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Subtle Background Glow */}
       <div className="absolute top-0 left-1/3 w-96 h-96 bg-[#C8A97E]/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative z-10 space-y-20">
+      <div className="max-w-7xl mx-auto relative z-10 space-y-12 sm:space-y-16">
         
         {/* Newsletter Signup Gazette Banner */}
         <div className="bg-[#13241E] rounded-none p-8 sm:p-12 border border-[#C8A97E]/30 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8">
@@ -63,7 +63,7 @@ export default function Footer() {
         </div>
 
         {/* Footer Navigation Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 text-xs">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 md:gap-12 text-xs">
           
           {/* Brand Col */}
           <div className="lg:col-span-2 space-y-4">

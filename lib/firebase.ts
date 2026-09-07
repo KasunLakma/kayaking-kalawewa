@@ -419,3 +419,301 @@ export async function unblockSlotInFirestore(slotId: string): Promise<boolean> {
   }
   return true;
 }
+
+// ----------------------------------------------------
+// STAFF MANAGEMENT DATA TYPES & FIRESTORE HELPERS
+// ----------------------------------------------------
+
+export interface StaffMember {
+  id: string; // Staff ID, e.g. STF-101
+  fullName: string;
+  email: string;
+  phone: string;
+  role: 'Naturalist Guide' | 'Reservation Desk' | 'Operations Manager' | 'Safety Officer' | 'Kayak Master' | string;
+  status: 'ACTIVE' | 'OFF_DUTY' | 'SUSPENDED';
+  avatarUrl?: string;
+  expeditions: string[];
+  lastActive: string;
+  createdAt: string;
+  uid?: string;
+}
+
+export interface StaffActivityLog {
+  id: string;
+  staffId: string;
+  staffName: string;
+  action: string;
+  timestamp: string;
+  type: 'LOGIN' | 'EXPEDITION' | 'RESERVATION' | 'PROFILE';
+}
+
+let inMemoryStaffMembers: StaffMember[] = [
+  {
+    id: 'STF-101',
+    fullName: 'Sahan Wickramasinghe',
+    email: 'sahan@kalawewakayaking.com',
+    phone: '+94771239876',
+    role: 'Naturalist Guide',
+    status: 'ACTIVE',
+    expeditions: ['Sunrise Lotus Drift', 'Wild Elephant Corridor Trail'],
+    lastActive: new Date(Date.now() - 15 * 60000).toISOString(),
+    createdAt: '2026-01-10T08:00:00.000Z',
+    uid: 'staff-uid-101'
+  },
+  {
+    id: 'STF-102',
+    fullName: 'Dilani Fernando',
+    email: 'dilani@kalawewakayaking.com',
+    phone: '+94718882233',
+    role: 'Reservation Desk',
+    status: 'ACTIVE',
+    expeditions: ['Sunrise Lotus Drift', 'Sunset Romance & Couples', 'Full Day Kalawewa Explorer'],
+    lastActive: new Date(Date.now() - 2 * 3600000).toISOString(),
+    createdAt: '2026-01-15T09:30:00.000Z',
+    uid: 'staff-uid-102'
+  },
+  {
+    id: 'STF-103',
+    fullName: 'Kusal Jayawardena',
+    email: 'kusal@kalawewakayaking.com',
+    phone: '+94705554411',
+    role: 'Operations Manager',
+    status: 'ACTIVE',
+    expeditions: ['All Expeditions & Spillway Safety Protocol'],
+    lastActive: new Date(Date.now() - 45 * 60000).toISOString(),
+    createdAt: '2026-01-01T07:00:00.000Z',
+    uid: 'staff-uid-103'
+  },
+  {
+    id: 'STF-104',
+    fullName: 'Roshan Bandara',
+    email: 'roshan@kalawewakayaking.com',
+    phone: '+94762229988',
+    role: 'Safety Officer',
+    status: 'OFF_DUTY',
+    expeditions: ['Wild Elephant Corridor Trail', 'Emergency Rapid Response'],
+    lastActive: new Date(Date.now() - 24 * 3600000).toISOString(),
+    createdAt: '2026-02-01T10:00:00.000Z',
+    uid: 'staff-uid-104'
+  },
+  {
+    id: 'STF-105',
+    fullName: 'Tharindu Rathnayake',
+    email: 'tharindu@kalawewakayaking.com',
+    phone: '+94723334455',
+    role: 'Kayak Master',
+    status: 'SUSPENDED',
+    expeditions: ['Sunset Romance & Couples'],
+    lastActive: new Date(Date.now() - 7 * 86400000).toISOString(),
+    createdAt: '2026-03-01T11:00:00.000Z',
+    uid: 'staff-uid-105'
+  }
+];
+
+let inMemoryStaffLogs: StaffActivityLog[] = [
+  {
+    id: 'log-1',
+    staffId: 'STF-101',
+    staffName: 'Sahan Wickramasinghe',
+    action: 'Completed Sunrise Lotus Drift expedition with 4 guests',
+    timestamp: new Date(Date.now() - 3 * 3600000).toISOString(),
+    type: 'EXPEDITION'
+  },
+  {
+    id: 'log-2',
+    staffId: 'STF-102',
+    staffName: 'Dilani Fernando',
+    action: 'Confirmed reservation #KK-731940 and sent guest welcome kit',
+    timestamp: new Date(Date.now() - 2 * 3600000).toISOString(),
+    type: 'RESERVATION'
+  },
+  {
+    id: 'log-3',
+    staffId: 'STF-103',
+    staffName: 'Kusal Jayawardena',
+    action: 'Logged into Operations Portal and issued weather advisory update',
+    timestamp: new Date(Date.now() - 45 * 60000).toISOString(),
+    type: 'LOGIN'
+  },
+  {
+    id: 'log-4',
+    staffId: 'STF-101',
+    staffName: 'Sahan Wickramasinghe',
+    action: 'Logged into Staff Portal',
+    timestamp: new Date(Date.now() - 15 * 60000).toISOString(),
+    type: 'LOGIN'
+  }
+];
+
+export async function getStaffMembersFromFirestore(): Promise<StaffMember[]> {
+  try {
+    const snapshot = await getDocs(collection(db, "staff"));
+    if (!snapshot.empty) {
+      const fetched: StaffMember[] = [];
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        fetched.push({
+          id: docSnap.id,
+          fullName: data.fullName || 'Staff Member',
+          email: data.email || '',
+          phone: data.phone || '',
+          role: data.role || 'Naturalist Guide',
+          status: data.status || 'ACTIVE',
+          avatarUrl: data.avatarUrl || '',
+          expeditions: Array.isArray(data.expeditions) ? data.expeditions : [],
+          lastActive: data.lastActive || new Date().toISOString(),
+          createdAt: data.createdAt || new Date().toISOString(),
+          uid: data.uid || docSnap.id,
+        });
+      });
+      return fetched;
+    }
+  } catch (err) {
+    console.warn("Firestore staff read notice (using in-memory store):", err);
+  }
+  return inMemoryStaffMembers;
+}
+
+export async function saveStaffMemberToFirestore(
+  staffData: Omit<StaffMember, 'id'> & { id?: string }
+): Promise<StaffMember> {
+  const staffId = staffData.id || "STF-" + Math.floor(100 + Math.random() * 900);
+  const now = new Date().toISOString();
+
+  const newStaff: StaffMember = {
+    id: staffId,
+    fullName: staffData.fullName,
+    email: staffData.email,
+    phone: staffData.phone,
+    role: staffData.role,
+    status: staffData.status || 'ACTIVE',
+    avatarUrl: staffData.avatarUrl || '',
+    expeditions: staffData.expeditions || [],
+    lastActive: now,
+    createdAt: staffData.createdAt || now,
+    uid: staffData.uid || `staff-uid-${Date.now()}`
+  };
+
+  try {
+    const docRef = doc(db, "staff", staffId);
+    await setDoc(docRef, {
+      ...newStaff,
+      updatedAt: serverTimestamp(),
+    }, { merge: true });
+  } catch (err) {
+    console.warn("Firestore save staff notice (saved locally):", err);
+  }
+
+  // Update in-memory cache
+  const existingIdx = inMemoryStaffMembers.findIndex(s => s.id === staffId);
+  if (existingIdx >= 0) {
+    inMemoryStaffMembers[existingIdx] = newStaff;
+  } else {
+    inMemoryStaffMembers.unshift(newStaff);
+  }
+
+  // Add initial log
+  await addStaffLogToFirestore({
+    staffId: newStaff.id,
+    staffName: newStaff.fullName,
+    action: `Staff profile created & provisioned with role [${newStaff.role}]`,
+    timestamp: now,
+    type: 'PROFILE'
+  });
+
+  return newStaff;
+}
+
+export async function updateStaffMemberInFirestore(
+  staffId: string,
+  updates: Partial<StaffMember>
+): Promise<boolean> {
+  const idx = inMemoryStaffMembers.findIndex(s => s.id === staffId);
+  if (idx >= 0) {
+    inMemoryStaffMembers[idx] = {
+      ...inMemoryStaffMembers[idx],
+      ...updates,
+      lastActive: new Date().toISOString()
+    };
+  }
+
+  try {
+    const docRef = doc(db, "staff", staffId);
+    await updateDoc(docRef, {
+      ...updates,
+      updatedAt: serverTimestamp()
+    });
+  } catch (err) {
+    console.warn("Firestore staff update notice:", err);
+  }
+
+  return true;
+}
+
+export async function deleteStaffMemberFromFirestore(staffId: string): Promise<boolean> {
+  inMemoryStaffMembers = inMemoryStaffMembers.filter(s => s.id !== staffId);
+  try {
+    await deleteDoc(doc(db, "staff", staffId));
+  } catch (err) {
+    console.warn("Firestore staff delete notice:", err);
+  }
+  return true;
+}
+
+export async function getStaffLogsFromFirestore(staffId?: string): Promise<StaffActivityLog[]> {
+  try {
+    const snapshot = await getDocs(collection(db, "staff_logs"));
+    if (!snapshot.empty) {
+      const fetched: StaffActivityLog[] = [];
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        if (!staffId || data.staffId === staffId) {
+          fetched.push({
+            id: docSnap.id,
+            staffId: data.staffId,
+            staffName: data.staffName || 'Staff Member',
+            action: data.action || 'Activity logged',
+            timestamp: data.timestamp || new Date().toISOString(),
+            type: data.type || 'LOGIN'
+          });
+        }
+      });
+      return fetched.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+    }
+  } catch (err) {
+    console.warn("Firestore staff logs read notice:", err);
+  }
+
+  let logs = [...inMemoryStaffLogs];
+  if (staffId) {
+    logs = logs.filter(l => l.staffId === staffId);
+  }
+  return logs.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+}
+
+export async function addStaffLogToFirestore(
+  logData: Omit<StaffActivityLog, 'id'>
+): Promise<StaffActivityLog> {
+  const newLog: StaffActivityLog = {
+    id: 'log-' + Date.now(),
+    staffId: logData.staffId,
+    staffName: logData.staffName,
+    action: logData.action,
+    timestamp: logData.timestamp || new Date().toISOString(),
+    type: logData.type
+  };
+
+  try {
+    const docRef = await addDoc(collection(db, "staff_logs"), {
+      ...newLog,
+      createdAt: serverTimestamp()
+    });
+    newLog.id = docRef.id;
+  } catch (err) {
+    console.warn("Firestore add staff log notice:", err);
+  }
+
+  inMemoryStaffLogs.unshift(newLog);
+  return newLog;
+}
+

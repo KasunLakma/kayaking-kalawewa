@@ -11,6 +11,7 @@ import {
   BookingDocument,
   BlockedSlot,
 } from '@/lib/firebase';
+import AdminSubNav from '@/components/AdminSubNav';
 
 const TIME_SLOTS = [
   'Morning / Sunrise (06:00 AM)',
@@ -301,57 +302,11 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-[#0B1914] text-[#F4F1EA] font-sans selection:bg-[#C8A97E] selection:text-[#0B1914] flex flex-col justify-between">
       {/* Admin Top Navigation Header */}
-      <header className="sticky top-0 z-40 bg-[#0B1914]/90 backdrop-blur-md border-b border-white/10 px-6 sm:px-10 py-4">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="flex flex-col group">
-              <span className="font-serif text-xl font-normal tracking-[0.25em] text-[#F4F1EA]">
-                KALAWEWA
-              </span>
-              <span className="text-[8px] font-semibold tracking-[0.3em] text-[#C8A97E] uppercase">
-                OPERATIONS PORTAL
-              </span>
-            </Link>
-            <span className="hidden sm:inline text-xs text-slate-500">•</span>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-xs font-medium">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>All Systems Operational</span>
-            </span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 text-stone-300 hover:text-[#d4af37] text-xs font-semibold tracking-wider uppercase transition-colors px-3 py-1.5 rounded-lg border border-white/10 hover:border-[#d4af37]/40 bg-white/[0.02]"
-            >
-              <span>←</span>
-              <span>BACK TO HOME</span>
-            </Link>
-
-            <button
-              onClick={() => setShowSlotModal(true)}
-              className="px-4 py-2 bg-amber-600/20 border border-amber-500/50 hover:bg-amber-600/40 text-amber-300 text-xs font-semibold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer rounded-lg"
-            >
-              <span>⚡ WEATHER / SLOT OVERRIDE</span>
-            </button>
-
-            <button
-              onClick={loadData}
-              className="p-2 border border-white/20 hover:border-[#C8A97E] text-slate-300 hover:text-white transition-all text-xs rounded-lg"
-              title="Refresh Live Operations Feed"
-            >
-              🔄
-            </button>
-
-            <button
-              onClick={handleLogout}
-              className="px-3.5 py-2 border border-white/20 hover:border-red-400 text-slate-300 hover:text-red-400 text-xs uppercase tracking-wider transition-colors cursor-pointer rounded-lg"
-            >
-              LOCK 🔒
-            </button>
-          </div>
-        </div>
-      </header>
+      <AdminSubNav
+        onRefresh={loadData}
+        onLogout={handleLogout}
+        onOpenWeatherOverride={() => setShowSlotModal(true)}
+      />
 
       {/* Main Admin Dashboard Container */}
       <main className="max-w-7xl mx-auto w-full px-6 sm:px-10 py-8 flex-1 space-y-10">

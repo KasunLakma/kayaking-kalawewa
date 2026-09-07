@@ -717,3 +717,332 @@ export async function addStaffLogToFirestore(
   return newLog;
 }
 
+// ----------------------------------------------------
+// FLEET & KAYAK INVENTORY DATA TYPES & FIRESTORE HELPERS
+// ----------------------------------------------------
+
+export interface FleetVehicle {
+  id: string; // e.g., "KALA-KAYAK-01", "KALA-TANDEM-03"
+  identifier: string; // e.g. "Single Ocean Explorer #1", "Tandem Ocean Pro #3"
+  craftType: 'Single Kayak' | 'Tandem Kayak' | 'Safari Transfer Vehicle' | 'Rescue Tender' | string;
+  capacity: number; // e.g. 1 for Single Kayak, 2 for Tandem Kayak, 10 for Safari Transfer, 4 for Rescue Tender
+  conditionStatus: 'Operational' | 'Under Inspection' | 'Out of Service';
+  availabilityStatus: 'Available' | 'On Lake / Reserved' | 'Reserved Maintenance';
+  safetyEquipment: {
+    lifeJacketCount: number;
+    paddleSerials: string[];
+    emergencyKitChecked: boolean;
+    uscgCompliant: boolean;
+    lastInspectionDate: string;
+  };
+  acquisitionDate: string;
+  lastMaintenanceLog: string;
+  assignedPackages: string[]; // e.g. ['Sunrise Lotus Drift', 'Wild Elephant Corridor Trail']
+  createdAt: string;
+  updatedAt?: string;
+}
+
+let inMemoryFleet: FleetVehicle[] = [
+  {
+    id: 'KALA-KAYAK-01',
+    identifier: 'Single Ocean Explorer #1',
+    craftType: 'Single Kayak',
+    capacity: 1,
+    conditionStatus: 'Operational',
+    availabilityStatus: 'Available',
+    safetyEquipment: {
+      lifeJacketCount: 1,
+      paddleSerials: ['PD-01A', 'PD-01B'],
+      emergencyKitChecked: true,
+      uscgCompliant: true,
+      lastInspectionDate: '2026-08-25',
+    },
+    acquisitionDate: '2025-06-15',
+    lastMaintenanceLog: 'Hull polished, Rudder cable tensioned & seat cushion replaced.',
+    assignedPackages: ['Sunrise Lotus Drift', 'Wild Elephant Corridor Trail', '5th Century Island Exploration'],
+    createdAt: '2025-06-15T08:00:00.000Z',
+  },
+  {
+    id: 'KALA-KAYAK-02',
+    identifier: 'Single Ocean Explorer #2',
+    craftType: 'Single Kayak',
+    capacity: 1,
+    conditionStatus: 'Operational',
+    availabilityStatus: 'On Lake / Reserved',
+    safetyEquipment: {
+      lifeJacketCount: 1,
+      paddleSerials: ['PD-02A'],
+      emergencyKitChecked: true,
+      uscgCompliant: true,
+      lastInspectionDate: '2026-08-25',
+    },
+    acquisitionDate: '2025-06-15',
+    lastMaintenanceLog: 'Safety line re-secured. Passed USCG buoy testing.',
+    assignedPackages: ['Sunrise Lotus Drift', 'Wild Elephant Corridor Trail'],
+    createdAt: '2025-06-15T08:00:00.000Z',
+  },
+  {
+    id: 'KALA-KAYAK-03',
+    identifier: 'Single Ocean Explorer #3',
+    craftType: 'Single Kayak',
+    capacity: 1,
+    conditionStatus: 'Under Inspection',
+    availabilityStatus: 'Reserved Maintenance',
+    safetyEquipment: {
+      lifeJacketCount: 1,
+      paddleSerials: ['PD-03A'],
+      emergencyKitChecked: false,
+      uscgCompliant: false,
+      lastInspectionDate: '2026-07-10',
+    },
+    acquisitionDate: '2025-07-01',
+    lastMaintenanceLog: 'Scheduled for drain plug seal replacement after spillway trial.',
+    assignedPackages: ['Sunrise Lotus Drift'],
+    createdAt: '2025-07-01T09:00:00.000Z',
+  },
+  {
+    id: 'KALA-TANDEM-01',
+    identifier: 'Tandem Ocean Pro #1',
+    craftType: 'Tandem Kayak',
+    capacity: 2,
+    conditionStatus: 'Operational',
+    availabilityStatus: 'Available',
+    safetyEquipment: {
+      lifeJacketCount: 2,
+      paddleSerials: ['PD-T01A', 'PD-T01B'],
+      emergencyKitChecked: true,
+      uscgCompliant: true,
+      lastInspectionDate: '2026-08-30',
+    },
+    acquisitionDate: '2025-08-10',
+    lastMaintenanceLog: 'Dual backrests upgraded with ergonomic lumbar support.',
+    assignedPackages: ['Sunset Romance & Couples', '5th Century Island Exploration'],
+    createdAt: '2025-08-10T10:00:00.000Z',
+  },
+  {
+    id: 'KALA-TANDEM-02',
+    identifier: 'Tandem Ocean Pro #2',
+    craftType: 'Tandem Kayak',
+    capacity: 2,
+    conditionStatus: 'Operational',
+    availabilityStatus: 'On Lake / Reserved',
+    safetyEquipment: {
+      lifeJacketCount: 2,
+      paddleSerials: ['PD-T02A', 'PD-T02B'],
+      emergencyKitChecked: true,
+      uscgCompliant: true,
+      lastInspectionDate: '2026-08-30',
+    },
+    acquisitionDate: '2025-08-10',
+    lastMaintenanceLog: 'Full hull wash down & UV protective coating applied.',
+    assignedPackages: ['Sunset Romance & Couples'],
+    createdAt: '2025-08-10T10:00:00.000Z',
+  },
+  {
+    id: 'KALA-TANDEM-03',
+    identifier: 'Tandem Ocean Pro #3',
+    craftType: 'Tandem Kayak',
+    capacity: 2,
+    conditionStatus: 'Operational',
+    availabilityStatus: 'Available',
+    safetyEquipment: {
+      lifeJacketCount: 2,
+      paddleSerials: ['PD-T03A', 'PD-T03B'],
+      emergencyKitChecked: true,
+      uscgCompliant: true,
+      lastInspectionDate: '2026-09-01',
+    },
+    acquisitionDate: '2025-09-05',
+    lastMaintenanceLog: 'New carbon-fiber lightweight paddles issued.',
+    assignedPackages: ['Sunset Romance & Couples', 'Sunrise Lotus Drift'],
+    createdAt: '2025-09-05T11:00:00.000Z',
+  },
+  {
+    id: 'KALA-SAFARI-01',
+    identifier: 'Kalawewa Safari Transfer Rover #1',
+    craftType: 'Safari Transfer Vehicle',
+    capacity: 10,
+    conditionStatus: 'Operational',
+    availabilityStatus: 'Available',
+    safetyEquipment: {
+      lifeJacketCount: 12,
+      paddleSerials: [],
+      emergencyKitChecked: true,
+      uscgCompliant: true,
+      lastInspectionDate: '2026-08-20',
+    },
+    acquisitionDate: '2024-11-20',
+    lastMaintenanceLog: '4WD transfer gearbox serviced, off-road tires rotated & winch tested.',
+    assignedPackages: ['Wild Elephant Corridor Trail', 'Full Day Kalawewa Explorer'],
+    createdAt: '2024-11-20T08:00:00.000Z',
+  },
+  {
+    id: 'KALA-RESCUE-01',
+    identifier: 'Lake Sentinel Rescue Tender #1',
+    craftType: 'Rescue Tender',
+    capacity: 4,
+    conditionStatus: 'Operational',
+    availabilityStatus: 'Available',
+    safetyEquipment: {
+      lifeJacketCount: 6,
+      paddleSerials: ['PD-R01A', 'PD-R01B'],
+      emergencyKitChecked: true,
+      uscgCompliant: true,
+      lastInspectionDate: '2026-09-02',
+    },
+    acquisitionDate: '2025-03-12',
+    lastMaintenanceLog: 'Outboard emergency motor oil changed, throw lines re-spooled, VHF radio checked.',
+    assignedPackages: ['Emergency Rapid Response & Safety Protocol', 'All Expeditions'],
+    createdAt: '2025-03-12T07:30:00.000Z',
+  },
+];
+
+export async function getFleetVehiclesFromFirestore(): Promise<FleetVehicle[]> {
+  try {
+    const snapshot = await getDocs(collection(db, "fleet"));
+    if (!snapshot.empty) {
+      const fetched: FleetVehicle[] = [];
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        fetched.push({
+          id: docSnap.id,
+          identifier: data.identifier || docSnap.id,
+          craftType: data.craftType || 'Single Kayak',
+          capacity: data.capacity || 1,
+          conditionStatus: data.conditionStatus || 'Operational',
+          availabilityStatus: data.availabilityStatus || 'Available',
+          safetyEquipment: {
+            lifeJacketCount: data.safetyEquipment?.lifeJacketCount ?? 1,
+            paddleSerials: Array.isArray(data.safetyEquipment?.paddleSerials) ? data.safetyEquipment.paddleSerials : [],
+            emergencyKitChecked: data.safetyEquipment?.emergencyKitChecked ?? true,
+            uscgCompliant: data.safetyEquipment?.uscgCompliant ?? true,
+            lastInspectionDate: data.safetyEquipment?.lastInspectionDate || new Date().toISOString().split('T')[0],
+          },
+          acquisitionDate: data.acquisitionDate || new Date().toISOString().split('T')[0],
+          lastMaintenanceLog: data.lastMaintenanceLog || 'Routine check passed',
+          assignedPackages: Array.isArray(data.assignedPackages) ? data.assignedPackages : [],
+          createdAt: data.createdAt || new Date().toISOString(),
+          updatedAt: data.updatedAt || new Date().toISOString(),
+        });
+      });
+      return fetched;
+    }
+  } catch (err) {
+    console.warn("Firestore fleet read notice (using in-memory fleet store):", err);
+  }
+  return inMemoryFleet;
+}
+
+export async function saveFleetVehicleToFirestore(
+  vehicleData: Omit<FleetVehicle, 'id'> & { id?: string }
+): Promise<FleetVehicle> {
+  const vId = vehicleData.id || "KALA-CRAFT-" + Math.floor(100 + Math.random() * 900);
+  const now = new Date().toISOString();
+
+  const newVehicle: FleetVehicle = {
+    id: vId,
+    identifier: vehicleData.identifier,
+    craftType: vehicleData.craftType,
+    capacity: Number(vehicleData.capacity) || 1,
+    conditionStatus: vehicleData.conditionStatus || 'Operational',
+    availabilityStatus: vehicleData.availabilityStatus || 'Available',
+    safetyEquipment: {
+      lifeJacketCount: Number(vehicleData.safetyEquipment?.lifeJacketCount) || 1,
+      paddleSerials: vehicleData.safetyEquipment?.paddleSerials || [],
+      emergencyKitChecked: vehicleData.safetyEquipment?.emergencyKitChecked ?? true,
+      uscgCompliant: vehicleData.safetyEquipment?.uscgCompliant ?? true,
+      lastInspectionDate: vehicleData.safetyEquipment?.lastInspectionDate || new Date().toISOString().split('T')[0],
+    },
+    acquisitionDate: vehicleData.acquisitionDate || new Date().toISOString().split('T')[0],
+    lastMaintenanceLog: vehicleData.lastMaintenanceLog || 'Newly registered craft in inventory.',
+    assignedPackages: vehicleData.assignedPackages || [],
+    createdAt: vehicleData.createdAt || now,
+    updatedAt: now,
+  };
+
+  try {
+    const docRef = doc(db, "fleet", vId);
+    await setDoc(docRef, {
+      ...newVehicle,
+      updatedAt: serverTimestamp(),
+    }, { merge: true });
+  } catch (err) {
+    console.warn("Firestore save fleet vehicle notice (saved in local memory):", err);
+  }
+
+  const existingIdx = inMemoryFleet.findIndex((f) => f.id === vId);
+  if (existingIdx >= 0) {
+    inMemoryFleet[existingIdx] = newVehicle;
+  } else {
+    inMemoryFleet.unshift(newVehicle);
+  }
+
+  return newVehicle;
+}
+
+export async function updateFleetVehicleInFirestore(
+  vId: string,
+  updates: Partial<FleetVehicle>
+): Promise<boolean> {
+  const idx = inMemoryFleet.findIndex((f) => f.id === vId);
+  if (idx >= 0) {
+    inMemoryFleet[idx] = {
+      ...inMemoryFleet[idx],
+      ...updates,
+      updatedAt: new Date().toISOString(),
+    };
+  }
+
+  try {
+    const docRef = doc(db, "fleet", vId);
+    await updateDoc(docRef, {
+      ...updates,
+      updatedAt: serverTimestamp(),
+    });
+  } catch (err) {
+    console.warn("Firestore fleet vehicle update notice:", err);
+  }
+
+  return true;
+}
+
+export async function deleteFleetVehicleFromFirestore(vId: string): Promise<boolean> {
+  inMemoryFleet = inMemoryFleet.filter((f) => f.id !== vId);
+  try {
+    await deleteDoc(doc(db, "fleet", vId));
+  } catch (err) {
+    console.warn("Firestore fleet vehicle delete notice:", err);
+  }
+  return true;
+}
+
+export function calculateFleetCapacitySummary(fleet: FleetVehicle[]) {
+  const operationalFleet = fleet.filter((f) => f.conditionStatus === 'Operational');
+  const availableFleet = fleet.filter((f) => f.conditionStatus === 'Operational' && f.availabilityStatus === 'Available');
+  const onLakeFleet = fleet.filter((f) => f.availabilityStatus === 'On Lake / Reserved');
+  const maintenanceFleet = fleet.filter((f) => f.conditionStatus !== 'Operational' || f.availabilityStatus === 'Reserved Maintenance');
+
+  const singleKayaksCount = operationalFleet.filter((f) => f.craftType === 'Single Kayak').length;
+  const tandemKayaksCount = operationalFleet.filter((f) => f.craftType === 'Tandem Kayak').length;
+  const safariVehiclesCount = operationalFleet.filter((f) => f.craftType === 'Safari Transfer Vehicle').length;
+  const rescueTendersCount = operationalFleet.filter((f) => f.craftType === 'Rescue Tender').length;
+
+  const totalKayakSeats = (singleKayaksCount * 1) + (tandemKayaksCount * 2);
+  const totalAvailableSeats = availableFleet.reduce((sum, f) => sum + f.capacity, 0);
+
+  return {
+    totalFleetSize: fleet.length,
+    operationalCount: operationalFleet.length,
+    availableCount: availableFleet.length,
+    onLakeCount: onLakeFleet.length,
+    maintenanceCount: maintenanceFleet.length,
+    singleKayaksCount,
+    tandemKayaksCount,
+    safariVehiclesCount,
+    rescueTendersCount,
+    totalKayakSeats,
+    totalAvailableSeats,
+  };
+}
+
+

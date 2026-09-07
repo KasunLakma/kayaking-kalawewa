@@ -10,6 +10,8 @@ import {
   BlockedSlot,
 } from '@/lib/firebase';
 import BookingConfirmationModal from './BookingConfirmationModal';
+import AuthModal from './AuthModal';
+import { useAuth } from '@/context/AuthContext';
 
 interface BookingEngineProps {
   initialPackageId?: string;
@@ -45,6 +47,7 @@ export default function BookingEngine({
   onSuccessClose,
   isModal = false,
 }: BookingEngineProps) {
+  const { userProfile } = useAuth();
   const defaultPkg = getPackageById(initialPackageId || '') || packages[0];
   
   const [packageId, setPackageId] = useState<string>(defaultPkg.id);
@@ -73,10 +76,46 @@ export default function BookingEngine({
   // Payment option
   const [paymentMethod, setPaymentMethod] = useState<'COD' | 'BANK_TRANSFER'>('COD');
   
+  // Auth Modal state
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
+
   // Submit & result states
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [bookingResult, setBookingResult] = useState<BookingDocument | null>(null);
+
+  // Auto-fill from authenticated session
+  useEffect(() => {
+    if (userProfile) {
+      if (userProfile.fullName && !fullName) setFullName(userProfile.fullName);
+      if (userProfile.email && !email) setEmail(userProfile.email);
+      if (userProfile.phone && !phone) setPhone(userProfile.phone);
+    }
+  }, [userProfile]);
+
+  // Restore draft from sessionStorage if present
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const draftStr = sessionStorage.getItem('kk_booking_draft');
+      if (draftStr) {
+        try {
+          const draft = JSON.parse(draftStr);
+          if (draft.packageId) setPackageId(draft.packageId);
+          if (draft.selectedDate) setSelectedDate(draft.selectedDate);
+          if (draft.timeSlot) setTimeSlot(draft.timeSlot);
+          if (draft.guestCount) setGuestCount(draft.guestCount);
+          if (draft.kayakType) setKayakType(draft.kayakType);
+          if (draft.paymentMethod) setPaymentMethod(draft.paymentMethod);
+          if (draft.notes) setNotes(draft.notes);
+          if (draft.fullName && !fullName) setFullName(draft.fullName);
+          if (draft.email && !email) setEmail(draft.email);
+          if (draft.phone && !phone) setPhone(draft.phone);
+        } catch {
+          // ignore parsing error
+        }
+      }
+    }
+  }, []);
 
   // Load blocked slots
   useEffect(() => {
@@ -142,11 +181,32 @@ export default function BookingEngine({
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrorMsg('');
+  // Save current booking state to sessionStorage
+  const saveBookingDraft = () => {
+    if (typeof window !== 'undefined') {
+      const draft = {
+        packageId,
+        selectedDate,
+        timeSlot,
+        guestCount,
+        kayakType,
+        fullName: fullName || userProfile?.fullName || '',
+        email: email || userProfile?.email || '',
+        phone: phone || userProfile?.phone || '',
+        notes,
+        paymentMethod,
+      };
+      sessionStorage.setItem('kk_booking_draft', JSON.stringify(draft));
+    }
+  };
 
-    if (!fullName.trim() || !phone.trim() || !email.trim() || !selectedDate) {
+  const executeBookingSubmission = async (customerProfileToUse?: any) => {
+    const effectiveProfile = customerProfileToUse || userProfile;
+    const finalFullName = fullName || effectiveProfile?.fullName || 'Valued Kayaker';
+    const finalEmail = email || effectiveProfile?.email || '';
+    const finalPhone = phone || effectiveProfile?.phone || '';
+
+    if (!finalFullName.trim() || !finalPhone.trim() || !finalEmail.trim() || !selectedDate) {
       setErrorMsg('Please complete all mandatory fields marked with an asterisk (*).');
       return;
     }
@@ -163,22 +223,29 @@ export default function BookingEngine({
         kayakType,
         totalAmountLKR,
         customer: {
-          fullName,
-          phone,
-          email,
+          fullName: finalFullName,
+          phone: finalPhone,
+          email: finalEmail,
           notes,
         },
         paymentMethod,
+        customerUid: effectiveProfile?.uid || '',
+        userId: effectiveProfile?.uid || '',
       });
+
+      // Clear local booking draft once submitted
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem('kk_booking_draft');
+      }
 
       fetch('/api/send-confirmation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           bookingId: resultDoc.bookingId,
-          fullName: fullName,
-          email: email,
-          phone: phone,
+          fullName: finalFullName,
+          email: finalEmail,
+          phone: finalPhone,
           packageName: currentPkg.title,
           selectedDate,
           timeSlot,
@@ -210,6 +277,28 @@ export default function BookingEngine({
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg('');
+
+    // INTERCEPT UNAUTHENTICATED USER FOR QA MANDATORY REQUIREMENT
+    if (!userProfile) {
+      saveBookingDraft();
+      setIsAuthModalOpen(true);
+      return;
+    }
+
+    await executeBookingSubmission();
+  };
+
+  const handleAuthSuccess = () => {
+    setIsAuthModalOpen(false);
+    // Execute submission after auth succeeds
+    setTimeout(() => {
+      executeBookingSubmission();
+    }, 100);
   };
 
   const resetForm = () => {
@@ -595,6 +684,13 @@ export default function BookingEngine({
           </form>
         </div>
       )}
+
+      {/* Inline Luxury Auth Modal for QA Mandatory Customer Authentication Gateway */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onSuccess={handleAuthSuccess}
+      />
     </div>
   );
 }

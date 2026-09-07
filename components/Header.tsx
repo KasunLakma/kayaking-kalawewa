@@ -5,6 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import BookingModal from './BookingModal';
 import SearchModal from './SearchModal';
+import AuthModal from './AuthModal';
+import { useAuth } from '@/context/AuthContext';
 
 interface HeaderProps {
   onOpenBooking?: () => void;
@@ -50,9 +52,11 @@ const PREVIEW_ITEMS = [
 ];
 
 export default function Header({ onOpenBooking }: HeaderProps) {
+  const { userProfile } = useAuth();
   const [menuDrawerOpen, setMenuDrawerOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [localBookingOpen, setLocalBookingOpen] = useState(false);
+  const [headerAuthOpen, setHeaderAuthOpen] = useState(false);
   const [activePreviewIndex, setActivePreviewIndex] = useState<number>(0);
 
   const handleBookingClick = () => {
@@ -94,8 +98,8 @@ export default function Header({ onOpenBooking }: HeaderProps) {
             </span>
           </Link>
 
-          {/* Right: Minimal Search icon + secondary gold outline action */}
-          <div className="flex items-center gap-3 sm:gap-4">
+          {/* Right: Minimal Search icon + Auth / Account button + secondary gold outline action */}
+          <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={() => setSearchModalOpen(true)}
               className="p-2.5 min-w-[44px] min-h-[44px] text-white/80 hover:text-[#C8A97E] transition-colors cursor-pointer flex items-center justify-center"
@@ -107,11 +111,30 @@ export default function Header({ onOpenBooking }: HeaderProps) {
               </svg>
             </button>
 
+            {userProfile ? (
+              <Link
+                href="/account"
+                className="px-3 sm:px-4 py-2 min-h-[40px] border border-[#d4af37]/60 hover:border-[#d4af37] bg-[#d4af37]/10 text-[#d4af37] text-[10px] font-mono tracking-widest uppercase transition-all rounded-full flex items-center gap-1.5"
+              >
+                <span>👤</span>
+                <span className="hidden sm:inline">{userProfile.fullName.split(' ')[0]}</span>
+                <span className="sm:hidden">ACCOUNT</span>
+              </Link>
+            ) : (
+              <button
+                onClick={() => setHeaderAuthOpen(true)}
+                className="px-3 sm:px-4 py-2 min-h-[40px] border border-white/20 hover:border-[#d4af37] text-stone-200 hover:text-[#d4af37] text-[10px] font-mono tracking-widest uppercase transition-all rounded-full flex items-center gap-1.5 cursor-pointer bg-white/[0.03]"
+              >
+                <span>🔑</span>
+                <span>SIGN IN</span>
+              </button>
+            )}
+
             <Link
               href="/#packages"
-              className="px-4 sm:px-5 py-2.5 min-h-[44px] border border-[#C8A97E]/70 hover:border-[#C8A97E] hover:bg-[#C8A97E]/10 text-[#C8A97E] hover:text-white text-[11px] font-semibold uppercase tracking-[0.18em] transition-all duration-300 shadow-sm cursor-pointer rounded-none inline-flex items-center justify-center text-center"
+              className="px-3 sm:px-5 py-2.5 min-h-[44px] border border-[#C8A97E]/70 hover:border-[#C8A97E] hover:bg-[#C8A97E]/10 text-[#C8A97E] hover:text-white text-[11px] font-semibold uppercase tracking-[0.18em] transition-all duration-300 shadow-sm cursor-pointer rounded-none inline-flex items-center justify-center text-center hidden md:inline-flex"
             >
-              EXPLORE EXPEDITIONS
+              EXPLORE
             </Link>
           </div>
         </div>
@@ -279,6 +302,12 @@ export default function Header({ onOpenBooking }: HeaderProps) {
       <BookingModal
         isOpen={localBookingOpen}
         onClose={() => setLocalBookingOpen(false)}
+      />
+
+      {/* Header Auth Modal */}
+      <AuthModal
+        isOpen={headerAuthOpen}
+        onClose={() => setHeaderAuthOpen(false)}
       />
     </>
   );

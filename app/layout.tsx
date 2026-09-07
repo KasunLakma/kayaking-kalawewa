@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import TrackingPixels from "@/components/TrackingPixels";
+import { AuthProvider } from "@/context/AuthContext";
 
 const cormorantGaramond = Cormorant_Garamond({
   variable: "--font-serif",
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
@@ -36,7 +37,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full w-full max-w-full overflow-x-hidden flex flex-col font-sans bg-[#0B1914] text-[#F4F1EA] selection:bg-[#C8A97E] selection:text-[#0B1914]">
         <TrackingPixels />
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

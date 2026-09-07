@@ -4,13 +4,17 @@ import {
   collection,
   addDoc,
   getDocs,
+  getDoc,
+  setDoc,
   doc,
   updateDoc,
   deleteDoc,
   query,
+  where,
   orderBy,
   serverTimestamp,
 } from 'firebase/firestore';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyDemoKeyKalawewaKayaking2026",
@@ -23,6 +27,18 @@ const firebaseConfig = {
 
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+export const auth = getAuth(app);
+export const googleProvider = new GoogleAuthProvider();
+
+export interface UserProfile {
+  uid: string;
+  email: string;
+  fullName: string;
+  phone: string;
+  role: 'customer' | 'admin';
+  createdAt: string;
+  updatedAt?: string;
+}
 
 export interface BookingPayload {
   packageName: string;
@@ -39,6 +55,8 @@ export interface BookingPayload {
     notes?: string;
   };
   paymentMethod: "COD" | "BANK_TRANSFER";
+  customerUid?: string;
+  userId?: string;
 }
 
 export interface BookingDocument extends BookingPayload {
@@ -134,6 +152,54 @@ let inMemoryBlockedSlots: BlockedSlot[] = [
   }
 ];
 
+let inMemoryUsers: Record<string, UserProfile> = {};
+
+export async function saveUserProfileToFirestore(profile: UserProfile): Promise<UserProfile> {
+  const cleanProfile: UserProfile = {
+    uid: profile.uid,
+    email: profile.email,
+    fullName: profile.fullName || 'Valued Guest',
+    phone: profile.phone || '',
+    role: profile.role || 'customer',
+    createdAt: profile.createdAt || new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+
+  inMemoryUsers[profile.uid] = cleanProfile;
+
+  try {
+    const userRef = doc(db, "users", profile.uid);
+    await setDoc(userRef, {
+      ...cleanProfile,
+      updatedAt: serverTimestamp(),
+    }, { merge: true });
+  } catch (err) {
+    console.warn("Firestore user profile save notice (stored locally):", err);
+  }
+
+  return cleanProfile;
+}
+
+export async function getUserProfileFromFirestore(uid: string): Promise<UserProfile | null> {
+  if (inMemoryUsers[uid]) {
+    return inMemoryUsers[uid];
+  }
+
+  try {
+    const userRef = doc(db, "users", uid);
+    const snap = await getDoc(userRef);
+    if (snap.exists()) {
+      const data = snap.data() as UserProfile;
+      inMemoryUsers[uid] = data;
+      return data;
+    }
+  } catch (err) {
+    console.warn("Firestore user profile fetch notice:", err);
+  }
+
+  return null;
+}
+
 export async function saveBookingToFirestore(payload: BookingPayload): Promise<BookingDocument> {
   const generatedId = "KK-" + Date.now().toString().slice(-6);
 
@@ -153,6 +219,8 @@ export async function saveBookingToFirestore(payload: BookingPayload): Promise<B
       notes: payload.customer.notes || '',
     },
     paymentMethod: payload.paymentMethod,
+    customerUid: payload.customerUid || payload.userId || '',
+    userId: payload.customerUid || payload.userId || '',
     paymentStatus: "PENDING_ARRIVAL",
     orderStatus: "PENDING",
     createdAt: new Date().toISOString(),
@@ -170,6 +238,56 @@ export async function saveBookingToFirestore(payload: BookingPayload): Promise<B
 
   inMemoryBookings.unshift(bookingDoc);
   return bookingDoc;
+}
+
+export async function getUserBookingsFromFirestore(customerUid: string): Promise<BookingDocument[]> {
+  if (!customerUid) return [];
+
+  try {
+    const q = query(
+      collection(db, "bookings"),
+      where("customerUid", "==", customerUid),
+      orderBy("createdAt", "desc")
+    );
+    const snapshot = await getDocs(q);
+    if (!snapshot.empty) {
+      const fetched: BookingDocument[] = [];
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        fetched.push({
+          docId: docSnap.id,
+          bookingId: data.bookingId || docSnap.id,
+          packageName: data.packageName || 'Kalawewa Expedition',
+          packageId: data.packageId || 'custom',
+          selectedDate: data.selectedDate || '',
+          timeSlot: data.timeSlot || '',
+          guestCount: data.guestCount || 1,
+          kayakType: data.kayakType || 'Single Kayak',
+          totalAmountLKR: data.totalAmountLKR || 0,
+          customer: {
+            fullName: data.customer?.fullName || data.fullName || 'Guest',
+            phone: data.customer?.phone || data.phone || '',
+            email: data.customer?.email || data.email || '',
+            notes: data.customer?.notes || data.notes || '',
+          },
+          paymentMethod: data.paymentMethod || 'COD',
+          customerUid: data.customerUid || data.userId || customerUid,
+          userId: data.userId || data.customerUid || customerUid,
+          paymentStatus: data.paymentStatus || 'PENDING_ARRIVAL',
+          orderStatus: data.orderStatus || 'PENDING',
+          createdAt: data.createdAt ? data.createdAt.toString() : new Date().toISOString(),
+        });
+      });
+      return fetched;
+    }
+  } catch (err) {
+    console.warn("Firestore user bookings query notice (filtering memory fallback):", err);
+  }
+
+  // Fallback memory filter
+  return inMemoryBookings.filter(
+    (b) => b.customerUid === customerUid || b.userId === customerUid || b.customer.email.toLowerCase() === customerUid.toLowerCase()
+  );
 }
 
 export async function getAllBookingsFromFirestore(): Promise<BookingDocument[]> {

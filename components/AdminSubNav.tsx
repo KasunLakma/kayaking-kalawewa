@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Users, ClipboardList, RefreshCw, Lock, Home, Zap, Anchor } from 'lucide-react';
+import { Users, ClipboardList, RefreshCw, Lock, Home, Zap, Anchor, Shield } from 'lucide-react';
 
 interface AdminSubNavProps {
   onRefresh?: () => void;
@@ -21,6 +21,7 @@ export default function AdminSubNav({
   const isReservationsActive = pathname === '/admin';
   const isStaffActive = pathname === '/admin/staff';
   const isFleetActive = pathname === '/admin/fleet' || pathname === '/admin/vehicles';
+  const isRolesActive = pathname === '/admin/roles' || pathname === '/admin/settings/roles';
 
   return (
     <header className="sticky top-0 z-40 bg-[#0B1914]/95 backdrop-blur-md border-b border-white/10 px-4 sm:px-8 py-3.5 shadow-xl">
@@ -44,7 +45,7 @@ export default function AdminSubNav({
           </span>
         </div>
 
-        {/* Navigation Tabs (Reservations, Staff Management, Fleet Inventory) */}
+        {/* Navigation Tabs (Reservations, Staff Management, Fleet Inventory, Roles & RBAC) */}
         <nav className="flex items-center gap-1 bg-[#13241E] p-1.5 rounded-xl border border-white/10 flex-wrap justify-center">
           <Link
             href="/admin"
@@ -80,6 +81,18 @@ export default function AdminSubNav({
           >
             <Anchor className="w-4 h-4" />
             <span>Fleet &amp; Kayak Inventory</span>
+          </Link>
+
+          <Link
+            href="/admin/roles"
+            className={`px-3.5 py-2 text-xs font-semibold uppercase tracking-wider rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
+              isRolesActive
+                ? 'bg-[#C8A97E] text-[#0B1914] shadow-md font-bold'
+                : 'text-stone-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <Shield className="w-4 h-4" />
+            <span>Roles &amp; RBAC</span>
           </Link>
         </nav>
 

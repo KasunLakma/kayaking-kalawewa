@@ -1045,4 +1045,308 @@ export function calculateFleetCapacitySummary(fleet: FleetVehicle[]) {
   };
 }
 
+// ----------------------------------------------------
+// RBAC & PERMISSIONS DATA TYPES & FIRESTORE HELPERS
+// ----------------------------------------------------
+
+export interface PermissionItem {
+  key: string;
+  name: string;
+  description: string;
+}
+
+export interface PermissionCategory {
+  category: string;
+  description: string;
+  permissions: PermissionItem[];
+}
+
+export const SYSTEM_PERMISSIONS: PermissionCategory[] = [
+  {
+    category: 'Bookings & Expeditions',
+    description: 'Control reservation processing, creation, edits, cancellations, and export permissions',
+    permissions: [
+      { key: 'bookings.view', name: 'View Bookings Feed', description: 'Access reservation roster, customer notes, and expedition schedules.' },
+      { key: 'bookings.create', name: 'Create Reservations', description: 'Book guests into slots on behalf of walk-ins or phone inquiries.' },
+      { key: 'bookings.edit', name: 'Edit Reservations', description: 'Modify guest counts, package choices, date/times, and contact info.' },
+      { key: 'bookings.cancel', name: 'Cancel Reservations', description: 'Cancel existing bookings and process refund requests.' },
+      { key: 'bookings.export', name: 'Export Roster & Manifests', description: 'Download CSV / PDF daily expedition manifests for naturalist guides.' },
+    ],
+  },
+  {
+    category: 'Fleet & Watercraft Inventory',
+    description: 'Control craft registration, condition status toggles, safety checks, and maintenance logs',
+    permissions: [
+      { key: 'fleet.view', name: 'View Fleet Inventory', description: 'Inspect watercraft inventory, PFD counts, and paddle serials.' },
+      { key: 'fleet.add', name: 'Add New Craft / Vehicle', description: 'Register new kayaks, tenders, or safari rovers into inventory.' },
+      { key: 'fleet.edit_status', name: 'Toggle Condition & Availability', description: 'Switch craft between Operational, Under Inspection, and Out of Service.' },
+      { key: 'fleet.maintenance_log', name: 'Update Maintenance & Safety Logs', description: 'Record USCG buoy test notes, hull checks, and pass safety inspections.' },
+    ],
+  },
+  {
+    category: 'Staff & Naturalist Roster',
+    description: 'Control staff account provisioning, role assignments, status toggles, and activity logs',
+    permissions: [
+      { key: 'staff.view', name: 'View Staff Roster', description: 'Inspect guide list, contact info, shift statuses, and activity history.' },
+      { key: 'staff.invite', name: 'Invite & Provision Staff', description: 'Create new staff user profiles and issue system invitations.' },
+      { key: 'staff.edit_role', name: 'Edit Staff Permissions', description: 'Modify assigned guide roles, expedition tags, and phone contacts.' },
+      { key: 'staff.deactivate', name: 'Deactivate / Suspend Staff', description: 'Suspend staff accounts or set duty status to off-duty/suspended.' },
+    ],
+  },
+  {
+    category: 'Financials & Audit Reports',
+    description: 'Control revenue metrics visibility, payment status updates, and audit report downloads',
+    permissions: [
+      { key: 'financials.view_totals', name: 'View Financial Totals', description: 'Access revenue metrics, total sales volume, and payment statuses.' },
+      { key: 'financials.export_audits', name: 'Export Financial Audit Reports', description: 'Download revenue breakdown and audit logs for accounting.' },
+    ],
+  },
+  {
+    category: 'System Settings & Overrides',
+    description: 'Control emergency weather slot overrides, global portal config, and RBAC rules',
+    permissions: [
+      { key: 'settings.manage_global_config', name: 'Emergency Weather Override', description: 'Enforce lake weather slot blocks and spillway emergency lockdowns.' },
+      { key: 'settings.general', name: 'Manage System Settings & RBAC', description: 'Configure global portal settings, RBAC matrices, and PIN gates.' },
+    ],
+  },
+];
+
+export interface RoleDefinition {
+  id: string; // 'super_admin' | 'operations_manager' | 'naturalist_guide' | 'front_desk' | string
+  name: string;
+  description: string;
+  isSystemRole: boolean;
+  permissions: string[];
+  updatedAt?: string;
+}
+
+const ALL_PERMISSION_KEYS = SYSTEM_PERMISSIONS.flatMap((c) => c.permissions.map((p) => p.key));
+
+let inMemoryRoles: RoleDefinition[] = [
+  {
+    id: 'super_admin',
+    name: 'Super Admin',
+    description: 'Full system control, financial log auditing, RBAC security configuration, and emergency overrides.',
+    isSystemRole: true,
+    permissions: [...ALL_PERMISSION_KEYS],
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'operations_manager',
+    name: 'Operations Manager',
+    description: 'Full operational control over Bookings, Fleet Inventory, Staff Roster, and Lake Kalawewa schedules.',
+    isSystemRole: true,
+    permissions: [
+      'bookings.view',
+      'bookings.create',
+      'bookings.edit',
+      'bookings.cancel',
+      'bookings.export',
+      'fleet.view',
+      'fleet.add',
+      'fleet.edit_status',
+      'fleet.maintenance_log',
+      'staff.view',
+      'staff.invite',
+      'staff.edit_role',
+      'financials.view_totals',
+      'settings.manage_global_config',
+    ],
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'naturalist_guide',
+    name: 'Naturalist / Guide',
+    description: 'View assigned expedition manifests, guest rosters, safety protocols, and watercraft logs.',
+    isSystemRole: true,
+    permissions: [
+      'bookings.view',
+      'bookings.export',
+      'fleet.view',
+      'fleet.edit_status',
+      'fleet.maintenance_log',
+      'staff.view',
+    ],
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'front_desk',
+    name: 'Concierge / Front Desk',
+    description: 'Create and manage guest bookings, handle arrival check-ins, and inspect fleet availability.',
+    isSystemRole: true,
+    permissions: [
+      'bookings.view',
+      'bookings.create',
+      'bookings.edit',
+      'bookings.cancel',
+      'fleet.view',
+      'staff.view',
+    ],
+    updatedAt: new Date().toISOString(),
+  },
+];
+
+export async function getRolesFromFirestore(): Promise<RoleDefinition[]> {
+  try {
+    const snapshot = await getDocs(collection(db, "roles"));
+    if (!snapshot.empty) {
+      const fetched: RoleDefinition[] = [];
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        fetched.push({
+          id: docSnap.id,
+          name: data.name || docSnap.id,
+          description: data.description || '',
+          isSystemRole: data.isSystemRole ?? false,
+          permissions: Array.isArray(data.permissions) ? data.permissions : [],
+          updatedAt: data.updatedAt || new Date().toISOString(),
+        });
+      });
+      return fetched;
+    }
+  } catch (err) {
+    console.warn("Firestore roles read notice (using in-memory store):", err);
+  }
+  return inMemoryRoles;
+}
+
+export async function saveRoleToFirestore(role: RoleDefinition): Promise<RoleDefinition> {
+  const now = new Date().toISOString();
+  const updatedRole: RoleDefinition = {
+    ...role,
+    updatedAt: now,
+  };
+
+  try {
+    const docRef = doc(db, "roles", role.id);
+    await setDoc(docRef, {
+      ...updatedRole,
+      updatedAt: serverTimestamp(),
+    }, { merge: true });
+  } catch (err) {
+    console.warn("Firestore save role notice (saved in local memory):", err);
+  }
+
+  const existingIdx = inMemoryRoles.findIndex((r) => r.id === role.id);
+  if (existingIdx >= 0) {
+    inMemoryRoles[existingIdx] = updatedRole;
+  } else {
+    inMemoryRoles.push(updatedRole);
+  }
+
+  return updatedRole;
+}
+
+export async function updateRolePermissionsInFirestore(
+  roleId: string,
+  permissions: string[]
+): Promise<boolean> {
+  const idx = inMemoryRoles.findIndex((r) => r.id === roleId);
+  if (idx >= 0) {
+    inMemoryRoles[idx] = {
+      ...inMemoryRoles[idx],
+      permissions,
+      updatedAt: new Date().toISOString(),
+    };
+  }
+
+  try {
+    const docRef = doc(db, "roles", roleId);
+    await updateDoc(docRef, {
+      permissions,
+      updatedAt: serverTimestamp(),
+    });
+  } catch (err) {
+    console.warn("Firestore role permissions update notice:", err);
+  }
+
+  return true;
+}
+
+export async function resetDefaultRolesInFirestore(): Promise<RoleDefinition[]> {
+  const now = new Date().toISOString();
+  inMemoryRoles = [
+    {
+      id: 'super_admin',
+      name: 'Super Admin',
+      description: 'Full system control, financial log auditing, RBAC security configuration, and emergency overrides.',
+      isSystemRole: true,
+      permissions: [...ALL_PERMISSION_KEYS],
+      updatedAt: now,
+    },
+    {
+      id: 'operations_manager',
+      name: 'Operations Manager',
+      description: 'Full operational control over Bookings, Fleet Inventory, Staff Roster, and Lake Kalawewa schedules.',
+      isSystemRole: true,
+      permissions: [
+        'bookings.view',
+        'bookings.create',
+        'bookings.edit',
+        'bookings.cancel',
+        'bookings.export',
+        'fleet.view',
+        'fleet.add',
+        'fleet.edit_status',
+        'fleet.maintenance_log',
+        'staff.view',
+        'staff.invite',
+        'staff.edit_role',
+        'financials.view_totals',
+        'settings.manage_global_config',
+      ],
+      updatedAt: now,
+    },
+    {
+      id: 'naturalist_guide',
+      name: 'Naturalist / Guide',
+      description: 'View assigned expedition manifests, guest rosters, safety protocols, and watercraft logs.',
+      isSystemRole: true,
+      permissions: [
+        'bookings.view',
+        'bookings.export',
+        'fleet.view',
+        'fleet.edit_status',
+        'fleet.maintenance_log',
+        'staff.view',
+      ],
+      updatedAt: now,
+    },
+    {
+      id: 'front_desk',
+      name: 'Concierge / Front Desk',
+      description: 'Create and manage guest bookings, handle arrival check-ins, and inspect fleet availability.',
+      isSystemRole: true,
+      permissions: [
+        'bookings.view',
+        'bookings.create',
+        'bookings.edit',
+        'bookings.cancel',
+        'fleet.view',
+        'staff.view',
+      ],
+      updatedAt: now,
+    },
+  ];
+
+  try {
+    for (const r of inMemoryRoles) {
+      const docRef = doc(db, "roles", r.id);
+      await setDoc(docRef, { ...r, updatedAt: serverTimestamp() }, { merge: true });
+    }
+  } catch (err) {
+    console.warn("Firestore reset default roles notice:", err);
+  }
+
+  return inMemoryRoles;
+}
+
+export function hasPermission(roleId: string, permissionKey: string): boolean {
+  const role = inMemoryRoles.find((r) => r.id === roleId);
+  if (!role) return false;
+  if (role.id === 'super_admin') return true;
+  return role.permissions.includes(permissionKey);
+}
+
+
 

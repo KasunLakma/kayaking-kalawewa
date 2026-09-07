@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Users, ClipboardList, RefreshCw, Lock, Home, Zap, Anchor, Shield, UserCheck } from 'lucide-react';
+import { Users, ClipboardList, RefreshCw, Lock, Home, Zap, Anchor, Shield, UserCheck, Mail, Sliders } from 'lucide-react';
 
 interface AdminSubNavProps {
   onRefresh?: () => void;
@@ -20,9 +20,11 @@ export default function AdminSubNav({
 
   const isReservationsActive = pathname === '/admin';
   const isCustomersActive = pathname === '/admin/customers' || pathname?.startsWith('/admin/customers');
+  const isInquiriesActive = pathname === '/admin/inquiries' || pathname?.startsWith('/admin/inquiries');
   const isStaffActive = pathname === '/admin/staff';
   const isFleetActive = pathname === '/admin/fleet' || pathname === '/admin/vehicles';
   const isRolesActive = pathname === '/admin/roles' || pathname === '/admin/settings/roles';
+  const isSettingsActive = pathname === '/admin/settings';
 
   return (
     <header className="sticky top-0 z-40 bg-[#0B1914]/95 backdrop-blur-md border-b border-white/10 px-4 sm:px-8 py-3.5 shadow-xl">
@@ -46,7 +48,7 @@ export default function AdminSubNav({
           </span>
         </div>
 
-        {/* Navigation Tabs (Reservations, Customers, Staff Management, Fleet Inventory, Roles & RBAC) */}
+        {/* Navigation Tabs */}
         <nav className="flex items-center gap-1 bg-[#13241E] p-1.5 rounded-xl border border-white/10 flex-wrap justify-center">
           <Link
             href="/admin"
@@ -73,6 +75,18 @@ export default function AdminSubNav({
           </Link>
 
           <Link
+            href="/admin/inquiries"
+            className={`px-3.5 py-2 text-xs font-semibold uppercase tracking-wider rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
+              isInquiriesActive
+                ? 'bg-[#C8A97E] text-[#0B1914] shadow-md font-bold'
+                : 'text-stone-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <Mail className="w-4 h-4" />
+            <span>Inquiries</span>
+          </Link>
+
+          <Link
             href="/admin/staff"
             className={`px-3.5 py-2 text-xs font-semibold uppercase tracking-wider rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
               isStaffActive
@@ -93,7 +107,7 @@ export default function AdminSubNav({
             }`}
           >
             <Anchor className="w-4 h-4" />
-            <span>Fleet &amp; Kayak Inventory</span>
+            <span>Fleet &amp; Kayaks</span>
           </Link>
 
           <Link
@@ -106,6 +120,18 @@ export default function AdminSubNav({
           >
             <Shield className="w-4 h-4" />
             <span>Roles &amp; RBAC</span>
+          </Link>
+
+          <Link
+            href="/admin/settings"
+            className={`px-3.5 py-2 text-xs font-semibold uppercase tracking-wider rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
+              isSettingsActive
+                ? 'bg-[#C8A97E] text-[#0B1914] shadow-md font-bold'
+                : 'text-stone-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <Sliders className="w-4 h-4" />
+            <span>General Settings</span>
           </Link>
         </nav>
 

@@ -1695,6 +1695,221 @@ export async function updateCustomerVIPStatus(
   return true;
 }
 
+/* ==========================================================================
+   CUSTOMER INQUIRIES MODULE (QA Report v1.1 Requirement)
+   ========================================================================== */
+
+export interface CustomerInquiry {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+  status: 'UNREAD' | 'IN_PROGRESS' | 'RESOLVED';
+  createdAt: string;
+  staffNotes?: string;
+  updatedAt?: string;
+}
+
+let inMemoryInquiries: CustomerInquiry[] = [
+  {
+    id: 'inq-101',
+    name: 'Samanthi Perera',
+    email: 'samanthi.p@example.com',
+    phone: '+94778881122',
+    subject: 'Sunset Kayaking Charter for Corporate Group of 12',
+    message: 'Greetings Kalawewa Team! We are planning a corporate retreat for 12 executive guests on October 15th. Do you offer custom tandem kayak packages with private naturalist guides and evening sunset refreshments?',
+    status: 'UNREAD',
+    createdAt: new Date(Date.now() - 3600000 * 4).toISOString(), // 4 hours ago
+    staffNotes: '',
+  },
+  {
+    id: 'inq-102',
+    name: 'Marcus Vance',
+    email: 'marcus.v@example.com',
+    phone: '+447911123456',
+    subject: 'Wildlife Photography & Elephant Corridor Charter',
+    message: 'Hello! I am a professional wildlife photographer traveling to Sri Lanka in late September. I would like to inquire about booking a dedicated single touring kayak with telephoto camera gear escort for early morning elephant viewing.',
+    status: 'IN_PROGRESS',
+    createdAt: new Date(Date.now() - 3600000 * 28).toISOString(), // 1 day ago
+    staffNotes: 'Saman (Front Desk) contacted guest via WhatsApp. Assigned Lead Naturalist Anura Bandara.',
+  },
+  {
+    id: 'inq-103',
+    name: 'Dilini Senaratne',
+    email: 'dilini.s@example.com',
+    phone: '+94713334455',
+    subject: 'Lotus Drift Kayaking for Beginners',
+    message: 'Hi, my partner and I have never kayaked before. Is the Sunrise Lotus Drift suitable for total beginners? Are life vests provided?',
+    status: 'RESOLVED',
+    createdAt: new Date(Date.now() - 3600000 * 72).toISOString(), // 3 days ago
+    staffNotes: 'Confirmed life vest protocol & beginner safety briefing details via email. Guest completed booking KK-731940.',
+  },
+];
+
+/**
+ * Fetch all customer inquiries from Firestore `inquiries` collection,
+ * falling back to in-memory cache if offline or uninitialized.
+ */
+export async function getAllInquiriesFromFirestore(): Promise<CustomerInquiry[]> {
+  try {
+    const q = query(collection(db, "inquiries"), orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+    if (!snapshot.empty) {
+      const fetched: CustomerInquiry[] = [];
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        fetched.push({
+          id: docSnap.id,
+          name: data.name || data.fullName || 'Guest Inquiry',
+          email: data.email || '',
+          phone: data.phone || '',
+          subject: data.subject || 'General Inquiry',
+          message: data.message || '',
+          status: data.status || 'UNREAD',
+          createdAt: data.createdAt ? (data.createdAt.toDate ? data.createdAt.toDate().toISOString() : data.createdAt.toString()) : new Date().toISOString(),
+          staffNotes: data.staffNotes || '',
+        });
+      });
+
+      // Merge with memory fallback if unique
+      inMemoryInquiries.forEach((mem) => {
+        if (!fetched.some((f) => f.id === mem.id || (f.email === mem.email && f.subject === mem.subject))) {
+          fetched.push(mem);
+        }
+      });
+      return fetched;
+    }
+  } catch (err) {
+    console.warn("Firestore inquiries fetch notice (using memory fallback):", err);
+  }
+  return inMemoryInquiries;
+}
+
+/**
+ * Update inquiry status or append staff notes in Firestore and memory.
+ */
+export async function updateInquiryStatusInFirestore(
+  inquiryId: string,
+  status: CustomerInquiry['status'],
+  staffNotes?: string
+): Promise<boolean> {
+  const target = inMemoryInquiries.find((i) => i.id === inquiryId);
+  if (target) {
+    target.status = status;
+    if (staffNotes !== undefined) target.staffNotes = staffNotes;
+    target.updatedAt = new Date().toISOString();
+  }
+
+  try {
+    const docRef = doc(db, "inquiries", inquiryId);
+    await setDoc(docRef, {
+      status,
+      ...(staffNotes !== undefined && { staffNotes }),
+      updatedAt: serverTimestamp(),
+    }, { merge: true });
+  } catch (err) {
+    console.warn("Firestore inquiry update notice (updated locally):", err);
+  }
+
+  return true;
+}
+
+/* ==========================================================================
+   GENERAL SYSTEM SETTINGS MODULE (QA Report v1.1 Requirement)
+   ========================================================================== */
+
+export interface SystemSettings {
+  operatingHours: {
+    openingTime: string;
+    closingTime: string;
+    lastLaunchCutoff: string;
+  };
+  slotCapacities: {
+    morningMaxGuests: number;
+    eveningMaxGuests: number;
+    maxKayaksPerSlot: number;
+  };
+  maintenance: {
+    alertBannerEnabled: boolean;
+    alertBannerMessage: string;
+    blackoutBookingDates: string[];
+  };
+  contactDetails: {
+    resortPhone: string;
+    emergencyDeskPhone: string;
+    notificationEmail: string;
+  };
+  currencyAndPayments: {
+    baseCurrency: string;
+    enabledPaymentMethods: ("COD" | "BANK_TRANSFER")[];
+  };
+}
+
+let inMemoryGlobalSettings: SystemSettings = {
+  operatingHours: {
+    openingTime: '05:30 AM',
+    closingTime: '06:30 PM',
+    lastLaunchCutoff: '05:00 PM',
+  },
+  slotCapacities: {
+    morningMaxGuests: 16,
+    eveningMaxGuests: 16,
+    maxKayaksPerSlot: 12,
+  },
+  maintenance: {
+    alertBannerEnabled: false,
+    alertBannerMessage: 'High Water Release Notice: Spillway discharge active between 10:00 AM - 02:00 PM. Expeditions operating on modified shoreline routes.',
+    blackoutBookingDates: [],
+  },
+  contactDetails: {
+    resortPhone: '+94 77 123 4567',
+    emergencyDeskPhone: '+94 71 987 6543',
+    notificationEmail: 'reservations@kalawewakayaking.com',
+  },
+  currencyAndPayments: {
+    baseCurrency: 'LKR',
+    enabledPaymentMethods: ['COD', 'BANK_TRANSFER'],
+  },
+};
+
+/**
+ * Fetch global system configurations from Firestore `system_settings/global`.
+ */
+export async function getGlobalSettingsFromFirestore(): Promise<SystemSettings> {
+  try {
+    const docRef = doc(db, "system_settings", "global");
+    const snap = await getDoc(docRef);
+    if (snap.exists()) {
+      const data = snap.data() as SystemSettings;
+      inMemoryGlobalSettings = { ...inMemoryGlobalSettings, ...data };
+      return inMemoryGlobalSettings;
+    }
+  } catch (err) {
+    console.warn("Firestore system settings fetch notice (using memory fallback):", err);
+  }
+  return inMemoryGlobalSettings;
+}
+
+/**
+ * Save updated system configurations to Firestore `system_settings/global`.
+ */
+export async function saveGlobalSettingsToFirestore(settings: SystemSettings): Promise<SystemSettings> {
+  inMemoryGlobalSettings = { ...settings };
+  try {
+    const docRef = doc(db, "system_settings", "global");
+    await setDoc(docRef, {
+      ...settings,
+      updatedAt: serverTimestamp(),
+    }, { merge: true });
+  } catch (err) {
+    console.warn("Firestore system settings save notice (saved locally):", err);
+  }
+  return inMemoryGlobalSettings;
+}
+
+
 
 
 

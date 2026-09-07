@@ -170,17 +170,65 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Col 4: Booking Policies */}
+          {/* Col 4: Resort Privileges */}
           <div className="space-y-3">
             <h4 className="font-medium uppercase text-[#C8A97E] tracking-[0.2em] text-[11px]">
               Resort Privileges
             </h4>
-            <ul className="space-y-2.5 text-[#F4F1EA]/75 font-light">
-              <li><span className="text-[#F4F1EA] font-medium">Cash On-Site (COD)</span> Accepted</li>
-              <li><span className="text-[#C8A97E] font-medium">Instant Booking Confirmation</span></li>
-              <li><span>Free Cancellation (24h prior)</span></li>
-              <li><span>Group Booking Discounts</span></li>
-              <li><span>Custom Private Charters</span></li>
+            <ul
+              aria-label="Resort Privileges Navigation"
+              className="space-y-2 font-light"
+            >
+              <li>
+                <Link
+                  href="/booking"
+                  className="text-stone-300 hover:text-[#d4af37] text-sm tracking-wide transition-colors duration-200 cursor-pointer inline-flex items-center gap-2"
+                  aria-label="Cash On-Site (COD) Accepted"
+                >
+                  <span className="text-[#C8A97E]/70 text-[10px]">✧</span>
+                  <span>Cash On-Site (COD) Accepted</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/booking"
+                  className="text-stone-300 hover:text-[#d4af37] text-sm tracking-wide transition-colors duration-200 cursor-pointer inline-flex items-center gap-2"
+                  aria-label="Instant Booking Confirmation"
+                >
+                  <span className="text-[#C8A97E]/70 text-[10px]">✧</span>
+                  <span>Instant Booking Confirmation</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/terms"
+                  className="text-stone-300 hover:text-[#d4af37] text-sm tracking-wide transition-colors duration-200 cursor-pointer inline-flex items-center gap-2"
+                  aria-label="Free Cancellation Policy"
+                >
+                  <span className="text-[#C8A97E]/70 text-[10px]">✧</span>
+                  <span>Free Cancellation (24h prior)</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/packages"
+                  className="text-stone-300 hover:text-[#d4af37] text-sm tracking-wide transition-colors duration-200 cursor-pointer inline-flex items-center gap-2"
+                  aria-label="Group Booking Discounts"
+                >
+                  <span className="text-[#C8A97E]/70 text-[10px]">✧</span>
+                  <span>Group Booking Discounts</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/packages"
+                  className="text-stone-300 hover:text-[#d4af37] text-sm tracking-wide transition-colors duration-200 cursor-pointer inline-flex items-center gap-2"
+                  aria-label="Custom Private Charters"
+                >
+                  <span className="text-[#C8A97E]/70 text-[10px]">✧</span>
+                  <span>Custom Private Charters</span>
+                </Link>
+              </li>
             </ul>
           </div>
 

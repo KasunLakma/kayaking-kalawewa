@@ -185,7 +185,7 @@ export default function Footer() {
                   className="text-stone-300 hover:text-[#d4af37] text-sm tracking-wide transition-colors duration-200 cursor-pointer inline-flex items-center gap-2"
                   aria-label="Cash On-Site (COD) Accepted"
                 >
-                  <span className="text-[#C8A97E]/70 text-[10px]">✧</span>
+                  <span className="text-stone-400 text-[10px]">✧</span>
                   <span>Cash On-Site (COD) Accepted</span>
                 </Link>
               </li>
@@ -195,7 +195,7 @@ export default function Footer() {
                   className="text-stone-300 hover:text-[#d4af37] text-sm tracking-wide transition-colors duration-200 cursor-pointer inline-flex items-center gap-2"
                   aria-label="Instant Booking Confirmation"
                 >
-                  <span className="text-[#C8A97E]/70 text-[10px]">✧</span>
+                  <span className="text-stone-400 text-[10px]">✧</span>
                   <span>Instant Booking Confirmation</span>
                 </Link>
               </li>
@@ -205,7 +205,7 @@ export default function Footer() {
                   className="text-stone-300 hover:text-[#d4af37] text-sm tracking-wide transition-colors duration-200 cursor-pointer inline-flex items-center gap-2"
                   aria-label="Free Cancellation Policy"
                 >
-                  <span className="text-[#C8A97E]/70 text-[10px]">✧</span>
+                  <span className="text-stone-400 text-[10px]">✧</span>
                   <span>Free Cancellation (24h prior)</span>
                 </Link>
               </li>
@@ -215,7 +215,7 @@ export default function Footer() {
                   className="text-stone-300 hover:text-[#d4af37] text-sm tracking-wide transition-colors duration-200 cursor-pointer inline-flex items-center gap-2"
                   aria-label="Group Booking Discounts"
                 >
-                  <span className="text-[#C8A97E]/70 text-[10px]">✧</span>
+                  <span className="text-stone-400 text-[10px]">✧</span>
                   <span>Group Booking Discounts</span>
                 </Link>
               </li>
@@ -225,7 +225,7 @@ export default function Footer() {
                   className="text-stone-300 hover:text-[#d4af37] text-sm tracking-wide transition-colors duration-200 cursor-pointer inline-flex items-center gap-2"
                   aria-label="Custom Private Charters"
                 >
-                  <span className="text-[#C8A97E]/70 text-[10px]">✧</span>
+                  <span className="text-stone-400 text-[10px]">✧</span>
                   <span>Custom Private Charters</span>
                 </Link>
               </li>

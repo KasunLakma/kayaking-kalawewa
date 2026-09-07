@@ -1348,5 +1348,353 @@ export function hasPermission(roleId: string, permissionKey: string): boolean {
   return role.permissions.includes(permissionKey);
 }
 
+/* ==========================================================================
+   CUSTOMER MANAGEMENT MODULE (QA Report v1.1 Requirement)
+   ========================================================================== */
+
+export interface CustomerContactLog {
+  id: string;
+  createdAt: string;
+  author: string;
+  category: 'Interaction' | 'Preference' | 'Safety' | 'Special Request' | 'General Note';
+  note: string;
+}
+
+export interface CustomerProfile {
+  id: string;
+  uid?: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  hasWhatsapp?: boolean;
+  memberSince: string;
+  tier: 'VIP' | 'Regular' | 'Wilderness Elite' | 'Corporate';
+  dietaryPreferences?: string;
+  safetyNotes?: string;
+  emergencyContact?: string;
+  contactLogs?: CustomerContactLog[];
+  // Calculated/Aggregated fields
+  totalBookings?: number;
+  completedExpeditions?: number;
+  totalSpendLKR?: number;
+  bookings?: BookingDocument[];
+}
+
+let inMemoryCustomers: CustomerProfile[] = [
+  {
+    id: 'cust-1',
+    uid: 'user-kasun-1',
+    fullName: 'Kasun Perera',
+    email: 'kasun@example.com',
+    phone: '+94771234567',
+    hasWhatsapp: true,
+    memberSince: '2026-01-15',
+    tier: 'VIP',
+    dietaryPreferences: 'No seafood, prefers Ceylon spiced herbal tea',
+    safetyNotes: 'Beginner kayaker, requires life vest check & safety briefing',
+    emergencyContact: '+94779998877 (Spouse: Chathuri)',
+    contactLogs: [
+      {
+        id: 'log-101',
+        createdAt: '2026-02-10T09:30:00Z',
+        author: 'Saman Kumara (Front Desk)',
+        category: 'Preference',
+        note: 'Requested morning sunrise slot on every visit. Prefers single touring kayak.',
+      },
+      {
+        id: 'log-102',
+        createdAt: '2026-03-01T14:15:00Z',
+        author: 'Anura Bandara (Lead Guide)',
+        category: 'Safety',
+        note: 'Completed safety orientation. Comfortable in moderate spillway currents.',
+      },
+    ],
+  },
+  {
+    id: 'cust-2',
+    uid: 'user-nimali-2',
+    fullName: 'Nimali Silva',
+    email: 'nimali@example.com',
+    phone: '+94719876543',
+    hasWhatsapp: true,
+    memberSince: '2026-02-02',
+    tier: 'Wilderness Elite',
+    dietaryPreferences: 'Strictly Vegetarian, vegan snacks preferred',
+    safetyNotes: 'Intermediate paddler, keen wildlife photography escort',
+    emergencyContact: '+94712223344 (Brother: Ruwan)',
+    contactLogs: [
+      {
+        id: 'log-201',
+        createdAt: '2026-02-20T11:00:00Z',
+        author: 'Dinesh Jayasinghe (Concierge)',
+        category: 'Special Request',
+        note: 'Anniversary couples package booked. Requested water-resistant camera dry bag.',
+      },
+    ],
+  },
+  {
+    id: 'cust-3',
+    uid: 'user-david-3',
+    fullName: 'David Miller',
+    email: 'david.m@example.com',
+    phone: '+94701122334',
+    hasWhatsapp: true,
+    memberSince: '2026-08-10',
+    tier: 'Corporate',
+    dietaryPreferences: 'Gluten-free snacks, fresh fruit platters',
+    safetyNotes: 'Advanced kayaker, telephoto camera gear safety harness requested',
+    emergencyContact: '+1 415 555 0199 (US Emergency Contact)',
+    contactLogs: [
+      {
+        id: 'log-301',
+        createdAt: '2026-08-12T16:45:00Z',
+        author: 'Saman Kumara (Front Desk)',
+        category: 'Interaction',
+        note: 'National Geographic freelance photographer. Inquired about wild elephant corridor photography charter.',
+      },
+    ],
+  },
+  {
+    id: 'cust-4',
+    uid: 'user-anura-4',
+    fullName: 'Dr. Anura Senanayake',
+    email: 'anura.s@example.com',
+    phone: '+94714567890',
+    hasWhatsapp: false,
+    memberSince: '2025-12-01',
+    tier: 'VIP',
+    dietaryPreferences: 'Standard gourmet lunch pack',
+    safetyNotes: 'Expert paddler, first-aid certified',
+    emergencyContact: '+94718887766 (Clinic Desk)',
+    contactLogs: [
+      {
+        id: 'log-401',
+        createdAt: '2026-01-05T10:00:00Z',
+        author: 'Anura Bandara (Lead Guide)',
+        category: 'General Note',
+        note: 'Regular weekend visitor. Likes early 06:00 AM departures before wind picks up.',
+      },
+    ],
+  },
+];
+
+/**
+ * Fetch all unified customer profiles by merging Firestore `users` records
+ * with guest booking records from the `bookings` collection.
+ */
+export async function getAllCustomersFromFirestore(): Promise<CustomerProfile[]> {
+  try {
+    const allBookings = await getAllBookingsFromFirestore();
+    const customerMap = new Map<string, CustomerProfile>();
+
+    // 1. Initialize from stored inMemoryCustomers first as base seed
+    inMemoryCustomers.forEach((cust) => {
+      customerMap.set(cust.email.toLowerCase(), { ...cust, contactLogs: [...(cust.contactLogs || [])] });
+    });
+
+    // 2. Fetch users from Firestore `users` collection if available
+    try {
+      const usersSnap = await getDocs(collection(db, 'users'));
+      if (!usersSnap.empty) {
+        usersSnap.forEach((docSnap) => {
+          const uData = docSnap.data();
+          const emailKey = (uData.email || '').toLowerCase();
+          if (emailKey) {
+            const existing = customerMap.get(emailKey);
+            const profile: CustomerProfile = {
+              id: docSnap.id,
+              uid: docSnap.id,
+              fullName: uData.fullName || existing?.fullName || 'Valued Guest',
+              email: uData.email || existing?.email || '',
+              phone: uData.phone || existing?.phone || '',
+              hasWhatsapp: true,
+              memberSince: uData.createdAt ? uData.createdAt.toString().split('T')[0] : existing?.memberSince || '2026-01-01',
+              tier: existing?.tier || 'Regular',
+              dietaryPreferences: uData.dietaryPreferences || existing?.dietaryPreferences || '',
+              safetyNotes: uData.safetyNotes || existing?.safetyNotes || '',
+              emergencyContact: uData.emergencyContact || existing?.emergencyContact || '',
+              contactLogs: existing?.contactLogs || [],
+            };
+            customerMap.set(emailKey, profile);
+          }
+        });
+      }
+    } catch (userErr) {
+      console.warn("Firestore `users` collection query notice (using merged memory cache):", userErr);
+    }
+
+    // 3. Aggregate bookings for each customer by email / userId
+    allBookings.forEach((b) => {
+      const emailKey = (b.customer?.email || '').toLowerCase();
+      if (!emailKey) return;
+
+      let cust = customerMap.get(emailKey);
+      if (!cust) {
+        // Create new guest customer from booking data
+        const newId = 'cust-' + Math.abs(emailKey.split('').reduce((a, b) => (a << 5) - a + b.charCodeAt(0), 0)).toString(16);
+        cust = {
+          id: newId,
+          uid: b.customerUid || b.userId || newId,
+          fullName: b.customer?.fullName || 'Expedition Guest',
+          email: b.customer?.email || '',
+          phone: b.customer?.phone || '',
+          hasWhatsapp: true,
+          memberSince: b.selectedDate || '2026-01-01',
+          tier: 'Regular',
+          contactLogs: [],
+        };
+        customerMap.set(emailKey, cust);
+      }
+
+      // Attach booking to history list
+      if (!cust.bookings) cust.bookings = [];
+      if (!cust.bookings.some((existingB) => existingB.bookingId === b.bookingId)) {
+        cust.bookings.push(b);
+      }
+    });
+
+    // 4. Calculate aggregated metrics for each customer
+    const result: CustomerProfile[] = Array.from(customerMap.values()).map((cust) => {
+      const bList = cust.bookings || [];
+      const totalBookings = bList.length;
+      const completedExpeditions = bList.filter(
+        (b) => b.orderStatus === 'COMPLETED' || b.paymentStatus === 'PAID'
+      ).length;
+      const totalSpendLKR = bList.reduce((sum, b) => sum + (b.totalAmountLKR || 0), 0);
+
+      // Auto-upgrade tier based on spend / bookings if still Regular
+      let finalTier = cust.tier;
+      if (finalTier === 'Regular') {
+        if (totalSpendLKR >= 30000 || totalBookings >= 3) {
+          finalTier = 'VIP';
+        }
+      }
+
+      return {
+        ...cust,
+        tier: finalTier,
+        totalBookings,
+        completedExpeditions,
+        totalSpendLKR,
+      };
+    });
+
+    return result;
+  } catch (err) {
+    console.warn("getAllCustomersFromFirestore notice (fallback):", err);
+    return inMemoryCustomers;
+  }
+}
+
+/**
+ * Fetch a single customer profile by ID, email, or UID.
+ */
+export async function getCustomerByIdFromFirestore(id: string): Promise<CustomerProfile | null> {
+  if (!id) return null;
+  const customers = await getAllCustomersFromFirestore();
+  const found = customers.find(
+    (c) =>
+      c.id.toLowerCase() === id.toLowerCase() ||
+      (c.uid && c.uid.toLowerCase() === id.toLowerCase()) ||
+      c.email.toLowerCase() === id.toLowerCase()
+  );
+  return found || null;
+}
+
+/**
+ * Save or update a Customer Profile in Firestore & local state.
+ */
+export async function saveCustomerProfileToFirestore(customer: CustomerProfile): Promise<CustomerProfile> {
+  const index = inMemoryCustomers.findIndex(
+    (c) => c.id === customer.id || c.email.toLowerCase() === customer.email.toLowerCase()
+  );
+  if (index >= 0) {
+    inMemoryCustomers[index] = { ...inMemoryCustomers[index], ...customer };
+  } else {
+    inMemoryCustomers.push(customer);
+  }
+
+  try {
+    const docId = customer.uid || customer.id;
+    const userRef = doc(db, "users", docId);
+    await setDoc(userRef, {
+      fullName: customer.fullName,
+      email: customer.email,
+      phone: customer.phone,
+      tier: customer.tier,
+      dietaryPreferences: customer.dietaryPreferences || '',
+      safetyNotes: customer.safetyNotes || '',
+      emergencyContact: customer.emergencyContact || '',
+      updatedAt: serverTimestamp(),
+    }, { merge: true });
+  } catch (err) {
+    console.warn("Firestore save customer profile notice (stored locally):", err);
+  }
+
+  return customer;
+}
+
+/**
+ * Add a concierge / contact interaction log to a customer profile.
+ */
+export async function addCustomerContactLogToFirestore(
+  customerId: string,
+  logData: Omit<CustomerContactLog, 'id' | 'createdAt'>
+): Promise<CustomerContactLog> {
+  const newLog: CustomerContactLog = {
+    id: 'log-' + Date.now(),
+    createdAt: new Date().toISOString(),
+    author: logData.author || 'Staff Concierge',
+    category: logData.category || 'Interaction',
+    note: logData.note,
+  };
+
+  const target = inMemoryCustomers.find(
+    (c) => c.id === customerId || c.uid === customerId || c.email.toLowerCase() === customerId.toLowerCase()
+  );
+
+  if (target) {
+    if (!target.contactLogs) target.contactLogs = [];
+    target.contactLogs.unshift(newLog);
+  }
+
+  try {
+    const docRef = doc(db, "customers", customerId, "contactLogs", newLog.id);
+    await setDoc(docRef, {
+      ...newLog,
+      createdAt: serverTimestamp(),
+    });
+  } catch (err) {
+    console.warn("Firestore add contact log notice (stored locally):", err);
+  }
+
+  return newLog;
+}
+
+/**
+ * Toggle or update VIP / Tier status for a customer.
+ */
+export async function updateCustomerVIPStatus(
+  customerId: string,
+  tier: CustomerProfile['tier']
+): Promise<boolean> {
+  const target = inMemoryCustomers.find(
+    (c) => c.id === customerId || c.uid === customerId || c.email.toLowerCase() === customerId.toLowerCase()
+  );
+  if (target) {
+    target.tier = tier;
+  }
+
+  try {
+    const userRef = doc(db, "users", customerId);
+    await setDoc(userRef, { tier, updatedAt: serverTimestamp() }, { merge: true });
+  } catch (err) {
+    console.warn("Firestore VIP tier update notice (updated locally):", err);
+  }
+
+  return true;
+}
+
+
 
 

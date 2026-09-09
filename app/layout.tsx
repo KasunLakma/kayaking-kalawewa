@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import NextTopLoader from "nextjs-toploader";
 import TrackingPixels from "@/components/TrackingPixels";
+import LuxuryPreloader from "@/components/LuxuryPreloader";
 import { AuthProvider } from "@/context/AuthContext";
 
 const cormorantGaramond = Cormorant_Garamond({
@@ -36,9 +38,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${cormorantGaramond.variable} ${plusJakartaSans.variable} h-full antialiased scroll-smooth`}
     >
       <body className="min-h-full w-full max-w-full overflow-x-hidden flex flex-col font-sans bg-[#0B1914] text-[#F4F1EA] selection:bg-[#C8A97E] selection:text-[#0B1914]">
+        <NextTopLoader
+          color="#d4af37"
+          initialPosition={0.08}
+          crawlSpeed={200}
+          height={3}
+          crawl={true}
+          showSpinner={false}
+          easing="ease"
+          speed={200}
+          shadow="0 0 10px #d4af37, 0 0 5px #d4af37"
+          zIndex={100000}
+        />
+        <LuxuryPreloader />
         <TrackingPixels />
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
 }
+

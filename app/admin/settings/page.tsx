@@ -38,8 +38,23 @@ export default function GeneralSettingsPage() {
   const [saving, setSaving] = useState<boolean>(false);
   const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<string>('');
+  const [capacityError, setCapacityError] = useState<string>('');
 
   const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+
+  const isCapacityValid = (capacities: { morningMaxGuests: number; eveningMaxGuests: number; maxKayaksPerSlot: number }) => {
+    return (
+      typeof capacities.morningMaxGuests === 'number' &&
+      !isNaN(capacities.morningMaxGuests) &&
+      capacities.morningMaxGuests >= 0 &&
+      typeof capacities.eveningMaxGuests === 'number' &&
+      !isNaN(capacities.eveningMaxGuests) &&
+      capacities.eveningMaxGuests >= 0 &&
+      typeof capacities.maxKayaksPerSlot === 'number' &&
+      !isNaN(capacities.maxKayaksPerSlot) &&
+      capacities.maxKayaksPerSlot >= 0
+    );
+  };
 
   // Blackout date input helper
   const [newBlackoutDate, setNewBlackoutDate] = useState<string>('');
@@ -91,7 +106,22 @@ export default function GeneralSettingsPage() {
       return;
     }
 
+    const { morningMaxGuests, eveningMaxGuests, maxKayaksPerSlot } = settings.slotCapacities;
+    if (
+      morningMaxGuests < 0 ||
+      eveningMaxGuests < 0 ||
+      maxKayaksPerSlot < 0 ||
+      isNaN(morningMaxGuests) ||
+      isNaN(eveningMaxGuests) ||
+      isNaN(maxKayaksPerSlot)
+    ) {
+      setCapacityError('Slot capacities must be at least 0.');
+      setSaveSuccess(false);
+      return;
+    }
+
     setEmailError('');
+    setCapacityError('');
     setSaving(true);
     setSaveSuccess(false);
     try {
@@ -254,6 +284,19 @@ export default function GeneralSettingsPage() {
           </div>
         )}
 
+        {/* Capacity Error Validation Toast */}
+        {capacityError && (
+          <div className="p-4 bg-red-950/80 border border-red-500/50 rounded-2xl text-red-300 text-xs font-semibold flex items-center justify-between shadow-xl animate-fade-in">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="w-5 h-5 text-red-400 shrink-0" />
+              <span>{capacityError}</span>
+            </div>
+            <button onClick={() => setCapacityError('')} className="text-red-400 hover:text-white">
+              &times;
+            </button>
+          </div>
+        )}
+
         {/* Settings Form */}
         <form onSubmit={handleSaveSettings} className="space-y-8">
           {/* Section 1: Resort Operating Hours */}
@@ -326,16 +369,23 @@ export default function GeneralSettingsPage() {
                 <label className="block text-stone-300 font-semibold mb-1.5">Morning Max Guests per Slot</label>
                 <input
                   type="number"
-                  min={1}
+                  min={0}
                   max={50}
+                  step={1}
                   value={settings.slotCapacities.morningMaxGuests}
-                  onChange={(e) =>
-                    setSettings({
-                      ...settings,
-                      slotCapacities: { ...settings.slotCapacities, morningMaxGuests: Number(e.target.value) },
-                    })
-                  }
-                  className="w-full px-3.5 py-2.5 bg-[#0B1914] border border-white/15 rounded-xl text-white focus:outline-none focus:border-[#C8A97E]"
+                  onChange={(e) => {
+                    const val = Number(e.target.value);
+                    const updated = { ...settings.slotCapacities, morningMaxGuests: val };
+                    setSettings({ ...settings, slotCapacities: updated });
+                    if (isCapacityValid(updated)) {
+                      setCapacityError('');
+                    }
+                  }}
+                  className={`w-full px-3.5 py-2.5 bg-[#0B1914] border ${
+                    capacityError && (settings.slotCapacities.morningMaxGuests < 0 || isNaN(settings.slotCapacities.morningMaxGuests))
+                      ? 'border-red-500'
+                      : 'border-white/15'
+                  } rounded-xl text-white focus:outline-none focus:border-[#C8A97E]`}
                 />
               </div>
 
@@ -343,16 +393,23 @@ export default function GeneralSettingsPage() {
                 <label className="block text-stone-300 font-semibold mb-1.5">Evening Max Guests per Slot</label>
                 <input
                   type="number"
-                  min={1}
+                  min={0}
                   max={50}
+                  step={1}
                   value={settings.slotCapacities.eveningMaxGuests}
-                  onChange={(e) =>
-                    setSettings({
-                      ...settings,
-                      slotCapacities: { ...settings.slotCapacities, eveningMaxGuests: Number(e.target.value) },
-                    })
-                  }
-                  className="w-full px-3.5 py-2.5 bg-[#0B1914] border border-white/15 rounded-xl text-white focus:outline-none focus:border-[#C8A97E]"
+                  onChange={(e) => {
+                    const val = Number(e.target.value);
+                    const updated = { ...settings.slotCapacities, eveningMaxGuests: val };
+                    setSettings({ ...settings, slotCapacities: updated });
+                    if (isCapacityValid(updated)) {
+                      setCapacityError('');
+                    }
+                  }}
+                  className={`w-full px-3.5 py-2.5 bg-[#0B1914] border ${
+                    capacityError && (settings.slotCapacities.eveningMaxGuests < 0 || isNaN(settings.slotCapacities.eveningMaxGuests))
+                      ? 'border-red-500'
+                      : 'border-white/15'
+                  } rounded-xl text-white focus:outline-none focus:border-[#C8A97E]`}
                 />
               </div>
 
@@ -360,19 +417,33 @@ export default function GeneralSettingsPage() {
                 <label className="block text-stone-300 font-semibold mb-1.5">Max Kayak Units Dispatched / Slot</label>
                 <input
                   type="number"
-                  min={1}
-                  max={30}
+                  min={0}
+                  max={50}
+                  step={1}
                   value={settings.slotCapacities.maxKayaksPerSlot}
-                  onChange={(e) =>
-                    setSettings({
-                      ...settings,
-                      slotCapacities: { ...settings.slotCapacities, maxKayaksPerSlot: Number(e.target.value) },
-                    })
-                  }
-                  className="w-full px-3.5 py-2.5 bg-[#0B1914] border border-white/15 rounded-xl text-white focus:outline-none focus:border-[#C8A97E]"
+                  onChange={(e) => {
+                    const val = Number(e.target.value);
+                    const updated = { ...settings.slotCapacities, maxKayaksPerSlot: val };
+                    setSettings({ ...settings, slotCapacities: updated });
+                    if (isCapacityValid(updated)) {
+                      setCapacityError('');
+                    }
+                  }}
+                  className={`w-full px-3.5 py-2.5 bg-[#0B1914] border ${
+                    capacityError && (settings.slotCapacities.maxKayaksPerSlot < 0 || isNaN(settings.slotCapacities.maxKayaksPerSlot))
+                      ? 'border-red-500'
+                      : 'border-white/15'
+                  } rounded-xl text-white focus:outline-none focus:border-[#C8A97E]`}
                 />
               </div>
             </div>
+
+            {capacityError && (
+              <p className="text-[11px] text-red-400 mt-2 font-medium flex items-center gap-1.5">
+                <AlertCircle className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                <span>{capacityError}</span>
+              </p>
+            )}
           </div>
 
           {/* Section 3: Maintenance Mode & Alert Banner */}

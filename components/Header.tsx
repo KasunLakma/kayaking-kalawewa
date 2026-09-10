@@ -92,8 +92,8 @@ export default function Header({ onOpenBooking }: HeaderProps) {
     <>
       {/* 1. RESTORE MAIN NAVBAR LAYOUT (STANDARD FULL-WIDTH HEADER) */}
       <header
-        className={`w-full fixed top-0 left-0 right-0 z-50 bg-[#07130E]/80 backdrop-blur-md border-b border-white/10 px-6 lg:px-12 py-4 flex items-center justify-between transition-all duration-300 ${
-          scrolled ? 'bg-[#07130E]/95 shadow-xl border-white/15 py-3.5' : ''
+        className={`w-full fixed top-0 left-0 right-0 z-50 bg-[#07130E]/80 backdrop-blur-md border-b border-white/10 px-4 sm:px-6 lg:px-12 py-3.5 sm:py-4 flex items-center justify-between transition-all duration-300 ${
+          scrolled ? 'bg-[#07130E]/95 shadow-xl border-white/15 py-3' : ''
         }`}
       >
         {/* Left: Minimalist Logo with Gold Monogram Accent */}
@@ -138,11 +138,11 @@ export default function Header({ onOpenBooking }: HeaderProps) {
         </nav>
 
         {/* Right: Actions (Search, Auth, CTA & Menu Toggle) */}
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           {/* Search trigger */}
           <button
             onClick={() => setSearchModalOpen(true)}
-            className="p-2 text-stone-300 hover:text-[#d4af37] transition-colors rounded-full hover:bg-white/5 cursor-pointer"
+            className="p-2.5 text-stone-300 hover:text-[#d4af37] transition-colors rounded-full hover:bg-white/5 cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center"
             aria-label="Search Expeditions"
             title="Search Expeditions"
           >
@@ -155,7 +155,7 @@ export default function Header({ onOpenBooking }: HeaderProps) {
           {userProfile ? (
             <Link
               href="/account"
-              className="hidden sm:flex items-center gap-1.5 px-4 py-2 text-xs font-mono tracking-widest text-[#d4af37] border border-[#d4af37]/40 hover:border-[#d4af37] bg-[#d4af37]/10 rounded-full transition-all"
+              className="hidden sm:flex items-center gap-1.5 px-4 py-2 text-xs font-mono tracking-widest text-[#d4af37] border border-[#d4af37]/40 hover:border-[#d4af37] bg-[#d4af37]/10 rounded-full transition-all min-h-[44px]"
             >
               <span>👤</span>
               <span className="truncate max-w-[100px]">{userProfile.fullName.split(' ')[0]}</span>
@@ -163,7 +163,7 @@ export default function Header({ onOpenBooking }: HeaderProps) {
           ) : (
             <button
               onClick={() => setHeaderAuthOpen(true)}
-              className="hidden sm:flex items-center gap-1.5 px-4 py-2 text-xs font-mono tracking-widest text-stone-300 hover:text-[#d4af37] border border-white/20 hover:border-[#d4af37]/50 rounded-full transition-all bg-white/[0.03] cursor-pointer"
+              className="hidden sm:flex items-center gap-1.5 px-4 py-2 text-xs font-mono tracking-widest text-stone-300 hover:text-[#d4af37] border border-white/20 hover:border-[#d4af37]/50 rounded-full transition-all bg-white/[0.03] cursor-pointer min-h-[44px]"
             >
               <span>🔑</span>
               <span>SIGN IN</span>
@@ -173,7 +173,7 @@ export default function Header({ onOpenBooking }: HeaderProps) {
           {/* Luxury CTA Button */}
           <button
             onClick={handleBookingClick}
-            className="hidden sm:inline-flex bg-[#d4af37] hover:bg-[#b8972e] text-[#07130E] text-xs font-semibold tracking-wider uppercase px-5 py-2.5 rounded-full transition-all shadow-md hover:scale-105 cursor-pointer whitespace-nowrap"
+            className="hidden sm:inline-flex bg-[#d4af37] hover:bg-[#b8972e] text-[#07130E] text-xs font-semibold tracking-wider uppercase px-5 py-2.5 rounded-full transition-all shadow-md hover:scale-105 cursor-pointer whitespace-nowrap min-h-[44px] items-center justify-center"
           >
             RESERVE
           </button>
@@ -181,7 +181,7 @@ export default function Header({ onOpenBooking }: HeaderProps) {
           {/* Menu / Hamburger Toggle Button */}
           <button
             onClick={() => setMenuDrawerOpen(!menuDrawerOpen)}
-            className="px-3.5 py-2 min-h-[40px] rounded-full border border-white/20 hover:border-[#d4af37] text-stone-200 hover:text-[#d4af37] text-xs font-medium uppercase tracking-[0.18em] transition-all flex items-center justify-center gap-2 cursor-pointer bg-white/5 backdrop-blur-sm"
+            className="px-3.5 py-2 min-h-[44px] min-w-[44px] rounded-full border border-white/20 hover:border-[#d4af37] text-stone-200 hover:text-[#d4af37] text-xs font-medium uppercase tracking-[0.18em] transition-all flex items-center justify-center gap-2 cursor-pointer bg-white/5 backdrop-blur-sm"
             aria-label="Toggle Menu"
           >
             <div className="w-4 h-4 relative flex flex-col justify-center gap-1">
@@ -236,7 +236,7 @@ export default function Header({ onOpenBooking }: HeaderProps) {
               {/* Minimal Clean Close Button ("✕") with Gold Accent */}
               <button
                 onClick={() => setMenuDrawerOpen(false)}
-                className="w-10 h-10 rounded-full border border-white/20 hover:border-[#d4af37] text-stone-300 hover:text-white hover:rotate-90 transition-all duration-300 cursor-pointer bg-white/5 shadow-lg flex items-center justify-center"
+                className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full border border-white/20 hover:border-[#d4af37] text-stone-300 hover:text-white hover:rotate-90 transition-all duration-300 cursor-pointer bg-white/5 shadow-lg flex items-center justify-center"
                 aria-label="Close Navigation Menu"
               >
                 <span className="text-base font-bold">✕</span>

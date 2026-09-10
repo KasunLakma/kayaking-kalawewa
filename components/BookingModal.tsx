@@ -35,20 +35,20 @@ export default function BookingModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md overflow-y-auto"
       onClick={onClose}
       aria-modal="true"
       role="dialog"
     >
       {/* Modal Content Container */}
       <div
-        className="w-full max-w-5xl relative pointer-events-auto flex justify-center my-8"
+        className="w-full max-w-5xl relative pointer-events-auto flex flex-col justify-center my-auto max-h-[90vh] overflow-y-auto no-scrollbar rounded-3xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Accessible Top-Right Close Action Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 z-50 w-9 h-9 flex items-center justify-center rounded-full text-stone-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-all cursor-pointer"
+          className="absolute top-4 right-4 z-50 w-10 h-10 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full text-stone-600 hover:text-stone-900 bg-stone-100/90 hover:bg-stone-200 border border-stone-300 transition-all cursor-pointer shadow-md"
           aria-label="Close Booking Modal"
           title="Close Booking Modal"
         >
@@ -58,7 +58,7 @@ export default function BookingModal({
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
           >

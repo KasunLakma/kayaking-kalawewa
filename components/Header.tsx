@@ -206,177 +206,236 @@ export default function Header({ onOpenBooking }: HeaderProps) {
         </div>
       </header>
 
-      {/* 2. PINTEREST FLOATING GLASS CARD MENU OVERLAY */}
+      {/* 2. PINTEREST EDITORIAL MULTI-COLUMN MEGA-DRAWER OVERLAY */}
       {menuDrawerOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 lg:p-8 animate-in fade-in duration-300 overflow-y-auto">
-          {/* Floating Glassmorphism Menu Card */}
-          <div className="w-full max-w-4xl bg-[#0B1914]/90 backdrop-blur-xl border border-white/10 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl transition-all relative overflow-hidden my-auto max-h-[90vh] flex flex-col justify-between">
-            {/* Top Bar inside Floating Card */}
+        <div className="fixed inset-0 z-[100] bg-[#07130E]/95 backdrop-blur-2xl flex items-center justify-center p-4 sm:p-6 md:p-10 lg:p-12 overflow-y-auto animate-in fade-in duration-300">
+          
+          {/* Main Editorial Container */}
+          <div className="relative w-full max-w-6xl my-auto max-h-[92vh] flex flex-col justify-between overflow-y-auto no-scrollbar py-2">
+            
+            {/* Top Control Bar */}
             <div className="flex items-center justify-between pb-6 border-b border-white/10 shrink-0">
-              <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-full bg-[#d4af37]/20 border border-[#d4af37] flex items-center justify-center text-[#d4af37]">
-                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <Link
+                href="/"
+                onClick={() => setMenuDrawerOpen(false)}
+                className="flex items-center gap-3 group"
+              >
+                <div className="w-8 h-8 rounded-full bg-[#d4af37]/20 border border-[#d4af37] flex items-center justify-center text-[#d4af37] group-hover:scale-105 transition-transform">
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M12 2L15 8.5C14 10 12 11 12 11C12 11 10 10 9 8.5L12 2Z" />
                     <path d="M12 11V22" />
                   </svg>
                 </div>
-                <span className="font-serif text-sm sm:text-base tracking-[0.25em] text-[#F4F1EA] uppercase font-medium">
-                  KALAWEWA SANCTUARY
-                </span>
-              </div>
+                <div className="flex flex-col">
+                  <span className="font-serif text-base sm:text-lg tracking-[0.25em] text-[#F4F1EA] group-hover:text-[#d4af37] transition-colors leading-none uppercase font-medium">
+                    KALAWEWA
+                  </span>
+                  <span className="text-[8px] font-mono tracking-[0.3em] text-[#d4af37] uppercase mt-1 opacity-90">
+                    SANCTUARY EDITORIAL SHOWCASE
+                  </span>
+                </div>
+              </Link>
 
               <button
                 onClick={() => setMenuDrawerOpen(false)}
-                className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:rotate-90 hover:border-[#d4af37] text-[#d4af37] hover:text-white transition-all duration-300 cursor-pointer bg-[#07130E]/80"
+                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:rotate-90 hover:border-[#d4af37] text-[#d4af37] hover:text-white transition-all duration-300 cursor-pointer bg-[#07130E]/80 shadow-lg"
                 aria-label="Close Navigation Menu"
               >
-                <span className="text-sm font-bold">✕</span>
+                <span className="text-base font-bold">✕</span>
               </button>
             </div>
 
-            {/* Main Content Area inside Floating Glass Card */}
-            <div className="py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center overflow-y-auto">
-              {/* Left Navigation Items */}
-              <div className="lg:col-span-7 flex flex-col justify-center space-y-1">
-                <nav className="flex flex-col">
-                  {PREVIEW_ITEMS.map((item, idx) => {
-                    const handleClick = (e: React.MouseEvent) => {
-                      setMenuDrawerOpen(false);
-                      if (item.isBookingTrigger) {
-                        e.preventDefault();
-                        handleBookingClick();
-                      }
-                    };
+            {/* 4-COLUMN EDITORIAL CARD GRID */}
+            <div className="py-6 sm:py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 min-h-[460px] items-stretch">
+              
+              {/* COLUMN 1: Primary Navigation Links */}
+              <div className="bg-[#0B1914]/80 border border-white/10 rounded-2xl p-6 flex flex-col justify-between shadow-xl hover:border-white/20 transition-all duration-300">
+                <div className="space-y-4">
+                  <span className="text-[10px] font-mono text-[#d4af37] tracking-[0.25em] uppercase font-semibold block border-b border-white/10 pb-3">
+                    01 / PRIMARY EXPEDITIONS
+                  </span>
+                  <nav className="flex flex-col space-y-2.5 font-serif">
+                    {[
+                      { num: '01', title: 'Dawn & Dusk Expeditions', href: '/packages' },
+                      { num: '02', title: 'Ancient Lake Heritage', href: '/#about' },
+                      { num: '03', title: 'Wilderness Safety', href: '/safety' },
+                      { num: '04', title: 'Private Fleet & Charters', href: '/booking' },
+                      { num: '05', title: 'Contact Concierge', href: 'https://wa.me/94771234567', isExternal: true },
+                    ].map((item, idx) => {
+                      const handleClick = (e: React.MouseEvent) => {
+                        setMenuDrawerOpen(false);
+                        if (item.href === '/booking') {
+                          e.preventDefault();
+                          handleBookingClick();
+                        }
+                      };
 
-                    return (
-                      <div
-                        key={item.num}
-                        onMouseEnter={() => setActivePreviewIndex(idx)}
-                        className="group border-b border-white/10 py-3 transition-all"
-                      >
+                      return (
                         <Link
+                          key={item.num}
                           href={item.href}
+                          target={item.isExternal ? '_blank' : undefined}
+                          rel={item.isExternal ? 'noopener noreferrer' : undefined}
                           onClick={handleClick}
-                          className="flex items-center justify-between group-hover:translate-x-2 transition-transform duration-300"
+                          onMouseEnter={() => setActivePreviewIndex(idx % PREVIEW_ITEMS.length)}
+                          className="group/link flex items-center justify-between py-2 border-b border-white/5 text-stone-300 hover:text-[#d4af37] transition-all cursor-pointer"
                         >
-                          <div className="flex items-center gap-4">
-                            <span className="text-xs font-mono text-[#d4af37] tracking-widest font-medium">
-                              {item.num}.
-                            </span>
-                            <span className="font-serif text-lg sm:text-2xl lg:text-3xl text-[#f5f2eb] group-hover:text-[#d4af37] transition-colors duration-300">
-                              {item.label}
-                            </span>
-                          </div>
-                          <span className="text-[#d4af37] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-base">
+                          <span className="text-xs sm:text-sm lg:text-base font-light tracking-wide group-hover/link:translate-x-1 transition-transform">
+                            {item.num} / {item.title}
+                          </span>
+                          <span className="text-xs text-[#d4af37] opacity-0 group-hover/link:opacity-100 transition-opacity">
                             →
                           </span>
                         </Link>
-                      </div>
-                    );
-                  })}
-                </nav>
+                      );
+                    })}
+                  </nav>
+                </div>
 
-                {/* Mobile Actions inside Card */}
-                <div className="flex flex-wrap items-center gap-3 pt-4 lg:hidden">
-                  <button
-                    onClick={() => {
-                      setMenuDrawerOpen(false);
-                      setSearchModalOpen(true);
-                    }}
-                    className="px-4 py-2 rounded-full border border-white/20 text-stone-200 text-xs font-mono tracking-wider uppercase flex items-center gap-2 bg-white/5 cursor-pointer"
+                <div className="pt-4 border-t border-white/10 text-[10px] font-mono text-stone-400">
+                  <span className="text-[#d4af37]">SELECT DESTINATION</span> — GUIDED ECO-TOURS
+                </div>
+              </div>
+
+              {/* COLUMN 2: Featured Highlight Card (Editorial Color Accent) */}
+              <div className="bg-[#13281E] border border-white/10 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between shadow-xl group hover:border-[#d4af37]/40 transition-all duration-300">
+                {/* Background Paddle Monogram Silhouette */}
+                <div className="absolute -bottom-8 -right-8 w-36 h-36 opacity-10 pointer-events-none text-[#d4af37] group-hover:scale-110 transition-transform duration-700">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L15 8.5C14 10 12 11 12 11C12 11 10 10 9 8.5L12 2Z" />
+                    <path d="M12 11V22" stroke="currentColor" strokeWidth="2" />
+                  </svg>
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                    <span className="text-[10px] font-mono text-[#d4af37] tracking-[0.25em] uppercase font-semibold flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#d4af37]" />
+                      FEATURED HIGHLIGHT
+                    </span>
+                    <span className="text-[9px] font-mono text-stone-400 uppercase">05:30 AM</span>
+                  </div>
+
+                  <div className="mt-4 space-y-2">
+                    <h3 className="font-serif text-xl sm:text-2xl text-[#f5f2eb] font-normal leading-tight group-hover:text-[#d4af37] transition-colors">
+                      Dawn Paddle &amp; Bird Watching
+                    </h3>
+                    <p className="text-xs text-stone-300 font-light leading-relaxed">
+                      Silent 5:30 AM guided navigation across King Dhatusena&apos;s ancient waters as lake wildlife awakens.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="pt-6 space-y-3">
+                  <div className="bg-[#0B1914]/60 border border-white/10 rounded-xl p-3 space-y-1.5 text-xs">
+                    <div className="flex items-center justify-between text-stone-300 font-mono text-[11px]">
+                      <span>Session:</span>
+                      <span className="text-[#f5f2eb]">05:30 AM – 08:30 AM</span>
+                    </div>
+                    <div className="flex items-center justify-between text-stone-300 font-mono text-[11px]">
+                      <span>GPS Ref:</span>
+                      <span className="text-[#d4af37]">8.0264° N, 80.5284° E</span>
+                    </div>
+                  </div>
+
+                  <Link
+                    href="/packages"
+                    onClick={() => setMenuDrawerOpen(false)}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-[#d4af37] hover:text-white transition-colors"
                   >
-                    <svg className="w-3.5 h-3.5 text-[#d4af37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                    <span>SEARCH</span>
-                  </button>
+                    <span>View Expedition Details</span>
+                    <span>→</span>
+                  </Link>
+                </div>
+              </div>
 
-                  {userProfile ? (
-                    <Link
-                      href="/account"
-                      onClick={() => setMenuDrawerOpen(false)}
-                      className="px-4 py-2 rounded-full border border-[#d4af37]/60 text-[#d4af37] text-xs font-mono tracking-wider uppercase flex items-center gap-2 bg-[#d4af37]/10"
-                    >
-                      <span>👤 MY ACCOUNT</span>
-                    </Link>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        setMenuDrawerOpen(false);
-                        setHeaderAuthOpen(true);
-                      }}
-                      className="px-4 py-2 rounded-full border border-white/20 text-stone-200 text-xs font-mono tracking-wider uppercase flex items-center gap-2 bg-white/5 cursor-pointer"
-                    >
-                      <span>🔑 SIGN IN</span>
-                    </button>
-                  )}
+              {/* COLUMN 3: Lake Atmosphere Showcase Card */}
+              <div className="rounded-2xl overflow-hidden relative group border border-white/10 shadow-xl min-h-[320px] flex flex-col justify-between p-6 bg-[#13241E]">
+                <Image
+                  src="/images/wildlife-elephant.jpg"
+                  alt="Kalawewa Wildlife Corridor"
+                  fill
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  sizes="(max-width: 1200px) 100vw, 25vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#07130E] via-[#07130E]/60 to-black/20" />
 
+                <div className="relative z-10 flex items-center justify-between border-b border-white/20 pb-3">
+                  <span className="text-[10px] font-mono text-[#d4af37] tracking-[0.25em] uppercase font-semibold">
+                    WILDLIFE CORRIDOR
+                  </span>
+                  <span className="text-[9px] font-mono text-white/80 uppercase px-2 py-0.5 rounded-full bg-black/40 border border-white/10">
+                    PROTECTED
+                  </span>
+                </div>
+
+                <div className="relative z-10 mt-auto pt-6 space-y-2">
+                  <h4 className="font-serif text-lg text-white font-normal leading-snug">
+                    Elephant Corridor &amp; Wetland Habitat
+                  </h4>
+                  <p className="text-xs text-stone-300 font-light leading-relaxed line-clamp-2">
+                    Ancient hydraulic reservoir supporting over 120 bird species &amp; wild elephant herds.
+                  </p>
+                  
+                  <Link
+                    href="/safety"
+                    onClick={() => setMenuDrawerOpen(false)}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-[#d4af37] hover:text-white transition-colors pt-2"
+                  >
+                    <span>Explore Route</span>
+                    <span>→</span>
+                  </Link>
+                </div>
+              </div>
+
+              {/* COLUMN 4: Quick Action & Booking Status Card */}
+              <div className="bg-[#0B1914] border border-[#d4af37]/30 rounded-2xl p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:border-[#d4af37]/60 transition-all duration-300">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/40 text-[#d4af37] text-[10px] font-mono uppercase tracking-widest">
+                      <span className="w-2 h-2 rounded-full bg-[#d4af37] animate-pulse" />
+                      4 SLOTS LEFT TODAY
+                    </span>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h4 className="font-serif text-xl text-[#f5f2eb] font-normal">
+                      Instant Reservation
+                    </h4>
+                    <p className="text-xs text-stone-300 font-light leading-relaxed">
+                      Lock in your private paddle session with pay-on-arrival flexibility &amp; full equipment briefing.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="pt-6 space-y-3">
                   <button
                     onClick={(e) => {
                       setMenuDrawerOpen(false);
                       handleBookingClick(e);
                     }}
-                    className="px-5 py-2 rounded-full bg-[#d4af37] hover:bg-[#b8972e] text-[#07130E] text-xs font-semibold tracking-wider uppercase cursor-pointer"
+                    className="w-full py-3 px-4 bg-[#d4af37] hover:bg-[#b8972e] text-[#07130E] text-xs font-semibold uppercase tracking-wider rounded-full text-center transition-all shadow-lg hover:scale-[1.02] cursor-pointer"
                   >
-                    RESERVE NOW
+                    INSTANT RESERVATION
                   </button>
+
+                  <a
+                    href="https://wa.me/94771234567"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-2.5 px-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#d4af37]/50 text-stone-200 hover:text-[#d4af37] text-xs font-medium uppercase tracking-wider rounded-full text-center transition-all flex items-center justify-center gap-2"
+                  >
+                    <span>💬 WhatsApp Concierge</span>
+                  </a>
                 </div>
               </div>
 
-              {/* Right Visual Preview Card */}
-              <div className="hidden lg:flex lg:col-span-5 flex-col space-y-4">
-                <div className="relative h-56 rounded-2xl overflow-hidden border border-white/15 shadow-xl group bg-[#13241E]">
-                  <Image
-                    src={PREVIEW_ITEMS[activePreviewIndex].image}
-                    alt={PREVIEW_ITEMS[activePreviewIndex].label}
-                    fill
-                    className="object-cover object-center transition-all duration-700 group-hover:scale-105"
-                    sizes="(max-width: 1200px) 100vw, 40vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#07130E] via-black/20 to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3 z-10">
-                    <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-[#d4af37] font-medium block mb-0.5">
-                      PREVIEW {PREVIEW_ITEMS[activePreviewIndex].num}
-                    </span>
-                    <span className="text-xs font-serif text-[#f5f2eb] font-normal block leading-tight">
-                      {PREVIEW_ITEMS[activePreviewIndex].caption}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="bg-[#07130E]/80 border border-white/10 rounded-2xl p-4 space-y-2.5 text-xs">
-                  <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                    <span className="text-stone-400 font-light">Operating Hours:</span>
-                    <span className="text-[#f5f2eb] font-medium">6:00 AM – 6:00 PM</span>
-                  </div>
-                  <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                    <span className="text-stone-400 font-light">GPS Coordinates:</span>
-                    <span className="text-[#d4af37] font-mono">8.0264° N, 80.5284° E</span>
-                  </div>
-                  <div className="pt-1 flex items-center gap-2">
-                    <a
-                      href="tel:+94771234567"
-                      className="flex-1 py-1.5 px-3 bg-[#13241E] hover:bg-[#1a3028] border border-white/20 text-[#f3efe6] text-[11px] transition-colors rounded-xl flex items-center justify-center gap-1"
-                    >
-                      <span>📞 Call Us</span>
-                    </a>
-                    <a
-                      href="https://wa.me/94771234567"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 py-1.5 px-3 bg-[#132b22] border border-[#d4af37]/40 text-[#d4af37] text-[11px] transition-colors rounded-xl flex items-center justify-center gap-1"
-                    >
-                      <span>💬 WhatsApp</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
             </div>
 
-            {/* Footer inside Floating Card */}
-            <div className="flex flex-col sm:flex-row items-center justify-between text-[11px] text-stone-400 border-t border-white/10 pt-4 shrink-0 gap-2">
-              <div className="flex items-center gap-4">
-                <span>© Kayaking Kalawewa</span>
+            {/* Footer Bar inside Mega-Drawer */}
+            <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-stone-400 border-t border-white/10 pt-4 shrink-0 gap-3">
+              <div className="flex items-center gap-6">
+                <span>© Kayaking Kalawewa Sanctuary</span>
                 <Link
                   href="/admin"
                   onClick={() => setMenuDrawerOpen(false)}
@@ -385,13 +444,23 @@ export default function Header({ onOpenBooking }: HeaderProps) {
                   Operator Access →
                 </Link>
               </div>
-              <a
-                href="mailto:expeditions@kalawewakayak.lk"
-                className="text-[#f3efe6] hover:text-[#d4af37] transition-colors"
-              >
-                expeditions@kalawewakayak.lk
-              </a>
+              <div className="flex items-center gap-4">
+                <a
+                  href="tel:+94771234567"
+                  className="text-stone-300 hover:text-[#d4af37] transition-colors"
+                >
+                  +94 77 123 4567
+                </a>
+                <span className="text-white/20">•</span>
+                <a
+                  href="mailto:expeditions@kalawewakayak.lk"
+                  className="text-[#f3efe6] hover:text-[#d4af37] transition-colors"
+                >
+                  expeditions@kalawewakayak.lk
+                </a>
+              </div>
             </div>
+
           </div>
         </div>
       )}

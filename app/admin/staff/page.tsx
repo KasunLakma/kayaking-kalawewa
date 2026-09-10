@@ -50,6 +50,8 @@ const AVAILABLE_EXPEDITIONS = [
   'Emergency Rapid Response & Safety Protocol',
 ];
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 function formatTimeAgo(dateStr: string): string {
   if (!dateStr) return 'N/A';
   try {
@@ -130,6 +132,7 @@ export default function StaffManagementPage() {
     status: 'ACTIVE' as 'ACTIVE' | 'OFF_DUTY' | 'SUSPENDED',
     expeditions: [] as string[],
   });
+  const [emailError, setEmailError] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   // Check stored auth session
@@ -223,6 +226,7 @@ export default function StaffManagementPage() {
       status: 'ACTIVE',
       expeditions: [AVAILABLE_EXPEDITIONS[0]],
     });
+    setEmailError('');
     setShowInviteModal(true);
   };
 
@@ -237,6 +241,7 @@ export default function StaffManagementPage() {
       status: staff.status,
       expeditions: staff.expeditions || [],
     });
+    setEmailError('');
   };
 
   // Toggle Expedition Checkbox Selection
@@ -254,13 +259,18 @@ export default function StaffManagementPage() {
   // Handle Invite Form Submission
   const handleInviteSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.fullName || !formData.email) return;
+    if (!formData.fullName) return;
+
+    if (!formData.email || !EMAIL_REGEX.test(formData.email.trim())) {
+      setEmailError('Please enter a valid email address');
+      return;
+    }
 
     setIsSubmitting(true);
     try {
       const created = await saveStaffMemberToFirestore({
         fullName: formData.fullName,
-        email: formData.email,
+        email: formData.email.trim(),
         phone: formData.phone || '+94770000000',
         role: formData.role,
         status: formData.status,
@@ -271,6 +281,7 @@ export default function StaffManagementPage() {
 
       setStaffList((prev) => [created, ...prev]);
       setShowInviteModal(false);
+      setEmailError('');
       await loadData();
     } catch (err) {
       console.error('Failed to invite staff:', err);
@@ -284,11 +295,16 @@ export default function StaffManagementPage() {
     e.preventDefault();
     if (!editingStaff) return;
 
+    if (!formData.email || !EMAIL_REGEX.test(formData.email.trim())) {
+      setEmailError('Please enter a valid email address');
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const updates = {
         fullName: formData.fullName,
-        email: formData.email,
+        email: formData.email.trim(),
         phone: formData.phone,
         role: formData.role,
         status: formData.status,
@@ -311,6 +327,7 @@ export default function StaffManagementPage() {
       );
 
       setEditingStaff(null);
+      setEmailError('');
       await loadData();
     } catch (err) {
       console.error('Failed to update staff:', err);
@@ -735,7 +752,7 @@ export default function StaffManagementPage() {
               </p>
             </div>
 
-            <form onSubmit={handleInviteSubmit} className="space-y-4 text-xs">
+            <form onSubmit={handleInviteSubmit} noValidate className="space-y-4 text-xs">
               <div>
                 <label className="block text-[11px] font-medium uppercase tracking-wider text-[#C8A97E] mb-1.5">
                   Full Name *
@@ -759,10 +776,23 @@ export default function StaffManagementPage() {
                     type="email"
                     required
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setFormData({ ...formData, email: val });
+                      if (emailError && EMAIL_REGEX.test(val.trim())) {
+                        setEmailError('');
+                      }
+                    }}
                     placeholder="priyantha@kalawewakayaking.com"
-                    className="w-full px-4 py-3 bg-[#13241E] border border-white/20 text-xs text-[#F4F1EA] focus:outline-none focus:border-[#C8A97E] rounded-lg"
+                    className={`w-full px-4 py-3 bg-[#13241E] border ${
+                      emailError ? 'border-red-500/80 focus:border-red-500' : 'border-white/20 focus:border-[#C8A97E]'
+                    } text-xs text-[#F4F1EA] focus:outline-none rounded-lg`}
                   />
+                  {emailError && (
+                    <p className="text-red-400 text-[11px] mt-1 font-light" id="email-error">
+                      {emailError}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -886,7 +916,7 @@ export default function StaffManagementPage() {
               </p>
             </div>
 
-            <form onSubmit={handleEditSubmit} className="space-y-4 text-xs">
+            <form onSubmit={handleEditSubmit} noValidate className="space-y-4 text-xs">
               <div>
                 <label className="block text-[11px] font-medium uppercase tracking-wider text-[#C8A97E] mb-1.5">
                   Full Name
@@ -909,9 +939,22 @@ export default function StaffManagementPage() {
                     type="email"
                     required
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 bg-[#13241E] border border-white/20 text-xs text-[#F4F1EA] focus:outline-none focus:border-[#C8A97E] rounded-lg"
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setFormData({ ...formData, email: val });
+                      if (emailError && EMAIL_REGEX.test(val.trim())) {
+                        setEmailError('');
+                      }
+                    }}
+                    className={`w-full px-4 py-3 bg-[#13241E] border ${
+                      emailError ? 'border-red-500/80 focus:border-red-500' : 'border-white/20 focus:border-[#C8A97E]'
+                    } text-xs text-[#F4F1EA] focus:outline-none rounded-lg`}
                   />
+                  {emailError && (
+                    <p className="text-red-400 text-[11px] mt-1 font-light">
+                      {emailError}
+                    </p>
+                  )}
                 </div>
 
                 <div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import BookingModal from './BookingModal';
@@ -29,26 +29,33 @@ const PREVIEW_ITEMS = [
   },
   {
     num: '03',
-    label: 'About Kalawewa',
+    label: 'Lake Heritage',
     href: '/#about',
     image: '/images/about-elephant.jpg',
     caption: 'Hydraulic Heritage of King Dhatusena',
   },
   {
     num: '04',
-    label: 'Heritage & Safety',
-    href: '/#impact',
+    label: 'Safety & Impact',
+    href: '/safety',
     image: '/images/wildlife-elephant.jpg',
     caption: 'Elephant Corridor & Wetland Protection',
   },
   {
     num: '05',
-    label: 'Reserve Slot',
+    label: 'Privileges & Reserve',
     href: '/booking',
     image: '/images/sunset-romance.jpg',
     caption: 'Instant Slot Confirmation with Pay-on-Arrival',
     isBookingTrigger: true,
   },
+];
+
+const DESKTOP_NAV_LINKS = [
+  { label: 'Expeditions', href: '/packages' },
+  { label: 'Lake Heritage', href: '/#about' },
+  { label: 'Safety', href: '/safety' },
+  { label: 'Privileges', href: '/booking' },
 ];
 
 export default function Header({ onOpenBooking }: HeaderProps) {
@@ -58,8 +65,22 @@ export default function Header({ onOpenBooking }: HeaderProps) {
   const [localBookingOpen, setLocalBookingOpen] = useState(false);
   const [headerAuthOpen, setHeaderAuthOpen] = useState(false);
   const [activePreviewIndex, setActivePreviewIndex] = useState<number>(0);
+  const [scrolled, setScrolled] = useState(false);
 
-  const handleBookingClick = () => {
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleBookingClick = (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
     if (onOpenBooking) {
       onOpenBooking();
     } else {
@@ -69,104 +90,159 @@ export default function Header({ onOpenBooking }: HeaderProps) {
 
   return (
     <>
-      {/* Top Header Pinned to Top */}
-      <header className="fixed top-0 inset-x-0 z-50 bg-[#0B1914]/70 backdrop-blur-md border-b border-white/10 px-6 sm:px-10 lg:px-16 py-4.5 transition-all duration-300">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          
-          {/* Left: Rounded Hamburger Menu button ("☰ MENU") */}
-          <button
-            onClick={() => setMenuDrawerOpen(!menuDrawerOpen)}
-            className="px-4 py-2.5 min-h-[44px] min-w-[44px] rounded-full border border-white/30 hover:border-white text-white text-xs font-medium uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2.5 cursor-pointer bg-black/20 backdrop-blur-sm"
-            aria-label="Toggle Menu"
-          >
-            <span className="text-sm">☰</span>
-            <span>MENU</span>
-          </button>
-
-          {/* Center: Minimalist Logo with organic wave icon and clean uppercase serif text */}
-          <Link href="/" className="flex flex-col items-center group">
-            <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-[#C8A97E] group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" />
+      {/* 1. FLOATING CONTAINER & POSITIONING */}
+      <div className="fixed top-6 inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
+        <header
+          className={`pointer-events-auto w-full max-w-4xl bg-[#07130E]/75 backdrop-blur-md border border-white/10 rounded-full px-4 sm:px-6 py-3 shadow-2xl flex items-center justify-between transition-all duration-300 ${
+            scrolled ? 'shadow-black/50 border-white/20 bg-[#07130E]/90' : ''
+          }`}
+        >
+          {/* 2. BRANDING: Minimalist logo / monogram with gold accent */}
+          <Link href="/" className="flex items-center gap-2.5 group">
+            {/* Luxury Paddle & Water Monogram SVG with Gold Accent */}
+            <div className="relative w-8 h-8 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/40 flex items-center justify-center group-hover:border-[#d4af37] transition-all shrink-0">
+              <svg
+                className="w-4 h-4 text-[#d4af37] group-hover:scale-110 transition-transform duration-300"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M12 2L15 8.5C14 10 12 11 12 11C12 11 10 10 9 8.5L12 2Z" fill="currentColor" fillOpacity="0.2" />
+                <path d="M12 2L15 8.5C14 10 12 11 12 11C12 11 10 10 9 8.5L12 2Z" />
+                <path d="M12 11V22" />
+                <path d="M4 17C6.5 15.5 9.5 15.5 12 17C14.5 18.5 17.5 18.5 20 17" />
               </svg>
-              <span className="font-serif text-xl sm:text-2xl font-light tracking-[0.3em] text-[#F4F1EA] group-hover:text-[#C8A97E] transition-colors leading-none uppercase">
+            </div>
+            <div className="flex flex-col">
+              <span className="font-serif text-sm sm:text-base font-medium tracking-[0.25em] text-[#F4F1EA] group-hover:text-[#d4af37] transition-colors leading-none uppercase">
                 KALAWEWA
               </span>
+              <span className="text-[8px] font-mono tracking-[0.3em] text-[#d4af37] uppercase mt-0.5 opacity-90 hidden sm:block">
+                EXPEDITIONS
+              </span>
             </div>
-            <span className="text-[9px] font-medium tracking-[0.35em] text-[#C8A97E] uppercase mt-1">
-              ADVENTURES &amp; EXPEDITIONS
-            </span>
           </Link>
 
-          {/* Right: Minimal Search icon + Auth / Account button + secondary gold outline action */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          {/* 2. CENTER: Desktop Navigation Links */}
+          <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+            {DESKTOP_NAV_LINKS.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="text-stone-300 hover:text-white text-xs uppercase tracking-[0.2em] font-medium transition-colors px-3 py-1.5 rounded-full hover:bg-white/5"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* 2. RIGHT: Sleek Action Button & Utilities */}
+          <div className="flex items-center gap-2">
+            {/* Minimal Search Button */}
             <button
               onClick={() => setSearchModalOpen(true)}
-              className="p-2.5 min-w-[44px] min-h-[44px] text-white/80 hover:text-[#C8A97E] transition-colors cursor-pointer flex items-center justify-center"
+              className="p-2 text-stone-300 hover:text-[#d4af37] transition-colors rounded-full hover:bg-white/5 cursor-pointer"
               aria-label="Search Expeditions"
               title="Search Expeditions"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </button>
 
+            {/* Auth / Account indicator */}
             {userProfile ? (
               <Link
                 href="/account"
-                className="px-3 sm:px-4 py-2 min-h-[40px] border border-[#d4af37]/60 hover:border-[#d4af37] bg-[#d4af37]/10 text-[#d4af37] text-[10px] font-mono tracking-widest uppercase transition-all rounded-full flex items-center gap-1.5"
+                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-mono tracking-widest text-[#d4af37] border border-[#d4af37]/40 hover:border-[#d4af37] bg-[#d4af37]/10 rounded-full transition-all"
+                title="View Account"
               >
                 <span>👤</span>
-                <span className="hidden sm:inline">{userProfile.fullName.split(' ')[0]}</span>
-                <span className="sm:hidden">ACCOUNT</span>
+                <span className="truncate max-w-[80px]">{userProfile.fullName.split(' ')[0]}</span>
               </Link>
             ) : (
               <button
                 onClick={() => setHeaderAuthOpen(true)}
-                className="px-3 sm:px-4 py-2 min-h-[40px] border border-white/20 hover:border-[#d4af37] text-stone-200 hover:text-[#d4af37] text-[10px] font-mono tracking-widest uppercase transition-all rounded-full flex items-center gap-1.5 cursor-pointer bg-white/[0.03]"
+                className="hidden sm:flex items-center gap-1 px-3 py-1.5 text-[10px] font-mono tracking-widest text-stone-300 hover:text-[#d4af37] border border-white/10 hover:border-[#d4af37]/50 rounded-full transition-all bg-white/[0.02] cursor-pointer"
+                title="Sign In"
               >
                 <span>🔑</span>
                 <span>SIGN IN</span>
               </button>
             )}
 
-            <Link
-              href="/#packages"
-              className="px-3 sm:px-5 py-2.5 min-h-[44px] border border-[#C8A97E]/70 hover:border-[#C8A97E] hover:bg-[#C8A97E]/10 text-[#C8A97E] hover:text-white text-[11px] font-semibold uppercase tracking-[0.18em] transition-all duration-300 shadow-sm cursor-pointer rounded-none inline-flex items-center justify-center text-center hidden md:inline-flex"
+            {/* Compact Luxury CTA Button */}
+            <button
+              onClick={handleBookingClick}
+              className="bg-[#d4af37] hover:bg-[#b8972e] text-[#07130E] text-xs font-semibold tracking-wider uppercase px-4 sm:px-5 py-2 rounded-full transition-all shadow-md hover:scale-105 cursor-pointer whitespace-nowrap"
             >
-              EXPLORE
-            </Link>
+              RESERVE
+            </button>
+
+            {/* 3. MOBILE HAMBURGER INTEGRATION */}
+            <button
+              onClick={() => setMenuDrawerOpen(!menuDrawerOpen)}
+              className="md:hidden flex items-center justify-center p-2 rounded-full text-stone-200 hover:text-[#d4af37] hover:bg-white/5 transition-all cursor-pointer"
+              aria-label="Toggle Menu"
+            >
+              <div className="w-5 h-5 relative flex flex-col justify-center gap-1.5">
+                <span
+                  className={`block h-0.5 bg-current rounded-full transition-all duration-300 origin-center ${
+                    menuDrawerOpen ? 'rotate-45 translate-y-1' : ''
+                  }`}
+                />
+                <span
+                  className={`block h-0.5 bg-current rounded-full transition-all duration-300 ${
+                    menuDrawerOpen ? 'opacity-0 scale-x-0' : 'w-5'
+                  }`}
+                />
+                <span
+                  className={`block h-0.5 bg-current rounded-full transition-all duration-300 origin-center ${
+                    menuDrawerOpen ? '-rotate-45 -translate-y-1' : ''
+                  }`}
+                />
+              </div>
+            </button>
           </div>
-        </div>
-      </header>
+        </header>
+      </div>
 
-      {/* Fullscreen Editorial 2-Column Overlay Menu Drawer */}
+      {/* 3. FULL-SCREEN FROSTED OVERLAY MENU DRAWER */}
       {menuDrawerOpen && (
-        <div className="fixed inset-0 z-50 bg-[#0B1914]/98 backdrop-blur-xl border-l border-white/15 flex flex-col justify-between p-6 sm:p-10 lg:p-12 text-[#f5f2eb] overflow-y-auto pb-safe h-screen min-h-dvh">
-          
-          {/* Top Header Controls Bar */}
-          <div className="flex items-center justify-between max-w-7xl mx-auto w-full pb-6 border-b border-white/15 shrink-0">
-            {/* Top subtle branding watermark */}
-            <div className="text-xs font-mono text-[#d4af37] tracking-[0.25em] uppercase font-medium flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#d4af37] animate-pulse" />
-              <span>KALAWEWA — SANCTUARY EXPEDITIONS</span>
-            </div>
+        <div className="fixed inset-0 z-50 bg-[#07130E]/95 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-10 lg:p-12 text-[#f5f2eb] overflow-y-auto pb-safe animate-in fade-in duration-300">
+          {/* Top Control Bar inside Mobile/Fullscreen Drawer */}
+          <div className="flex items-center justify-between max-w-7xl mx-auto w-full pb-6 border-b border-white/10 shrink-0">
+            <Link
+              href="/"
+              onClick={() => setMenuDrawerOpen(false)}
+              className="flex items-center gap-2"
+            >
+              <div className="w-7 h-7 rounded-full bg-[#d4af37]/20 border border-[#d4af37] flex items-center justify-center text-[#d4af37]">
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M12 2L15 8.5C14 10 12 11 12 11C12 11 10 10 9 8.5L12 2Z" />
+                  <path d="M12 11V22" />
+                </svg>
+              </div>
+              <span className="font-serif text-lg tracking-[0.25em] text-[#F4F1EA] uppercase">
+                KALAWEWA
+              </span>
+            </Link>
 
-            {/* Sleek Minimalist Circular Close Button */}
             <button
               onClick={() => setMenuDrawerOpen(false)}
-              className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full border border-white/20 flex items-center justify-center hover:rotate-90 hover:border-[#d4af37] text-[#d4af37] hover:text-white transition-all duration-300 cursor-pointer shadow-lg bg-[#0B1914]"
+              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:rotate-90 hover:border-[#d4af37] text-[#d4af37] hover:text-white transition-all duration-300 cursor-pointer bg-[#07130E]"
               aria-label="Close Navigation Menu"
-              title="Close Menu"
             >
               <span className="text-base font-bold">✕</span>
             </button>
           </div>
 
-          {/* Main 2-Column Split Structure */}
+          {/* Main Content Area */}
           <div className="max-w-7xl mx-auto w-full my-auto py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
-            {/* LEFT COLUMN: 60% Width (col-span-7) */}
+            {/* Left Nav Column */}
             <div className="lg:col-span-7 flex flex-col justify-center space-y-1">
               <nav className="flex flex-col">
                 {PREVIEW_ITEMS.map((item, idx) => {
@@ -182,7 +258,7 @@ export default function Header({ onOpenBooking }: HeaderProps) {
                     <div
                       key={item.num}
                       onMouseEnter={() => setActivePreviewIndex(idx)}
-                      className="group border-b border-white/15 py-4 transition-all"
+                      className="group border-b border-white/10 py-4 transition-all"
                     >
                       <Link
                         href={item.href}
@@ -193,12 +269,10 @@ export default function Header({ onOpenBooking }: HeaderProps) {
                           <span className="text-xs font-mono text-[#d4af37] tracking-widest font-medium">
                             {item.num}.
                           </span>
-                          <span className="font-serif text-2xl sm:text-3xl lg:text-4xl text-[#f5f2eb] group-hover:text-[#d4af37] transition-colors duration-300">
+                          <span className="font-serif text-xl sm:text-3xl lg:text-4xl text-[#f5f2eb] group-hover:text-[#d4af37] transition-colors duration-300">
                             {item.label}
                           </span>
                         </div>
-                        
-                        {/* Arrow Indicator */}
                         <span className="text-[#d4af37] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-lg">
                           →
                         </span>
@@ -207,11 +281,46 @@ export default function Header({ onOpenBooking }: HeaderProps) {
                   );
                 })}
               </nav>
+
+              {/* Mobile Quick Action Buttons inside drawer */}
+              <div className="flex flex-wrap items-center gap-3 pt-6 md:hidden">
+                <button
+                  onClick={() => {
+                    setMenuDrawerOpen(false);
+                    setSearchModalOpen(true);
+                  }}
+                  className="px-4 py-2.5 rounded-full border border-white/20 text-stone-200 text-xs font-mono tracking-wider uppercase flex items-center gap-2 bg-white/5 cursor-pointer"
+                >
+                  <svg className="w-3.5 h-3.5 text-[#d4af37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  <span>SEARCH</span>
+                </button>
+
+                {userProfile ? (
+                  <Link
+                    href="/account"
+                    onClick={() => setMenuDrawerOpen(false)}
+                    className="px-4 py-2.5 rounded-full border border-[#d4af37]/60 text-[#d4af37] text-xs font-mono tracking-wider uppercase flex items-center gap-2 bg-[#d4af37]/10"
+                  >
+                    <span>👤 MY ACCOUNT</span>
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setMenuDrawerOpen(false);
+                      setHeaderAuthOpen(true);
+                    }}
+                    className="px-4 py-2.5 rounded-full border border-white/20 text-stone-200 text-xs font-mono tracking-wider uppercase flex items-center gap-2 bg-white/5 cursor-pointer"
+                  >
+                    <span>🔑 SIGN IN</span>
+                  </button>
+                )}
+              </div>
             </div>
 
-            {/* RIGHT COLUMN: 40% Width (col-span-5) - Hidden on Mobile */}
+            {/* Right Preview Column (Desktop/Tablet) */}
             <div className="hidden lg:flex lg:col-span-5 flex-col space-y-5">
-              {/* Dynamic Visual Preview Frame */}
               <div className="relative h-72 rounded-2xl overflow-hidden border border-white/15 shadow-2xl group bg-[#13241E]">
                 <Image
                   src={PREVIEW_ITEMS[activePreviewIndex].image}
@@ -220,7 +329,7 @@ export default function Header({ onOpenBooking }: HeaderProps) {
                   className="object-cover object-center transition-all duration-700 group-hover:scale-105"
                   sizes="(max-width: 1200px) 100vw, 40vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1914] via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#07130E] via-black/20 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4 z-10">
                   <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#d4af37] font-medium block mb-0.5">
                     PREVIEW {PREVIEW_ITEMS[activePreviewIndex].num}
@@ -231,85 +340,64 @@ export default function Header({ onOpenBooking }: HeaderProps) {
                 </div>
               </div>
 
-              {/* Bottom Meta Card */}
-              <div className="bg-[#13241E]/95 border border-white/15 rounded-2xl p-5 space-y-3.5 text-sm">
-                <div className="flex items-center justify-between border-b border-white/15 pb-2.5">
-                  <span className="text-stone-300 font-light">Operating Hours:</span>
-                  <span className="text-[#f5f2eb] font-medium">6:00 AM – 6:00 PM Daily</span>
+              {/* Information Meta Card */}
+              <div className="bg-[#07130E]/90 border border-white/15 rounded-2xl p-5 space-y-3 text-sm">
+                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                  <span className="text-stone-300 font-light text-xs">Operating Hours:</span>
+                  <span className="text-[#f5f2eb] font-medium text-xs">6:00 AM – 6:00 PM Daily</span>
                 </div>
-                
-                <div className="flex items-center justify-between border-b border-white/15 pb-2.5">
-                  <span className="text-stone-300 font-light">GPS Coordinates:</span>
-                  <span className="text-[#d4af37] font-mono font-medium">8.0264° N, 80.5284° E</span>
+                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                  <span className="text-stone-300 font-light text-xs">GPS Coordinates:</span>
+                  <span className="text-[#d4af37] font-mono text-xs">8.0264° N, 80.5284° E</span>
                 </div>
-
-                {/* Unified Contact Action Row */}
-                <div className="pt-2 flex flex-col sm:flex-row items-center gap-3">
+                <div className="pt-2 flex items-center gap-3">
                   <a
                     href="tel:+94771234567"
-                    className="flex-1 w-full py-2.5 px-3 bg-[#13241E] hover:bg-[#1a3028] border border-white/20 hover:border-[#d4af37] text-[#f3efe6] hover:text-[#d4af37] text-sm tracking-wider transition-colors rounded-xl flex items-center justify-center gap-2 font-medium shadow-md"
+                    className="flex-1 py-2 px-3 bg-[#13241E] hover:bg-[#1a3028] border border-white/20 text-[#f3efe6] text-xs transition-colors rounded-xl flex items-center justify-center gap-1.5"
                   >
-                    <span>📞 +94 77 123 4567</span>
+                    <span>📞 Call Us</span>
                   </a>
                   <a
                     href="https://wa.me/94771234567"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 w-full py-2.5 px-3 bg-[#132b22]/90 hover:bg-[#132b22] border border-[#d4af37]/40 hover:border-[#d4af37] text-[#f3efe6] hover:text-[#d4af37] text-sm tracking-wider transition-colors rounded-xl flex items-center justify-center gap-2 font-medium shadow-md"
+                    className="flex-1 py-2 px-3 bg-[#132b22] border border-[#d4af37]/40 text-[#d4af37] text-xs transition-colors rounded-xl flex items-center justify-center gap-1.5"
                   >
-                    <span>💬 WhatsApp Concierge</span>
+                    <span>💬 WhatsApp</span>
                   </a>
                 </div>
               </div>
             </div>
-
           </div>
 
-          {/* Footer Bar: Copyright & Discreet Operator Access Link */}
-          <div className="max-w-7xl mx-auto w-full flex flex-col sm:flex-row items-center justify-between text-sm text-stone-300 font-light border-t border-white/15 pt-5 shrink-0 gap-3">
+          {/* Footer Bar inside drawer */}
+          <div className="max-w-7xl mx-auto w-full flex flex-col sm:flex-row items-center justify-between text-xs text-stone-400 border-t border-white/10 pt-5 shrink-0 gap-3">
             <div className="flex items-center gap-6">
               <span>© Kayaking Kalawewa Luxury Eco-Resort</span>
-              {/* Discreet Operator Access Link */}
               <Link
                 href="/admin"
                 onClick={() => setMenuDrawerOpen(false)}
-                className="text-xs text-stone-300 hover:text-[#d4af37] tracking-widest uppercase transition-colors"
+                className="hover:text-[#d4af37] tracking-widest uppercase transition-colors"
               >
                 Operator Access →
               </Link>
             </div>
-
-            <div className="flex items-center gap-6">
-              <a
-                href="mailto:expeditions@kalawewakayak.lk"
-                className="text-[#f3efe6] hover:text-[#d4af37] text-sm tracking-wider transition-colors"
-              >
-                expeditions@kalawewakayak.lk
-              </a>
-            </div>
+            <a
+              href="mailto:expeditions@kalawewakayak.lk"
+              className="text-[#f3efe6] hover:text-[#d4af37] transition-colors"
+            >
+              expeditions@kalawewakayak.lk
+            </a>
           </div>
-
         </div>
       )}
 
-      {/* Quick Search Modal */}
-      <SearchModal
-        isOpen={searchModalOpen}
-        onClose={() => setSearchModalOpen(false)}
-      />
-
-      {/* Fallback Local Booking Modal */}
-      <BookingModal
-        isOpen={localBookingOpen}
-        onClose={() => setLocalBookingOpen(false)}
-      />
-
-      {/* Header Auth Modal */}
-      <AuthModal
-        isOpen={headerAuthOpen}
-        onClose={() => setHeaderAuthOpen(false)}
-      />
+      {/* Modals */}
+      <SearchModal isOpen={searchModalOpen} onClose={() => setSearchModalOpen(false)} />
+      <BookingModal isOpen={localBookingOpen} onClose={() => setLocalBookingOpen(false)} />
+      <AuthModal isOpen={headerAuthOpen} onClose={() => setHeaderAuthOpen(false)} />
     </>
   );
 }
+
 

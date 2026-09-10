@@ -80,11 +80,24 @@ export default function RolesManagementPage() {
 
   // 4. Custom Role Creation Modal
   const [showAddRoleModal, setShowAddRoleModal] = useState<boolean>(false);
+  const [roleNameError, setRoleNameError] = useState<string>('');
   const [newRoleData, setNewRoleData] = useState({
     id: '',
     name: '',
     description: '',
   });
+
+  const handleOpenAddRoleModal = () => {
+    setRoleNameError('');
+    setNewRoleData({ id: '', name: '', description: '' });
+    setShowAddRoleModal(true);
+  };
+
+  const handleCloseAddRoleModal = () => {
+    setRoleNameError('');
+    setNewRoleData({ id: '', name: '', description: '' });
+    setShowAddRoleModal(false);
+  };
 
   // Check stored auth session
   useEffect(() => {
@@ -211,13 +224,27 @@ export default function RolesManagementPage() {
   // Handle Add Custom Role
   const handleAddCustomRole = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newRoleData.name) return;
+    const trimmedName = newRoleData.name.trim();
+    if (!trimmedName) return;
 
-    const roleId = newRoleData.id || `custom_role_${Date.now()}`;
+    // Case-insensitive role name uniqueness check against system and custom roles
+    const normalizedInputName = trimmedName.toLowerCase();
+    const isDuplicate = roles.some(
+      (role) => role.name.trim().toLowerCase() === normalizedInputName
+    );
+
+    if (isDuplicate) {
+      setRoleNameError('Role name already exists. Please choose a unique name.');
+      return;
+    }
+
+    setRoleNameError('');
+
+    const roleId = newRoleData.id.trim() || `custom_role_${Date.now()}`;
     const newRole: RoleDefinition = {
       id: roleId.toLowerCase().replace(/\s+/g, '_'),
-      name: newRoleData.name,
-      description: newRoleData.description || 'Custom administrative role.',
+      name: trimmedName,
+      description: newRoleData.description.trim() || 'Custom administrative role.',
       isSystemRole: false,
       permissions: ['bookings.view', 'fleet.view'],
       updatedAt: new Date().toISOString(),
@@ -227,8 +254,7 @@ export default function RolesManagementPage() {
       const created = await saveRoleToFirestore(newRole);
       setRoles((prev) => [...prev, created]);
       setSelectedRoleId(created.id);
-      setShowAddRoleModal(false);
-      setNewRoleData({ id: '', name: '', description: '' });
+      handleCloseAddRoleModal();
       showToast(`New role [${created.name}] registered successfully!`);
     } catch (err) {
       console.error('Failed to add custom role:', err);
@@ -343,7 +369,7 @@ export default function RolesManagementPage() {
             </button>
 
             <button
-              onClick={() => setShowAddRoleModal(true)}
+              onClick={handleOpenAddRoleModal}
               className="px-4 py-2.5 bg-[#C8A97E] hover:bg-[#b5966c] text-[#0B1914] font-bold text-xs uppercase tracking-[0.15em] transition-all flex items-center gap-2 cursor-pointer shadow-lg rounded-xl"
             >
               <Plus className="w-4 h-4" />
@@ -554,7 +580,7 @@ export default function RolesManagementPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
           <div className="bg-[#0B1914] border border-[#C8A97E]/50 p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-6 relative text-[#F4F1EA] rounded-2xl">
             <button
-              onClick={() => setShowAddRoleModal(false)}
+              onClick={handleCloseAddRoleModal}
               className="absolute top-4 right-4 text-stone-400 hover:text-white transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
@@ -571,6 +597,13 @@ export default function RolesManagementPage() {
             </div>
 
             <form onSubmit={handleAddCustomRole} className="space-y-4 text-xs">
+              {roleNameError && (
+                <div className="p-3 bg-red-950/80 border border-red-500/50 text-red-200 text-xs font-light text-center rounded-lg flex items-center justify-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+                  <span>{roleNameError}</span>
+                </div>
+              )}
+
               <div>
                 <label className="block text-[11px] font-medium uppercase tracking-wider text-[#C8A97E] mb-1.5">
                   Role Display Name *
@@ -579,9 +612,14 @@ export default function RolesManagementPage() {
                   type="text"
                   required
                   value={newRoleData.name}
-                  onChange={(e) => setNewRoleData({ ...newRoleData, name: e.target.value })}
+                  onChange={(e) => {
+                    setNewRoleData({ ...newRoleData, name: e.target.value });
+                    if (roleNameError) setRoleNameError('');
+                  }}
                   placeholder="e.g. Safety Compliance Inspector"
-                  className="w-full px-4 py-3 bg-[#13241E] border border-white/20 text-xs text-[#F4F1EA] focus:outline-none focus:border-[#C8A97E] rounded-lg"
+                  className={`w-full px-4 py-3 bg-[#13241E] border ${
+                    roleNameError ? 'border-red-500' : 'border-white/20'
+                  } text-xs text-[#F4F1EA] focus:outline-none focus:border-[#C8A97E] rounded-lg`}
                 />
               </div>
 
@@ -620,7 +658,7 @@ export default function RolesManagementPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setShowAddRoleModal(false)}
+                  onClick={handleCloseAddRoleModal}
                   className="px-5 py-3 border border-white/20 text-stone-300 hover:text-white text-xs uppercase tracking-wider rounded-xl cursor-pointer"
                 >
                   Cancel

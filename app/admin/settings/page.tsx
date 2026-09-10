@@ -25,6 +25,7 @@ import {
   Trash2,
   CreditCard,
   Building,
+  AlertCircle,
 } from 'lucide-react';
 
 export default function GeneralSettingsPage() {
@@ -36,6 +37,9 @@ export default function GeneralSettingsPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [saving, setSaving] = useState<boolean>(false);
   const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<string>('');
+
+  const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 
   // Blackout date input helper
   const [newBlackoutDate, setNewBlackoutDate] = useState<string>('');
@@ -74,10 +78,20 @@ export default function GeneralSettingsPage() {
     }
   };
 
-  const handleSaveSettings = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSaveSettings = async (e?: React.FormEvent) => {
+    if (e && e.preventDefault) {
+      e.preventDefault();
+    }
     if (!settings) return;
 
+    const emailInput = settings.contactDetails?.notificationEmail || '';
+    if (!isValidEmail(emailInput)) {
+      setEmailError('Please enter a valid email address for Reservation Desk Email Recipient');
+      setSaveSuccess(false);
+      return;
+    }
+
+    setEmailError('');
     setSaving(true);
     setSaveSuccess(false);
     try {
@@ -222,6 +236,19 @@ export default function GeneralSettingsPage() {
               <span>System configurations saved successfully to Firestore (system_settings/global).</span>
             </div>
             <button onClick={() => setSaveSuccess(false)} className="text-emerald-400 hover:text-white">
+              &times;
+            </button>
+          </div>
+        )}
+
+        {/* Email Error Validation Toast */}
+        {emailError && (
+          <div className="p-4 bg-red-950/80 border border-red-500/50 rounded-2xl text-red-300 text-xs font-semibold flex items-center justify-between shadow-xl animate-fade-in">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="w-5 h-5 text-red-400 shrink-0" />
+              <span>{emailError}</span>
+            </div>
+            <button onClick={() => setEmailError('')} className="text-red-400 hover:text-white">
               &times;
             </button>
           </div>
@@ -484,14 +511,26 @@ export default function GeneralSettingsPage() {
                 <input
                   type="email"
                   value={settings.contactDetails.notificationEmail}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    const newEmail = e.target.value;
                     setSettings({
                       ...settings,
-                      contactDetails: { ...settings.contactDetails, notificationEmail: e.target.value },
-                    })
-                  }
-                  className="w-full px-3.5 py-2.5 bg-[#0B1914] border border-white/15 rounded-xl text-white focus:outline-none focus:border-[#C8A97E]"
+                      contactDetails: { ...settings.contactDetails, notificationEmail: newEmail },
+                    });
+                    if (isValidEmail(newEmail)) {
+                      setEmailError('');
+                    }
+                  }}
+                  className={`w-full px-3.5 py-2.5 bg-[#0B1914] border ${
+                    emailError ? 'border-red-500' : 'border-white/15'
+                  } rounded-xl text-white focus:outline-none focus:border-[#C8A97E]`}
                 />
+                {emailError && (
+                  <p className="text-[11px] text-red-400 mt-1.5 font-medium flex items-center gap-1.5">
+                    <AlertCircle className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                    <span>{emailError}</span>
+                  </p>
+                )}
               </div>
             </div>
           </div>

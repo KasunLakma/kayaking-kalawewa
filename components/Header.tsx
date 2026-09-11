@@ -373,7 +373,7 @@ export default function Header({ onOpenBooking }: HeaderProps) {
                   {/* Semicircle Image Cutout Framed with Gold Border */}
                   <div className="w-full h-44 sm:h-48 rounded-t-full overflow-hidden relative border border-[#d4af37]/30 mt-4 group bg-[#08140F] shadow-inner">
                     <Image
-                      src="/images/hero-night-moon.jpg"
+                      src="/images/hero-day.jpg"
                       alt="Full Moon Kayak Expedition"
                       fill
                       className="object-cover object-center group-hover:scale-105 transition-transform duration-700"

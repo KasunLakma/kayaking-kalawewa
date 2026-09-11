@@ -61,7 +61,7 @@ export default function WildernessDifference() {
 
           <div className="pt-6">
             <a
-              href="#safety"
+              href="/safety"
               className="inline-block px-8 py-4 border border-[#C8A97E] text-[#F4F1EA] hover:bg-[#C8A97E] hover:text-[#0B1914] text-xs font-medium uppercase tracking-[0.25em] transition-all duration-300 bg-transparent"
             >
               EXPLORE THE HERITAGE

@@ -69,7 +69,7 @@ export default function Home() {
       </main>
 
       {/* 10. Luxury Dark Wilderness Footer */}
-      <Footer />
+      <Footer onOpenBooking={() => handleOpenBooking()} />
 
       {/* Booking Modal Popup */}
       {activeBookingState && (

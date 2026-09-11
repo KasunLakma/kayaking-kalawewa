@@ -371,7 +371,7 @@ export default function PackagesPage() {
       </main>
 
       {/* 6. Footer Sync */}
-      <Footer />
+      <Footer onOpenBooking={(pkgId) => setActiveBookingId(pkgId || packages[0].id)} />
 
       {/* Booking Modal Fallback */}
       {activeBookingId && (

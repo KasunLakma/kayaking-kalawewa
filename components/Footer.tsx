@@ -3,7 +3,11 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-export default function Footer() {
+interface FooterProps {
+  onOpenBooking?: (packageId?: string) => void;
+}
+
+export default function Footer({ onOpenBooking }: FooterProps = {}) {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -102,13 +106,13 @@ export default function Footer() {
               </div>
             </div>
 
-            <div className="pt-2 flex items-center gap-4 text-slate-300">
+            <div className="pt-2 flex items-center gap-4 text-stone-400">
               {/* Facebook */}
               <a
                 href="https://www.facebook.com/share/1CFim8B1AW/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#C8A97E] transition-colors p-2.5 bg-[#13241E] border border-white/10"
+                className="text-stone-400 hover:text-[#d4af37] transition-colors p-2.5 bg-[#13241E] border border-white/10"
                 aria-label="Facebook"
               >
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -120,7 +124,7 @@ export default function Footer() {
                 href="https://www.instagram.com/kayaking_kalawewa_adventures/?hl=en"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#C8A97E] transition-colors p-2.5 bg-[#13241E] border border-white/10"
+                className="text-stone-400 hover:text-[#d4af37] transition-colors p-2.5 bg-[#13241E] border border-white/10"
                 aria-label="Instagram"
               >
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -132,7 +136,7 @@ export default function Footer() {
                 href="https://www.tiktok.com/@kayakingkalawewaadventur?lang=en"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#C8A97E] transition-colors p-2.5 bg-[#13241E] border border-white/10"
+                className="text-stone-400 hover:text-[#d4af37] transition-colors p-2.5 bg-[#13241E] border border-white/10"
                 aria-label="TikTok"
               >
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -151,7 +155,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/packages#sunrise-lotus-drift"
-                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
                 >
                   Sunrise Lotus Drift
                 </Link>
@@ -159,7 +163,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/packages#sunset-romance-couples"
-                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
                 >
                   Sunset Romance &amp; Couples
                 </Link>
@@ -167,7 +171,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/packages#5th-century-island-exploration"
-                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
                 >
                   5th Century Island Exploration
                 </Link>
@@ -175,7 +179,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/packages#wild-elephant-corridor-trail"
-                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
                 >
                   Wild Elephant Corridor Trail
                 </Link>
@@ -183,7 +187,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/packages"
-                  className="text-stone-400 hover:text-[#d4af37] font-medium transition-colors duration-200 cursor-pointer py-1 inline-block"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs font-medium transition-colors duration-200 cursor-pointer block py-1"
                 >
                   All Packages &amp; Expeditions →
                 </Link>
@@ -200,7 +204,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/#impact"
-                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
                 >
                   5th Century Reservoir
                 </Link>
@@ -208,7 +212,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/#impact"
-                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
                 >
                   Asian Elephant Sanctuary
                 </Link>
@@ -216,7 +220,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/#impact"
-                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
                 >
                   Zero-Plastic Standard
                 </Link>
@@ -224,7 +228,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/safety"
-                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
                 >
                   Certified Safety Guides
                 </Link>
@@ -232,7 +236,13 @@ export default function Footer() {
               <li>
                 <Link
                   href="/booking"
-                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                  onClick={(e) => {
+                    if (onOpenBooking) {
+                      e.preventDefault();
+                      onOpenBooking();
+                    }
+                  }}
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
                 >
                   Automated COD Booking
                 </Link>
@@ -252,6 +262,12 @@ export default function Footer() {
               <li>
                 <Link
                   href="/booking"
+                  onClick={(e) => {
+                    if (onOpenBooking) {
+                      e.preventDefault();
+                      onOpenBooking();
+                    }
+                  }}
                   className="text-stone-400 hover:text-[#d4af37] text-xs tracking-wide transition-colors duration-200 cursor-pointer py-1 inline-flex items-center gap-2"
                   aria-label="Cash On-Site (COD) Accepted"
                 >
@@ -262,6 +278,12 @@ export default function Footer() {
               <li>
                 <Link
                   href="/booking"
+                  onClick={(e) => {
+                    if (onOpenBooking) {
+                      e.preventDefault();
+                      onOpenBooking();
+                    }
+                  }}
                   className="text-stone-400 hover:text-[#d4af37] text-xs tracking-wide transition-colors duration-200 cursor-pointer py-1 inline-flex items-center gap-2"
                   aria-label="Instant Booking Confirmation"
                 >
@@ -282,6 +304,12 @@ export default function Footer() {
               <li>
                 <Link
                   href="/packages"
+                  onClick={(e) => {
+                    if (onOpenBooking) {
+                      e.preventDefault();
+                      onOpenBooking();
+                    }
+                  }}
                   className="text-stone-400 hover:text-[#d4af37] text-xs tracking-wide transition-colors duration-200 cursor-pointer py-1 inline-flex items-center gap-2"
                   aria-label="Group Booking Discounts"
                 >
@@ -292,6 +320,12 @@ export default function Footer() {
               <li>
                 <Link
                   href="/packages"
+                  onClick={(e) => {
+                    if (onOpenBooking) {
+                      e.preventDefault();
+                      onOpenBooking();
+                    }
+                  }}
                   className="text-stone-400 hover:text-[#d4af37] text-xs tracking-wide transition-colors duration-200 cursor-pointer py-1 inline-flex items-center gap-2"
                   aria-label="Custom Private Charters"
                 >

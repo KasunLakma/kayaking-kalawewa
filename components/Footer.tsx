@@ -146,119 +146,102 @@ export default function Footer({ onOpenBooking }: FooterProps = {}) {
             </div>
           </div>
 
-          {/* Col 2: Quick Links */}
+          {/* Column 1: EXPEDITIONS */}
           <div className="space-y-3">
             <h4 className="font-medium uppercase text-[#C8A97E] tracking-[0.2em] text-[11px]">
-              Expedition Links
+              EXPEDITIONS
             </h4>
             <ul className="space-y-1 font-light">
               <li>
                 <Link
-                  href="/packages#sunrise-lotus-drift"
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
+                  href="/expeditions"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
-                  Sunrise Lotus Drift
+                  Sunrise Lake Drift
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/packages#sunset-romance-couples"
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
+                  href="/expeditions"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
-                  Sunset Romance &amp; Couples
+                  Sunset Romance &amp; Cocktails
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/packages#5th-century-island-exploration"
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
+                  href="/expeditions"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
                   5th Century Island Exploration
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/packages#wild-elephant-corridor-trail"
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
+                  href="/expeditions"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
-                  Wild Elephant Corridor Trail
+                  Wildlife Corridor Trail
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/packages"
-                  className="text-stone-400 hover:text-[#d4af37] text-xs font-medium transition-colors duration-200 cursor-pointer block py-1"
+                  href="/expeditions"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
-                  All Packages &amp; Expeditions →
+                  All Packages &amp; Rates
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Col 3: Why Kalawewa */}
+          {/* Column 2: DISCOVER KALAWEWA */}
           <div className="space-y-3">
             <h4 className="font-medium uppercase text-[#C8A97E] tracking-[0.2em] text-[11px]">
-              Heritage &amp; Safety
+              DISCOVER KALAWEWA
             </h4>
             <ul className="space-y-1 font-light">
               <li>
                 <Link
-                  href="/#impact"
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
+                  href="/heritage"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
-                  5th Century Reservoir
+                  Ancient Reservoir Heritage
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/#impact"
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
+                  href="/heritage"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
-                  Asian Elephant Sanctuary
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/#impact"
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
-                >
-                  Zero-Plastic Standard
+                  Biodiversity &amp; Wildlife
                 </Link>
               </li>
               <li>
                 <Link
                   href="/safety"
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
-                  Certified Safety Guides
+                  Safety Protocol &amp; Gear
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/booking"
-                  onClick={(e) => {
-                    if (onOpenBooking) {
-                      e.preventDefault();
-                      onOpenBooking();
-                    }
-                  }}
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 cursor-pointer block py-1"
+                  href="/heritage"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
-                  Automated COD Booking
+                  Lake Navigation Map
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Col 4: Resort Privileges */}
+          {/* Column 3: GUEST SERVICES & POLICIES */}
           <div className="space-y-3">
             <h4 className="font-medium uppercase text-[#C8A97E] tracking-[0.2em] text-[11px]">
-              Resort Privileges
+              GUEST SERVICES &amp; POLICIES
             </h4>
-            <ul
-              aria-label="Resort Privileges Navigation"
-              className="space-y-1 font-light"
-            >
+            <ul className="space-y-1 font-light">
               <li>
                 <Link
                   href="/booking"
@@ -268,69 +251,35 @@ export default function Footer({ onOpenBooking }: FooterProps = {}) {
                       onOpenBooking();
                     }
                   }}
-                  className="text-stone-400 hover:text-[#d4af37] text-xs tracking-wide transition-colors duration-200 cursor-pointer py-1 inline-flex items-center gap-2"
-                  aria-label="Cash On-Site (COD) Accepted"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5 cursor-pointer"
                 >
-                  <span className="text-stone-400 text-[10px]">✧</span>
-                  <span>Cash On-Site (COD) Accepted</span>
+                  Book an Expedition
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/booking"
-                  onClick={(e) => {
-                    if (onOpenBooking) {
-                      e.preventDefault();
-                      onOpenBooking();
-                    }
-                  }}
-                  className="text-stone-400 hover:text-[#d4af37] text-xs tracking-wide transition-colors duration-200 cursor-pointer py-1 inline-flex items-center gap-2"
-                  aria-label="Instant Booking Confirmation"
+                  href="https://wa.me/94771234567"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
-                  <span className="text-stone-400 text-[10px]">✧</span>
-                  <span>Instant Booking Confirmation</span>
+                  Inquiries &amp; Support
                 </Link>
               </li>
               <li>
                 <Link
                   href="/terms"
-                  className="text-stone-400 hover:text-[#d4af37] text-xs tracking-wide transition-colors duration-200 cursor-pointer py-1 inline-flex items-center gap-2"
-                  aria-label="Free Cancellation Policy"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
-                  <span className="text-stone-400 text-[10px]">✧</span>
-                  <span>Free Cancellation (24h prior)</span>
+                  Terms of Experience
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/packages"
-                  onClick={(e) => {
-                    if (onOpenBooking) {
-                      e.preventDefault();
-                      onOpenBooking();
-                    }
-                  }}
-                  className="text-stone-400 hover:text-[#d4af37] text-xs tracking-wide transition-colors duration-200 cursor-pointer py-1 inline-flex items-center gap-2"
-                  aria-label="Group Booking Discounts"
+                  href="/privacy"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
-                  <span className="text-stone-400 text-[10px]">✧</span>
-                  <span>Group Booking Discounts</span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/packages"
-                  onClick={(e) => {
-                    if (onOpenBooking) {
-                      e.preventDefault();
-                      onOpenBooking();
-                    }
-                  }}
-                  className="text-stone-400 hover:text-[#d4af37] text-xs tracking-wide transition-colors duration-200 cursor-pointer py-1 inline-flex items-center gap-2"
-                  aria-label="Custom Private Charters"
-                >
-                  <span className="text-stone-400 text-[10px]">✧</span>
-                  <span>Custom Private Charters</span>
+                  Privacy Policy
                 </Link>
               </li>
             </ul>

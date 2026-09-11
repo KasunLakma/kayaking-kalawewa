@@ -19,6 +19,19 @@ export default function Footer({ onOpenBooking }: FooterProps = {}) {
     }
   };
 
+  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.includes('#')) {
+      const id = href.split('#')[1];
+      if (id && typeof window !== 'undefined' && window.location.pathname === '/') {
+        const element = document.getElementById(id);
+        if (element) {
+          e.preventDefault();
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  };
+
   return (
     <footer className="w-full bg-[#0B1914] text-[#F4F1EA] border-t border-white/10 pt-16 md:pt-20 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Subtle Background Glow */}
@@ -154,7 +167,9 @@ export default function Footer({ onOpenBooking }: FooterProps = {}) {
             <ul className="space-y-1 font-light">
               <li>
                 <Link
-                  href="/expeditions"
+                  href="/#packages"
+                  scroll={true}
+                  onClick={(e) => handleAnchorClick(e, '/#packages')}
                   className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
                   Sunrise Lake Drift
@@ -162,7 +177,9 @@ export default function Footer({ onOpenBooking }: FooterProps = {}) {
               </li>
               <li>
                 <Link
-                  href="/expeditions"
+                  href="/#packages"
+                  scroll={true}
+                  onClick={(e) => handleAnchorClick(e, '/#packages')}
                   className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
                   Sunset Romance &amp; Cocktails
@@ -170,7 +187,9 @@ export default function Footer({ onOpenBooking }: FooterProps = {}) {
               </li>
               <li>
                 <Link
-                  href="/expeditions"
+                  href="/#packages"
+                  scroll={true}
+                  onClick={(e) => handleAnchorClick(e, '/#packages')}
                   className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
                   5th Century Island Exploration
@@ -178,7 +197,9 @@ export default function Footer({ onOpenBooking }: FooterProps = {}) {
               </li>
               <li>
                 <Link
-                  href="/expeditions"
+                  href="/#packages"
+                  scroll={true}
+                  onClick={(e) => handleAnchorClick(e, '/#packages')}
                   className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
                   Wildlife Corridor Trail
@@ -186,7 +207,9 @@ export default function Footer({ onOpenBooking }: FooterProps = {}) {
               </li>
               <li>
                 <Link
-                  href="/expeditions"
+                  href="/#packages"
+                  scroll={true}
+                  onClick={(e) => handleAnchorClick(e, '/#packages')}
                   className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
                   All Packages &amp; Rates
@@ -203,7 +226,9 @@ export default function Footer({ onOpenBooking }: FooterProps = {}) {
             <ul className="space-y-1 font-light">
               <li>
                 <Link
-                  href="/heritage"
+                  href="/#heritage"
+                  scroll={true}
+                  onClick={(e) => handleAnchorClick(e, '/#heritage')}
                   className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
                   Ancient Reservoir Heritage
@@ -211,7 +236,9 @@ export default function Footer({ onOpenBooking }: FooterProps = {}) {
               </li>
               <li>
                 <Link
-                  href="/heritage"
+                  href="/#heritage"
+                  scroll={true}
+                  onClick={(e) => handleAnchorClick(e, '/#heritage')}
                   className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
                   Biodiversity &amp; Wildlife
@@ -219,7 +246,9 @@ export default function Footer({ onOpenBooking }: FooterProps = {}) {
               </li>
               <li>
                 <Link
-                  href="/safety"
+                  href="/#safety"
+                  scroll={true}
+                  onClick={(e) => handleAnchorClick(e, '/#safety')}
                   className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
                   Safety Protocol &amp; Gear
@@ -227,7 +256,9 @@ export default function Footer({ onOpenBooking }: FooterProps = {}) {
               </li>
               <li>
                 <Link
-                  href="/heritage"
+                  href="/#heritage"
+                  scroll={true}
+                  onClick={(e) => handleAnchorClick(e, '/#heritage')}
                   className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
                 >
                   Lake Navigation Map

@@ -8,6 +8,7 @@ import AboutSection from "@/components/AboutSection";
 import DestinationsSlider from "@/components/DestinationsSlider";
 import CustomJourneys from "@/components/CustomJourneys";
 import ExperiencePortals from "@/components/ExperiencePortals";
+import SafetySection from "@/components/SafetySection";
 import ImpactSection from "@/components/ImpactSection";
 import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
@@ -60,6 +61,9 @@ export default function Home() {
 
         {/* 7. Signature Circular Experience Portals */}
         <ExperiencePortals />
+
+        {/* 7b. Safety & Ecological Charter Section */}
+        <SafetySection />
 
         {/* 8. Conservation & Wetland Heritage Impact Section */}
         <ImpactSection />

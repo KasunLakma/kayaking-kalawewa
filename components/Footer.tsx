@@ -19,19 +19,6 @@ export default function Footer({ onOpenBooking }: FooterProps = {}) {
     }
   };
 
-  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.includes('#')) {
-      const id = href.split('#')[1];
-      if (id && typeof window !== 'undefined' && window.location.pathname === '/') {
-        const element = document.getElementById(id);
-        if (element) {
-          e.preventDefault();
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    }
-  };
-
   return (
     <footer className="w-full bg-[#0B1914] text-[#F4F1EA] border-t border-white/10 pt-16 md:pt-20 pb-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Subtle Background Glow */}
@@ -79,21 +66,21 @@ export default function Footer({ onOpenBooking }: FooterProps = {}) {
           </form>
         </div>
 
-        {/* Footer Navigation Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 md:gap-12 text-xs">
+        {/* Footer Navigation - Clean 2-Column Balanced Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 text-xs items-start">
           
-          {/* Brand Col */}
-          <div className="lg:col-span-2 space-y-4">
+          {/* Left Column: Brand & Contact */}
+          <div className="space-y-4 max-w-xl">
             <div className="flex flex-col group">
-              <span className="font-serif text-2xl font-light tracking-[0.25em] text-[#F4F1EA]">
+              <span className="font-serif text-2xl sm:text-3xl font-light tracking-[0.25em] text-[#F4F1EA]">
                 KALAWEWA
               </span>
-              <span className="text-[9px] font-medium tracking-[0.3em] text-[#C8A97E] uppercase mt-1">
+              <span className="text-[9px] sm:text-[10px] font-medium tracking-[0.3em] text-[#C8A97E] uppercase mt-1">
                 ADVENTURES &amp; EXPEDITIONS
               </span>
             </div>
 
-            <p className="text-[#F4F1EA]/75 font-light leading-relaxed max-w-sm pt-2">
+            <p className="text-[#F4F1EA]/75 font-light leading-relaxed pt-1">
               Sri Lanka&apos;s premier eco-friendly kayaking tour operator on Kalawewa Reservoir. Dedicated to sustainable wilderness adventure, historic 5th-century irrigation heritage, and safety excellence.
             </p>
 
@@ -159,116 +146,8 @@ export default function Footer({ onOpenBooking }: FooterProps = {}) {
             </div>
           </div>
 
-          {/* Column 1: EXPEDITIONS */}
-          <div className="space-y-3">
-            <h4 className="font-medium uppercase text-[#C8A97E] tracking-[0.2em] text-[11px]">
-              EXPEDITIONS
-            </h4>
-            <ul className="space-y-1 font-light">
-              <li>
-                <Link
-                  href="/#packages"
-                  scroll={true}
-                  onClick={(e) => handleAnchorClick(e, '/#packages')}
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
-                >
-                  Sunrise Lake Drift
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/#packages"
-                  scroll={true}
-                  onClick={(e) => handleAnchorClick(e, '/#packages')}
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
-                >
-                  Sunset Romance &amp; Cocktails
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/#packages"
-                  scroll={true}
-                  onClick={(e) => handleAnchorClick(e, '/#packages')}
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
-                >
-                  5th Century Island Exploration
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/#packages"
-                  scroll={true}
-                  onClick={(e) => handleAnchorClick(e, '/#packages')}
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
-                >
-                  Wildlife Corridor Trail
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/#packages"
-                  scroll={true}
-                  onClick={(e) => handleAnchorClick(e, '/#packages')}
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
-                >
-                  All Packages &amp; Rates
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 2: DISCOVER KALAWEWA */}
-          <div className="space-y-3">
-            <h4 className="font-medium uppercase text-[#C8A97E] tracking-[0.2em] text-[11px]">
-              DISCOVER KALAWEWA
-            </h4>
-            <ul className="space-y-1 font-light">
-              <li>
-                <Link
-                  href="/#heritage"
-                  scroll={true}
-                  onClick={(e) => handleAnchorClick(e, '/#heritage')}
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
-                >
-                  Ancient Reservoir Heritage
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/#heritage"
-                  scroll={true}
-                  onClick={(e) => handleAnchorClick(e, '/#heritage')}
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
-                >
-                  Biodiversity &amp; Wildlife
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/#safety"
-                  scroll={true}
-                  onClick={(e) => handleAnchorClick(e, '/#safety')}
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
-                >
-                  Safety Protocol &amp; Gear
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/#heritage"
-                  scroll={true}
-                  onClick={(e) => handleAnchorClick(e, '/#heritage')}
-                  className="text-stone-400 hover:text-[#d4af37] text-xs transition-colors duration-200 block py-1.5"
-                >
-                  Lake Navigation Map
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 3: GUEST SERVICES & POLICIES */}
-          <div className="space-y-3">
+          {/* Right Column: GUEST SERVICES & POLICIES */}
+          <div className="space-y-3 md:justify-self-end">
             <h4 className="font-medium uppercase text-[#C8A97E] tracking-[0.2em] text-[11px]">
               GUEST SERVICES &amp; POLICIES
             </h4>

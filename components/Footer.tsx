@@ -147,12 +147,47 @@ export default function Footer() {
             <h4 className="font-medium uppercase text-[#C8A97E] tracking-[0.2em] text-[11px]">
               Expedition Links
             </h4>
-            <ul className="space-y-2.5 text-[#F4F1EA]/75 font-light">
-              <li><Link href="/packages#sunrise-lotus-drift" className="hover:text-[#C8A97E] transition-colors">Sunrise Lotus Drift</Link></li>
-              <li><Link href="/packages#sunset-romance-couples" className="hover:text-[#C8A97E] transition-colors">Sunset Romance &amp; Couples</Link></li>
-              <li><Link href="/packages#5th-century-island-exploration" className="hover:text-[#C8A97E] transition-colors">5th Century Island Exploration</Link></li>
-              <li><Link href="/packages#wild-elephant-corridor-trail" className="hover:text-[#C8A97E] transition-colors">Wild Elephant Corridor Trail</Link></li>
-              <li><Link href="/packages" className="hover:text-[#C8A97E] font-medium transition-colors">All Packages &amp; Expeditions →</Link></li>
+            <ul className="space-y-1 font-light">
+              <li>
+                <Link
+                  href="/packages#sunrise-lotus-drift"
+                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                >
+                  Sunrise Lotus Drift
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/packages#sunset-romance-couples"
+                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                >
+                  Sunset Romance &amp; Couples
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/packages#5th-century-island-exploration"
+                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                >
+                  5th Century Island Exploration
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/packages#wild-elephant-corridor-trail"
+                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                >
+                  Wild Elephant Corridor Trail
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/packages"
+                  className="text-stone-400 hover:text-[#d4af37] font-medium transition-colors duration-200 cursor-pointer py-1 inline-block"
+                >
+                  All Packages &amp; Expeditions →
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -161,12 +196,47 @@ export default function Footer() {
             <h4 className="font-medium uppercase text-[#C8A97E] tracking-[0.2em] text-[11px]">
               Heritage &amp; Safety
             </h4>
-            <ul className="space-y-2.5 text-[#F4F1EA]/75 font-light">
-              <li><a href="#impact" className="hover:text-[#C8A97E] transition-colors">5th Century Reservoir</a></li>
-              <li><a href="#impact" className="hover:text-[#C8A97E] transition-colors">Asian Elephant Sanctuary</a></li>
-              <li><a href="#impact" className="hover:text-[#C8A97E] transition-colors">Zero-Plastic Standard</a></li>
-              <li><a href="#custom-journeys" className="hover:text-[#C8A97E] transition-colors">Certified Safety Guides</a></li>
-              <li><a href="#about" className="hover:text-[#C8A97E] transition-colors">Automated COD Booking</a></li>
+            <ul className="space-y-1 font-light">
+              <li>
+                <Link
+                  href="/#impact"
+                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                >
+                  5th Century Reservoir
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/#impact"
+                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                >
+                  Asian Elephant Sanctuary
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/#impact"
+                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                >
+                  Zero-Plastic Standard
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/safety"
+                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                >
+                  Certified Safety Guides
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/booking"
+                  className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+                >
+                  Automated COD Booking
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -177,12 +247,12 @@ export default function Footer() {
             </h4>
             <ul
               aria-label="Resort Privileges Navigation"
-              className="space-y-2 font-light"
+              className="space-y-1 font-light"
             >
               <li>
                 <Link
                   href="/booking"
-                  className="text-stone-300 hover:text-[#d4af37] text-sm tracking-wide transition-colors duration-200 cursor-pointer inline-flex items-center gap-2"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs tracking-wide transition-colors duration-200 cursor-pointer py-1 inline-flex items-center gap-2"
                   aria-label="Cash On-Site (COD) Accepted"
                 >
                   <span className="text-stone-400 text-[10px]">✧</span>
@@ -192,7 +262,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/booking"
-                  className="text-stone-300 hover:text-[#d4af37] text-sm tracking-wide transition-colors duration-200 cursor-pointer inline-flex items-center gap-2"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs tracking-wide transition-colors duration-200 cursor-pointer py-1 inline-flex items-center gap-2"
                   aria-label="Instant Booking Confirmation"
                 >
                   <span className="text-stone-400 text-[10px]">✧</span>
@@ -202,7 +272,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/terms"
-                  className="text-stone-300 hover:text-[#d4af37] text-sm tracking-wide transition-colors duration-200 cursor-pointer inline-flex items-center gap-2"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs tracking-wide transition-colors duration-200 cursor-pointer py-1 inline-flex items-center gap-2"
                   aria-label="Free Cancellation Policy"
                 >
                   <span className="text-stone-400 text-[10px]">✧</span>
@@ -212,7 +282,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/packages"
-                  className="text-stone-300 hover:text-[#d4af37] text-sm tracking-wide transition-colors duration-200 cursor-pointer inline-flex items-center gap-2"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs tracking-wide transition-colors duration-200 cursor-pointer py-1 inline-flex items-center gap-2"
                   aria-label="Group Booking Discounts"
                 >
                   <span className="text-stone-400 text-[10px]">✧</span>
@@ -222,7 +292,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/packages"
-                  className="text-stone-300 hover:text-[#d4af37] text-sm tracking-wide transition-colors duration-200 cursor-pointer inline-flex items-center gap-2"
+                  className="text-stone-400 hover:text-[#d4af37] text-xs tracking-wide transition-colors duration-200 cursor-pointer py-1 inline-flex items-center gap-2"
                   aria-label="Custom Private Charters"
                 >
                   <span className="text-stone-400 text-[10px]">✧</span>
@@ -235,12 +305,27 @@ export default function Footer() {
         </div>
 
         {/* Bottom Legal & Copyright Bar */}
-        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400 font-light">
+        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-stone-400 font-light">
           <p>© {new Date().getFullYear()} Kayaking Kalawewa Adventures &amp; Expeditions. All rights reserved.</p>
           <div className="flex flex-wrap items-center gap-6">
-            <Link href="/terms" className="hover:text-[#C8A97E] transition-colors">Terms of Service</Link>
-            <Link href="/privacy" className="hover:text-[#C8A97E] transition-colors">Privacy Policy</Link>
-            <Link href="/safety" className="hover:text-[#C8A97E] transition-colors">Resort Safety Charter</Link>
+            <Link
+              href="/terms"
+              className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+            >
+              Terms of Service
+            </Link>
+            <Link
+              href="/privacy"
+              className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/safety"
+              className="text-stone-400 hover:text-[#d4af37] transition-colors duration-200 cursor-pointer py-1 inline-block"
+            >
+              Resort Safety Charter
+            </Link>
           </div>
         </div>
 

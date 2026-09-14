@@ -163,10 +163,9 @@ export default function Header({ onOpenBooking }: HeaderProps) {
           ) : (
             <button
               onClick={() => setHeaderAuthOpen(true)}
-              className="hidden sm:flex items-center gap-1.5 px-4 py-2 text-xs font-mono tracking-widest text-stone-300 hover:text-[#d4af37] border border-white/20 hover:border-[#d4af37]/50 rounded-full transition-all bg-white/[0.03] cursor-pointer min-h-[44px]"
+              className="hidden sm:flex items-center px-4 py-2 rounded-full border border-white/20 text-xs font-mono uppercase tracking-widest text-stone-300 hover:text-[#d4af37] hover:border-[#d4af37] transition-colors cursor-pointer min-h-[44px]"
             >
-              <span>🔑</span>
-              <span>SIGN IN</span>
+              SIGN IN
             </button>
           )}
 

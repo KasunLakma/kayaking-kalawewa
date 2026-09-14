@@ -93,8 +93,9 @@ function getStatusBadge(orderStatus: string, paymentStatus?: string) {
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [passcode, setPasscode] = useState<string>('');
-  const [passcodeError, setPasscodeError] = useState<string>('');
+  const [adminEmail, setAdminEmail] = useState<string>('');
+  const [adminPassword, setAdminPassword] = useState<string>('');
+  const [authError, setAuthError] = useState<string>('');
 
   const [bookings, setBookings] = useState<BookingDocument[]>([]);
   const [fleet, setFleet] = useState<FleetVehicle[]>([]);
@@ -129,15 +130,42 @@ export default function AdminPage() {
     }
   }, []);
 
-  const handlePasscodeSubmit = (e: React.FormEvent) => {
+  const handleAdminLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passcode === '2026' || passcode === '1234' || passcode === 'admin123') {
+    const trimmedEmail = adminEmail.trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(trimmedEmail)) {
+      setAuthError('Invalid administrator email or password');
+      return;
+    }
+
+    const authorizedEmails = [
+      'admin@kalawewakayaking.com',
+      'operator@kalawewakayaking.com',
+      'kasun@kalawewakayaking.com',
+      'staff@kalawewakayaking.com',
+      'admin@kalawewa.lk',
+      'expeditions@kalawewakayak.lk',
+    ];
+    const validPasswords = ['2026', '1234', 'admin123', 'kalawewa2026'];
+
+    const isAuthorized =
+      authorizedEmails.includes(trimmedEmail) ||
+      trimmedEmail.endsWith('@kalawewakayaking.com') ||
+      trimmedEmail.endsWith('@kalawewakayak.lk') ||
+      trimmedEmail.endsWith('@kalawewa.lk');
+
+    const isValidPassword = validPasswords.includes(adminPassword);
+
+    if (isAuthorized && isValidPassword) {
       sessionStorage.setItem('admin_authenticated', 'true');
+      sessionStorage.setItem('adminUserEmail', trimmedEmail);
       setIsAuthenticated(true);
-      setPasscodeError('');
+      setAuthError('');
       fetchDashboardData();
     } else {
-      setPasscodeError('Invalid Security Passcode. Access Denied.');
+      setAuthError('Invalid administrator email or password');
     }
   };
 
@@ -229,50 +257,67 @@ export default function AdminPage() {
     await fetchDashboardData();
   };
 
-  // Passcode Security Check
+  // Admin Security Check Form
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-[#07130E] text-[#F4F1EA] flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-[#0B1914] border border-white/10 rounded-2xl p-8 shadow-2xl backdrop-blur-xl">
+        <div className="max-w-md w-full bg-[#0B1914]/90 border border-[#C8A97E]/30 rounded-2xl p-8 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+          <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#C8A97E] to-transparent opacity-80" />
+
           <div className="text-center mb-6">
-            <div className="inline-flex p-3 rounded-full bg-amber-500/10 border border-amber-500/20 text-[#C8A97E] mb-3">
-              <Lock className="w-8 h-8" />
+            <div className="inline-flex p-3 rounded-full bg-[#C8A97E]/10 border border-[#C8A97E]/30 text-[#C8A97E] mb-3">
+              <Lock className="w-7 h-7" />
             </div>
-            <h1 className="font-serif text-2xl font-normal text-[#F4F1EA]">Admin Security Check</h1>
-            <p className="text-xs text-stone-400 mt-1 uppercase tracking-wider">Kalawewa Operations Portal</p>
+            <h1 className="font-serif text-2xl font-normal text-[#F4F1EA]">Administrator Authentication</h1>
+            <p className="text-xs text-stone-400 mt-1 uppercase tracking-wider font-mono">Kalawewa Operations Console</p>
           </div>
 
-          <form onSubmit={handlePasscodeSubmit} className="space-y-4">
+          <form onSubmit={handleAdminLoginSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-stone-300 uppercase tracking-wider mb-2">
-                Operator PIN / Passcode
+              <label className="block text-[11px] font-mono font-semibold text-[#C8A97E] uppercase tracking-wider mb-2">
+                Admin Work Email
               </label>
               <input
-                type="password"
-                value={passcode}
-                onChange={(e) => setPasscode(e.target.value)}
-                placeholder="Enter Passcode"
-                className="w-full px-4 py-3 bg-[#07130E] border border-white/20 rounded-xl text-white placeholder-stone-500 focus:outline-none focus:border-[#C8A97E] text-center text-lg tracking-widest"
+                type="email"
+                required
+                value={adminEmail}
+                onChange={(e) => setAdminEmail(e.target.value)}
+                placeholder="admin@kalawewakayaking.com"
+                className="w-full px-4 py-3 bg-[#07130E] border border-white/20 rounded-xl text-white placeholder-stone-500 focus:outline-none focus:border-[#C8A97E] text-xs transition-colors"
                 autoFocus
               />
             </div>
 
-            {passcodeError && (
-              <p className="text-xs text-red-400 text-center font-medium bg-red-950/40 py-2 border border-red-500/20 rounded-lg">
-                {passcodeError}
+            <div>
+              <label className="block text-[11px] font-mono font-semibold text-[#C8A97E] uppercase tracking-wider mb-2">
+                Password
+              </label>
+              <input
+                type="password"
+                required
+                value={adminPassword}
+                onChange={(e) => setAdminPassword(e.target.value)}
+                placeholder="••••••••"
+                className="w-full px-4 py-3 bg-[#07130E] border border-white/20 rounded-xl text-white placeholder-stone-500 focus:outline-none focus:border-[#C8A97E] text-xs tracking-widest transition-colors"
+              />
+            </div>
+
+            {authError && (
+              <p className="text-xs text-red-400 text-center font-medium bg-red-950/40 py-2.5 border border-red-500/30 rounded-xl">
+                {authError}
               </p>
             )}
 
             <button
               type="submit"
-              className="w-full py-3 bg-[#C8A97E] hover:bg-[#d4af37] text-[#0B1914] font-bold text-xs uppercase tracking-widest rounded-xl transition-all cursor-pointer shadow-lg"
+              className="w-full py-3.5 bg-[#C8A97E] hover:bg-[#d4af37] text-[#0B1914] font-bold text-xs uppercase tracking-widest rounded-xl transition-all cursor-pointer shadow-lg mt-2"
             >
-              Unlock Access
+              Sign In to Console
             </button>
           </form>
 
-          <div className="mt-6 text-center">
-            <Link href="/" className="text-xs text-stone-400 hover:text-white transition-colors">
+          <div className="mt-6 text-center border-t border-white/10 pt-4">
+            <Link href="/" className="text-xs font-mono text-stone-400 hover:text-white transition-colors">
               &larr; Return to Website
             </Link>
           </div>

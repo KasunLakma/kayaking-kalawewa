@@ -446,13 +446,6 @@ export default function Header({ onOpenBooking }: HeaderProps) {
             <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-stone-400 border-t border-white/10 pt-4 shrink-0 gap-3 font-mono">
               <div className="flex items-center gap-6">
                 <span className="text-[#f3efe6]">© KAYAKING KALAWEWA</span>
-                <Link
-                  href="/admin"
-                  onClick={() => setMenuDrawerOpen(false)}
-                  className="hover:text-[#d4af37] tracking-widest uppercase transition-colors"
-                >
-                  OPERATOR ACCESS →
-                </Link>
               </div>
               <div className="flex items-center gap-4">
                 <a

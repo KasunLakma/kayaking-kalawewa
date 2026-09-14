@@ -324,7 +324,7 @@ export default function CustomersPage() {
                 type="password"
                 value={passcode}
                 onChange={(e) => setPasscode(e.target.value)}
-                placeholder="Enter PIN (e.g., 2026)"
+                placeholder="Enter Passcode"
                 className="w-full px-4 py-3 bg-[#0B1914] border border-white/20 rounded-xl text-white placeholder-stone-500 focus:outline-none focus:border-[#C8A97E] text-center text-lg tracking-widest"
                 autoFocus
               />

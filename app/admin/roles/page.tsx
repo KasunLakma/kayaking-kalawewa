@@ -300,7 +300,7 @@ export default function RolesManagementPage() {
                 required
                 value={pinInput}
                 onChange={(e) => setPinInput(e.target.value)}
-                placeholder="Enter Super Admin PIN (Default: 8026)..."
+                placeholder="Enter Passcode"
                 className="w-full px-4 py-3.5 bg-[#0B1914] border border-white/20 text-sm text-[#F4F1EA] focus:outline-none focus:border-[#C8A97E] tracking-widest text-center rounded-lg"
               />
             </div>

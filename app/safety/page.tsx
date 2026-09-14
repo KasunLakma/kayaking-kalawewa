@@ -16,15 +16,25 @@ export default function SafetyPage() {
       <main className="flex-1 w-full pt-28 md:pt-36 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto font-light leading-relaxed">
           {/* Back to Home Link */}
-          <div className="mb-8">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 text-xs font-mono tracking-widest uppercase text-[#d4af37] hover:text-white transition-colors"
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0B1D16]/70 backdrop-blur-md border border-white/15 text-xs font-mono uppercase tracking-widest text-stone-300 hover:text-[#d4af37] hover:border-[#d4af37]/60 transition-all duration-300 group mb-8 shadow-sm"
+          >
+            <svg
+              className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <span>←</span>
-              <span>BACK TO HOME</span>
-            </Link>
-          </div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
+            </svg>
+            <span>Back to Home</span>
+          </Link>
 
           {/* Title Header */}
           <span className="text-xs font-semibold tracking-[0.25em] text-[#d4af37] uppercase block mb-2">

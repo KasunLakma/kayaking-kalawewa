@@ -16,7 +16,9 @@ export default function AdminLayout({
       const isAuth =
         sessionStorage.getItem('isAdminAuthenticated') === 'true' ||
         sessionStorage.getItem('admin_authenticated') === 'true' ||
-        sessionStorage.getItem('kalawewa_admin_auth') === 'true';
+        sessionStorage.getItem('kalawewa_admin_auth') === 'true' ||
+        Boolean(sessionStorage.getItem('staff_authorized_email')) ||
+        Boolean(sessionStorage.getItem('kalawewa_staff_email'));
       setIsAuthenticated(isAuth);
     }
   };
@@ -36,7 +38,7 @@ export default function AdminLayout({
     };
   }, []);
 
-  // Avoid hydration flicker during initial mount check
+  // Hydration check with brief loading state to prevent sidebar flickering
   if (!isMounted) {
     return (
       <div className="min-h-screen w-full bg-[#07130E] text-[#F4F1EA] flex items-center justify-center p-4 font-sans">
@@ -47,10 +49,10 @@ export default function AdminLayout({
     );
   }
 
-  // Unauthenticated layout: Centered login screen without sidebar
+  // Unauthenticated layout: Centered login card without AdminSidebar
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen w-full bg-[#07130E] text-[#F4F1EA] flex items-center justify-center p-4 font-sans">
+      <div className="min-h-screen w-full bg-[#07130E] flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           {children}
         </div>
@@ -58,9 +60,9 @@ export default function AdminLayout({
     );
   }
 
-  // Authenticated layout: Sleek sidebar + main content workspace
+  // Authenticated layout: AdminSidebar + Main Content Workspace
   return (
-    <div className="min-h-screen bg-[#07130E] text-[#F4F1EA] flex flex-col md:flex-row font-sans">
+    <div className="flex min-h-screen bg-[#07130E] text-[#F4F1EA] flex-col md:flex-row font-sans">
       {/* Sleek Vertical Sidebar Navigation */}
       <AdminSidebar />
 

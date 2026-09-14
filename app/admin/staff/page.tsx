@@ -209,6 +209,7 @@ export default function StaffManagementPage() {
       sessionStorage.setItem('isAdminAuthenticated', 'true');
       sessionStorage.setItem('kalawewa_admin_auth', 'true');
       sessionStorage.setItem('kalawewa_staff_email', trimmed);
+      sessionStorage.setItem('staff_authorized_email', trimmed);
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new Event('admin_auth_changed'));
       }

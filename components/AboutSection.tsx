@@ -7,7 +7,7 @@ export default function AboutSection() {
   return (
     <section id="heritage" className="w-full bg-[#142D28] text-white relative overflow-hidden scroll-mt-20">
       <div id="about" className="scroll-mt-24" />
-      <div className="max-w-7xl mx-auto pt-16 md:pt-20 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto pt-20 md:pt-24 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           {/* A. LEFT COLUMN (Typography & Narrative) */}

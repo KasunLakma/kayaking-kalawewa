@@ -13,7 +13,7 @@ export default function Hero({ onCheckAvailability }: HeroProps) {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
 
   return (
-    <section className="relative w-full max-w-full overflow-x-hidden min-h-screen flex flex-col justify-between pt-24 md:pt-28 pb-12 md:pb-16 bg-[#0B1914] text-white">
+    <section className="relative w-full min-h-screen flex flex-col justify-between overflow-visible pt-24 md:pt-28 pb-12 md:pb-16 bg-[#0B1914] text-white">
       
       {/* Fullscreen 100vh Edge-to-Edge Cinematic Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -109,8 +109,8 @@ export default function Hero({ onCheckAvailability }: HeroProps) {
 
       </div>
 
-      {/* Availability Floating Bar straddling 50% on bottom boundary seam on desktop, natural page flow on mobile */}
-      <div className="relative md:absolute mt-8 md:mt-0 md:bottom-0 left-0 md:left-1/2 translate-x-0 md:-translate-x-1/2 translate-y-0 md:translate-y-1/2 z-30 w-full max-w-5xl px-4 pointer-events-auto">
+      {/* Availability Floating Bar with balanced negative margin */}
+      <div className="relative z-20 w-full max-w-5xl mx-auto px-4 -mb-10 sm:-mb-12">
         <QuickBookingBar onCheckAvailability={onCheckAvailability} />
       </div>
 

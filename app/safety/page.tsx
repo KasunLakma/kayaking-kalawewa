@@ -13,13 +13,13 @@ export default function SafetyPage() {
     <div className="min-h-screen bg-[#07130E] text-stone-300 font-sans flex flex-col justify-between overflow-x-hidden">
       <Header />
 
-      <main className="flex-1 w-full py-12 md:py-16 px-4 sm:px-6 lg:px-8">
+      <main className="flex-1 w-full pt-28 md:pt-36 pb-16 md:pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto font-light leading-relaxed">
           {/* Back to Home Link */}
           <div className="mb-8">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-stone-300 hover:text-[#d4af37] text-xs font-semibold tracking-wider uppercase transition-colors px-3 py-1.5 rounded-lg border border-white/10 hover:border-[#d4af37]/40 bg-white/[0.02]"
+              className="inline-flex items-center gap-2 text-xs font-mono tracking-widest uppercase text-[#d4af37] hover:text-white transition-colors"
             >
               <span>←</span>
               <span>BACK TO HOME</span>

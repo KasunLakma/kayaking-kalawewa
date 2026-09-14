@@ -66,7 +66,7 @@ export default function Hero({ onCheckAvailability }: HeroProps) {
       </div>
 
       {/* Wilderness Bottom HUD & Controls */}
-      <div className="relative z-20 w-full max-w-5xl mx-auto px-4 sm:px-6 pt-6">
+      <div className="relative z-20 w-full max-w-5xl mx-auto px-4 sm:px-6 pt-6 mb-6 sm:mb-8">
         
         {/* HUD Bottom Bar: Coordinates (Left) & Editorial Snippet (Right) */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs mb-6">
@@ -90,13 +90,13 @@ export default function Hero({ onCheckAvailability }: HeroProps) {
           {/* Centered Circular Pause/Play Toggle Button with Dynamic Ring */}
           <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className="absolute p-2.5 rounded-full bg-[#0B1914]/80 border border-white/30 text-white hover:border-[#C8A97E] hover:text-[#C8A97E] transition-all cursor-pointer group shadow-2xl flex items-center justify-center min-w-[44px] min-h-[44px]"
+            className="absolute w-9 h-9 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-stone-300 hover:text-[#d4af37] hover:border-[#d4af37] transition-all z-30 cursor-pointer group shadow-2xl"
             title={isPlaying ? 'Pause Background Animation' : 'Play Background Animation'}
             aria-label="Toggle Animation"
           >
             {/* Spinning Circular Progress Ring */}
             {isPlaying && (
-              <svg className="absolute w-9 h-9 animate-spin text-[#C8A97E]/60 pointer-events-none" viewBox="0 0 40 40">
+              <svg className="absolute w-9 h-9 animate-spin text-[#d4af37]/60 pointer-events-none" viewBox="0 0 40 40">
                 <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="25 75" />
               </svg>
             )}

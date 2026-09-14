@@ -103,10 +103,10 @@ function getRoleBadgeStyle(role: string) {
 }
 
 export default function StaffManagementPage() {
-  // 1. PIN Security Gate State
+  // 1. Email Security Gate State
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [pinInput, setPinInput] = useState<string>('');
-  const [pinError, setPinError] = useState<string>('');
+  const [emailInput, setEmailInput] = useState<string>('');
+  const [authError, setAuthError] = useState<string>('');
 
   // 2. Data States
   const [staffList, setStaffList] = useState<StaffMember[]>([]);
@@ -166,23 +166,60 @@ export default function StaffManagementPage() {
     }
   }, [isAuthenticated]);
 
-  // Passcode verification
-  const handlePinSubmit = (e: React.FormEvent) => {
+  // Email-only verification handler
+  const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const correctPin = process.env.NEXT_PUBLIC_ADMIN_PIN || '8026';
-    if (pinInput === correctPin || pinInput === '8026' || pinInput === 'admin') {
+    const trimmed = emailInput.trim().toLowerCase();
+
+    if (!EMAIL_REGEX.test(trimmed)) {
+      setAuthError('Access Denied: Unrecognized operator email.');
+      return;
+    }
+
+    const defaultAuthorized = [
+      'admin@kalawewakayaking.com',
+      'info@kalawewakayaking.com',
+      'operator@kalawewakayaking.com',
+      'kasun@kalawewakayaking.com',
+      'expeditions@kalawewakayak.lk',
+      'admin@kalawewa.lk',
+    ];
+
+    let currentStaff = staffList;
+    if (currentStaff.length === 0) {
+      try {
+        currentStaff = await getStaffMembersFromFirestore();
+        setStaffList(currentStaff);
+      } catch (err) {
+        console.error('Failed fetching staff list for verification:', err);
+      }
+    }
+
+    const isStaffEmail = currentStaff.some(
+      (member) => member.email?.toLowerCase().trim() === trimmed && member.status !== 'SUSPENDED'
+    );
+
+    const isAuthorized =
+      defaultAuthorized.includes(trimmed) ||
+      isStaffEmail ||
+      trimmed.endsWith('@kalawewakayaking.com') ||
+      trimmed.endsWith('@kalawewakayak.lk');
+
+    if (isAuthorized) {
       setIsAuthenticated(true);
       sessionStorage.setItem('kalawewa_admin_auth', 'true');
-      setPinError('');
+      sessionStorage.setItem('kalawewa_staff_email', trimmed);
+      setAuthError('');
     } else {
-      setPinError('Invalid Operator PIN. Enter "8026" or authorized admin passcode.');
+      setAuthError('Access Denied: Unrecognized operator email.');
     }
   };
 
   const handleLogout = () => {
     sessionStorage.removeItem('kalawewa_admin_auth');
+    sessionStorage.removeItem('kalawewa_staff_email');
     setIsAuthenticated(false);
-    setPinInput('');
+    setEmailInput('');
   };
 
   // KPI Calculations
@@ -363,60 +400,63 @@ export default function StaffManagementPage() {
     return staffLogs.filter((l) => l.staffId === viewingLogsStaff.id);
   }, [staffLogs, viewingLogsStaff]);
 
-  // Security Gate UI
+  // Security Gate UI - Fullscreen Fixed Overlay hiding sidebar and layout until authorized
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#0B1914] text-[#F4F1EA] flex items-center justify-center p-6 selection:bg-[#C8A97E] selection:text-[#0B1914]">
-        <div className="bg-[#13241E] border border-[#C8A97E]/40 p-8 sm:p-12 max-w-md w-full shadow-2xl space-y-6 relative rounded-2xl">
+      <div className="fixed inset-0 z-50 bg-[#07130E] flex items-center justify-center p-4 sm:p-6 selection:bg-[#C8A97E] selection:text-[#0B1914]">
+        <div className="bg-[#0B1914] border border-[#C8A97E]/30 p-8 sm:p-12 max-w-md w-full shadow-2xl space-y-6 relative rounded-2xl backdrop-blur-xl">
+          <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#C8A97E] to-transparent opacity-80" />
+
           <div className="text-center space-y-2">
-            <div className="w-12 h-12 rounded-full bg-[#C8A97E]/10 border border-[#C8A97E]/40 flex items-center justify-center mx-auto text-[#C8A97E]">
+            <div className="w-12 h-12 rounded-full bg-[#C8A97E]/10 border border-[#C8A97E]/30 flex items-center justify-center mx-auto text-[#C8A97E]">
               <Lock className="w-6 h-6" />
             </div>
-            <span className="text-[10px] font-semibold uppercase tracking-[0.35em] text-[#C8A97E] block pt-2">
+            <span className="text-[10px] font-mono font-semibold uppercase tracking-[0.35em] text-[#C8A97E] block pt-2">
               KALAWEWA STAFF MANAGEMENT
             </span>
-            <h1 className="font-serif text-3xl text-[#F4F1EA]">Admin Authentication</h1>
-            <p className="text-xs text-[#F4F1EA]/70 font-light">
-              Enter authorized operator PIN to manage staff records, roles, and provisioning.
+            <h1 className="font-serif text-2xl text-[#F4F1EA]">Staff Portal Verification</h1>
+            <p className="text-xs text-[#F4F1EA]/70 font-light leading-relaxed">
+              Enter your authorized admin or staff email address to access roster records and scheduling controls.
             </p>
           </div>
 
-          {pinError && (
-            <div className="p-3 bg-red-950/80 border border-red-500/50 text-red-200 text-xs font-light text-center rounded-lg">
-              {pinError}
+          {authError && (
+            <div className="p-3.5 bg-red-950/80 border border-red-500/40 text-red-200 text-xs font-light text-center rounded-xl">
+              {authError}
             </div>
           )}
 
-          <form onSubmit={handlePinSubmit} className="space-y-4">
+          <form onSubmit={handleEmailSubmit} className="space-y-4">
             <div>
-              <label className="block text-[11px] font-medium uppercase tracking-wider text-[#C8A97E] mb-2">
-                Operator PIN / Passcode
+              <label className="block text-[11px] font-mono font-semibold uppercase tracking-wider text-[#C8A97E] mb-2">
+                Authorized Admin / Staff Email
               </label>
               <input
-                type="password"
+                type="email"
                 required
-                value={pinInput}
-                onChange={(e) => setPinInput(e.target.value)}
-                placeholder="Enter Passcode"
-                className="w-full px-4 py-3.5 bg-[#0B1914] border border-white/20 text-sm text-[#F4F1EA] focus:outline-none focus:border-[#C8A97E] tracking-widest text-center rounded-lg"
+                value={emailInput}
+                onChange={(e) => setEmailInput(e.target.value)}
+                placeholder="admin@kalawewakayaking.com"
+                className="w-full px-4 py-3.5 bg-[#07130E] border border-white/20 text-xs text-[#F4F1EA] placeholder-stone-500 focus:outline-none focus:border-[#C8A97E] transition-colors rounded-xl"
+                autoFocus
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-3.5 bg-[#C8A97E] hover:bg-[#b5966c] text-[#0B1914] text-xs font-bold uppercase tracking-[0.2em] transition-all cursor-pointer shadow-md rounded-lg"
+              className="w-full py-3.5 bg-[#C8A97E] hover:bg-[#d4af37] text-[#0B1914] text-xs font-bold uppercase tracking-[0.2em] transition-all cursor-pointer shadow-lg rounded-xl"
             >
               UNLOCK STAFF PORTAL
             </button>
           </form>
 
-          <div className="text-center pt-2">
+          <div className="text-center pt-2 border-t border-white/10">
             <Link
               href="/admin"
-              className="inline-flex items-center gap-2 text-stone-300 hover:text-[#d4af37] text-xs font-semibold tracking-wider uppercase transition-colors px-3 py-1.5 rounded-lg border border-white/10 hover:border-[#d4af37]/40 bg-white/[0.02]"
+              className="inline-flex items-center gap-2 text-stone-400 hover:text-white text-xs font-mono tracking-wider uppercase transition-colors"
             >
               <span>←</span>
-              <span>BACK TO RESERVATIONS</span>
+              <span>BACK TO CONSOLE</span>
             </Link>
           </div>
         </div>

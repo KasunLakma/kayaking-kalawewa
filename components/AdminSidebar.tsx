@@ -98,7 +98,10 @@ export default function AdminSidebar({
     if (onLogout) {
       onLogout();
     } else if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('isAdminAuthenticated');
       sessionStorage.removeItem('admin_authenticated');
+      sessionStorage.removeItem('kalawewa_admin_auth');
+      window.dispatchEvent(new Event('admin_auth_changed'));
       window.location.reload();
     }
   };

@@ -206,9 +206,13 @@ export default function StaffManagementPage() {
       trimmed.endsWith('@kalawewakayak.lk');
 
     if (isAuthorized) {
-      setIsAuthenticated(true);
+      sessionStorage.setItem('isAdminAuthenticated', 'true');
       sessionStorage.setItem('kalawewa_admin_auth', 'true');
       sessionStorage.setItem('kalawewa_staff_email', trimmed);
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('admin_auth_changed'));
+      }
+      setIsAuthenticated(true);
       setAuthError('');
     } else {
       setAuthError('Access Denied: Unrecognized operator email.');

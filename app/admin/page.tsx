@@ -159,8 +159,12 @@ export default function AdminPage() {
     const isValidPassword = validPasswords.includes(adminPassword);
 
     if (isAuthorized && isValidPassword) {
+      sessionStorage.setItem('isAdminAuthenticated', 'true');
       sessionStorage.setItem('admin_authenticated', 'true');
       sessionStorage.setItem('adminUserEmail', trimmedEmail);
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('admin_auth_changed'));
+      }
       setIsAuthenticated(true);
       setAuthError('');
       fetchDashboardData();
